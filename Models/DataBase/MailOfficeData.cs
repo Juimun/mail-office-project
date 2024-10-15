@@ -5,10 +5,10 @@ using MailOffice.Models.Entities.Residence;
 namespace MailOffice.Models.DataBase;
 
 //Класс для получение всех записей для всех таблиц
-public class MailOfficeData(MailOfficeContext db) {
+public partial class DatabaseQueries(MailOfficeContext db) { 
 
-    public MailOfficeData() : this(new MailOfficeContext()) { }
-
+    public DatabaseQueries() : this(new MailOfficeContext()) { }
+     
     public List<User> GetAllUsers() => db
         .Users
         .ToList();
@@ -41,4 +41,4 @@ public class MailOfficeData(MailOfficeContext db) {
         .Sections
         .ToList();
 
-} //MailOfficeData
+} //DatabaseQueries

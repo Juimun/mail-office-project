@@ -1,17 +1,14 @@
-﻿using MailOffice.Models.DataBase;
-using System.Text;
+﻿using System.Text;
 
 namespace MailOffice.Controllers;
 
 //Контроллер для Формирования строкового представления запросов к БД
-public class QueryDisplayController(DatabaseQueries query) {
+public partial class DatabaseDisplayController { 
 
-    public QueryDisplayController() : this(new DatabaseQueries()) { } 
-
-    public string ShowQuery1() { 
+    public string ShowQuery1() {  
         var sb = new StringBuilder();
 
-        var result = query.Query01();
+        var result = data.Query01();
         result.ForEach(q => sb.AppendLine( 
             $"Наименование: {q.Name}, " +
             $"Количество: {q.Quintity} шт."  
@@ -23,7 +20,7 @@ public class QueryDisplayController(DatabaseQueries query) {
     public string ShowQuery2(string street, string houseNumber) { 
         var sb = new StringBuilder();
 
-        var result = query.Query02(street, houseNumber);
+        var result = data.Query02(street, houseNumber);
         sb.AppendLine($"По заданному адресу: {street} дом {houseNumber}, работает почтальен с такой фамилией ->");
         result.ForEach(q => sb.AppendLine($"{q}, "));
 
@@ -33,7 +30,7 @@ public class QueryDisplayController(DatabaseQueries query) {
     public string ShowQuery3(string secondName, string firstName, string patronymic) {  
         var sb = new StringBuilder();
 
-        var result = query.Query03(secondName, firstName, patronymic);
+        var result = data.Query03(secondName, firstName, patronymic);
         sb.AppendLine($"С указанным ФИО: {secondName} {firstName[0]}.{patronymic[0]}, пользователь был подписан на ->");
         result.ForEach(q => sb.AppendLine($"{q}, "));
 
@@ -43,7 +40,7 @@ public class QueryDisplayController(DatabaseQueries query) {
     public string ShowQuery4() {
         var sb = new StringBuilder();
 
-        var result = query.Query04();
+        var result = data.Query04();
         sb.AppendLine($"Почтальонов в почтовом отделении: {result}");
 
         return sb.ToString();
@@ -61,7 +58,7 @@ public class QueryDisplayController(DatabaseQueries query) {
     public string ShowQuery6() {
         var sb = new StringBuilder();
 
-        var result = query.Query06();
+        var result = data.Query06();
         sb.AppendLine($"Средний срок подписки по каждому изданию:");
         result.ForEach(q => sb.AppendLine(
             $"Id публикации: {q.Id}, " +

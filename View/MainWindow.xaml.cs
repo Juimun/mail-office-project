@@ -9,15 +9,14 @@ namespace MailOffice.View;
 /// </summary>
 public partial class MainWindow : Window {
 
-    private DataDisplayController _dataController;
-    private QueryDisplayController _queryController;
+    private DatabaseDisplayController _data;  
 
     public MainWindow() {
         InitializeComponent();
 
-        (_dataController, _queryController) = (new(), new());
+        _data = new DatabaseDisplayController();
 
-        DataContext = new MainWindowViewModel(this, _dataController, _queryController);
+        DataContext = new MainWindowViewModel(this, _data);
     } 
 
 } //MainWindow

@@ -5,12 +5,10 @@ using Microsoft.EntityFrameworkCore;
 namespace MailOffice.Models.DataBase;
 
 // Класс для запросов к БД
-public class DatabaseQueries(MailOfficeContext context) {
-
-    public DatabaseQueries() : this(new MailOfficeContext()) { }
+public partial class DatabaseQueries {
 
     //Определить наименование и количество экземпляров всех изданий
-    public List<ResultQuery01> Query01() => context
+    public List<ResultQuery01> Query01() => db
         .Publications
         .GroupBy(p => p.Name)
         .Select(g => new ResultQuery01(
@@ -19,7 +17,7 @@ public class DatabaseQueries(MailOfficeContext context) {
         .ToList();
 
     //По заданному адресу определить фамилию почтальона, обслуживающего подписчика
-    public List<string> Query02(string street, string houseNumber) => context
+    public List<string> Query02(string street, string houseNumber) => db
         .Houses
         .Include(h => h.Section)
         .ThenInclude(s => s.Staff) 
@@ -29,7 +27,7 @@ public class DatabaseQueries(MailOfficeContext context) {
         .ToList();
 
     //Какие газеты выписывает гражданин с указанной фамилией, именем, отчеством
-    public List<string> Query03(string secondName, string firstName, string patronymic) => context  
+    public List<string> Query03(string secondName, string firstName, string patronymic) => db  
         .People
         .Include(p => p.Subscribers) 
         .ThenInclude(s => s.Subscriptions)
@@ -42,15 +40,15 @@ public class DatabaseQueries(MailOfficeContext context) {
         .ToList();
 
     //Сколько почтальонов работает в почтовом отделении
-    public int Query04() => context
+    public int Query04() => db
         .Staff
         .Count(s => s.Role == StaffRole.Postman);
 
     //На каком участке количество экземпляров подписных изданий максимально
-    //public List<ResultQuery05> Query05() => context 
+    //public List<ResultQuery05> Query05() => db 
     
     //Каков средний срок подписки по каждому изданию
-    public List<ResultQuery06> Query06() => context
+    public List<ResultQuery06> Query06() => db
         .Subscriptions 
         .GroupBy(s => s.PublicationId)
         .Select(g => new ResultQuery06(

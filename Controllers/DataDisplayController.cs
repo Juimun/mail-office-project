@@ -5,11 +5,11 @@ using System.Text;
 namespace MailOffice.Controllers;
 
 //Контроллер для Формирования строкового представления таблиц в БД
-public class DataDisplayController(MailOfficeData data) { 
+public partial class DatabaseDisplayController(DatabaseQueries data) {
 
-    public DataDisplayController() : this(new MailOfficeData()) { }
+    public DatabaseDisplayController() : this(new DatabaseQueries()) { }
 
-    public string ShowAllTables() {
+    public string ShowAllTables() { 
         var sb = new StringBuilder();
 
         sb.AppendLine($" Таблица People:\n{ShowPeople()}")
