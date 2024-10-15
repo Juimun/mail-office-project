@@ -1,5 +1,4 @@
-﻿using MailOffice.Infrastructure;
-using MailOffice.Models.Category;
+﻿using MailOffice.Models.Category;
 using MailOffice.Models.Entities.Accounts;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
@@ -29,12 +28,19 @@ public class PersonConfiguration : IEntityTypeConfiguration<Person>
         builder
             .Property(p => p.Patronymic)
             .HasMaxLength(70)
-        .IsRequired();
+            .IsRequired(false);
+
+        builder.Property(p => p.Role)
+            .HasDefaultValue(PersonCategory.Guest);
 
         builder
             .HasOne(p => p.User)
             .WithOne(u => u.Person)
             .HasForeignKey<Person>(u => u.UserId);
+
+        builder.HasMany(p => p.Subscribers)
+            .WithOne(s => s.Person)
+            .HasForeignKey(s => s.PersonId);
 
         List<Person> persons = [
             new() { Id = 1, FirstName = "Александр", SecondName = "Александров", Patronymic = "Александрович", Role = PersonCategory.Staff, UserId = 1 },

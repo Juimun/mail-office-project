@@ -1,8 +1,5 @@
-﻿using System.Text;
-using System.Windows;
+﻿using System.Windows;
 using MailOffice.Controllers;
-using MailOffice.Models;
-using MailOffice.Models.DataBase;
 using MailOffice.ViewModel;
 
 namespace MailOffice.View;

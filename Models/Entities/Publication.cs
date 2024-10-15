@@ -1,6 +1,5 @@
 ﻿using MailOffice.Models.Category;
 using MailOffice.Models.Entities.Configurations;
-using MailOffice.Models.Entities.Residence;
 using Microsoft.EntityFrameworkCore;
 
 namespace MailOffice.Models.Entities;

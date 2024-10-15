@@ -1,9 +1,6 @@
 ﻿using MailOffice.Models.Category;
-using MailOffice.Models.Entities;
 using MailOffice.Models.Reports;
 using Microsoft.EntityFrameworkCore;
-using System.Linq;
-using System.Runtime.CompilerServices;
 
 namespace MailOffice.Models.DataBase;
 
@@ -22,27 +19,36 @@ public class DatabaseQueries(MailOfficeContext context) {
         .ToList();
 
     //По заданному адресу определить фамилию почтальона, обслуживающего подписчика
-    public List<string> Query02(string address) => context
+    public List<string> Query02(string street, string houseNumber) => context
         .Houses
         .Include(h => h.Section)
-        .ThenInclude(s => s.Staff)
+        .ThenInclude(s => s.Staff) 
         .ThenInclude(s => s.Person)
-        .Where(h => h.Street == address)
+        .Where(h => h.Street == street && h.HouseNumber == houseNumber)
         .Select(g => g.Section.Staff.Person.SecondName)
         .ToList();
 
     //Какие газеты выписывает гражданин с указанной фамилией, именем, отчеством
-    //public List<string> Query03(string address) => context
+    public List<string> Query03(string secondName, string firstName, string patronymic) => context  
+        .People
+        .Include(p => p.Subscribers) 
+        .ThenInclude(s => s.Subscriptions)
+        .ThenInclude(s => s.Publication)
+        .Where(p => p.SecondName == secondName && p.FirstName == firstName && p.Patronymic == patronymic) 
+        .SelectMany(p => p.Subscribers
+            .SelectMany(s => s.Subscriptions
+                .Select(sub => sub.Publication.Name)))
+        .Distinct()
+        .ToList();
 
     //Сколько почтальонов работает в почтовом отделении
     public int Query04() => context
         .Staff
-        .Where(s => s.Role == StaffRole.Postman)
-        .Count();
+        .Count(s => s.Role == StaffRole.Postman);
 
     //На каком участке количество экземпляров подписных изданий максимально
-    //public List<ResultQuery05> Query05() => context
-
+    //public List<ResultQuery05> Query05() => context 
+    
     //Каков средний срок подписки по каждому изданию
     public List<ResultQuery06> Query06() => context
         .Subscriptions 
