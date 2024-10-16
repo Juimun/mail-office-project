@@ -49,8 +49,8 @@ public partial class DatabaseDisplayController {
     public string ShowQuery5() { 
         var sb = new StringBuilder();
 
-        //var result = query.Query05();
-        
+        var result = data.Query05();
+        sb.AppendLine($"На участке {result?.SectionName} количество экземпляров подписных изданий максимально.\nЕго количество: {result?.Quintity}");
 
         return sb.ToString();
     } //ShowQuery5

@@ -1,4 +1,5 @@
-﻿using MailOffice.Models.Entities.Residence;
+﻿using MailOffice.Models.Entities.Accounts;
+using MailOffice.Models.Entities.Residence;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
 
@@ -31,20 +32,20 @@ public class HouseConfiguration() : IEntityTypeConfiguration<House>
 
         // Начальная инициализация таблицы
         List<House> houses = [
-            new () {Id= 1, Street = "ул.Артема", HouseNumber = "140", SectionId = 3},
-            new () {Id= 2, Street = "ул.Старая", HouseNumber = "87", SectionId = 2},
-            new () {Id= 3, Street = "пр.Мира", HouseNumber = "14", SectionId = 1},
-            new () {Id= 4, Street = "ул.Советская", HouseNumber = "44", SectionId = 2},
-            new () {Id= 5, Street = "ул.Ленина", HouseNumber = "25", SectionId = 3},
-
-            new () {Id= 6, Street = "ул.Депутатская", HouseNumber = "157", SectionId = 1},
-            new () {Id= 7, Street = "ул.Солнечная", HouseNumber = "15", SectionId = 4},
-            new () {Id= 8, Street = "пр.Дубовый", HouseNumber = "33", SectionId = 4},
-            new () {Id= 9, Street = "пр.Березовый", HouseNumber = "7", SectionId = 5},
-            new () {Id= 10, Street = "ул.Яблоневая", HouseNumber = "101", SectionId = 5},
-
-            new () {Id= 11, Street = "пр.Сирени", HouseNumber = "24", SectionId = 4},
-            new () {Id= 12, Street = "ул.Липовая", HouseNumber = "2", SectionId = 5},
+            new () {Id = 1, Street = "ул.Артема", HouseNumber = "140", SectionId = 3},
+            new () {Id = 2, Street = "ул.Старая", HouseNumber = "87", SectionId = 2},
+            new () {Id = 3, Street = "пр.Мира", HouseNumber = "14", SectionId = 1},
+            new () {Id = 4, Street = "ул.Советская", HouseNumber = "44", SectionId = 2},
+            new () {Id = 5, Street = "ул.Ленина", HouseNumber = "25", SectionId = 3},
+                       
+            new () {Id = 6, Street = "ул.Депутатская", HouseNumber = "157", SectionId = 1},
+            new () {Id = 7, Street = "ул.Солнечная", HouseNumber = "15", SectionId = 4},
+            new () {Id = 8, Street = "пр.Дубовый", HouseNumber = "33", SectionId = 4},
+            new () {Id = 9, Street = "пр.Березовый", HouseNumber = "7", SectionId = 5},
+            new () {Id = 10, Street = "ул.Яблоневая", HouseNumber = "101", SectionId = 5},
+                       
+            new () {Id = 11, Street = "пр.Сирени", HouseNumber = "24", SectionId = 4},
+            new () {Id = 12, Street = "ул.Липовая", HouseNumber = "2", SectionId = 4},
         ];
         builder.HasData(houses);
 

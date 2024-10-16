@@ -18,7 +18,6 @@ public class Section {
     public virtual Staff Staff { get; set; } 
 
     // Связное свойство для таблицы House, связь 1:M
-    // Section (один участок) -> House (несколько домов на этом участке)
     public virtual List<House> Houses { get; set; } = new();
 
-} //Section
+} //Section 

@@ -1,4 +1,5 @@
-﻿using MailOffice.Models.Entities.Configurations.Residence;
+﻿using MailOffice.Models.Entities.Accounts;
+using MailOffice.Models.Entities.Configurations.Residence;
 using Microsoft.EntityFrameworkCore;
 
 namespace MailOffice.Models.Entities.Residence;
@@ -15,11 +16,14 @@ public class House {
     // Номер дома
     public string HouseNumber { get; set; }
 
-    #region Внешний ключ и связное свойстов для Section
+    // Внешняя связь с Section
     public int SectionId { get; set; }
     public virtual Section Section { get; set; }
-    #endregion
 
-    public string Adress => $"{Street}, дом {HouseNumber}";
+    // Внешняя связь с Subscriber
+    public virtual Subscriber Subscriber { get; set; }
+
+
+    public string Address => $"{Street}, дом {HouseNumber}";
 
 } //House

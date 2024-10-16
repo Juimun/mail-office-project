@@ -79,7 +79,7 @@ public partial class DatabaseDisplayController(DatabaseQueries data) {
         var users = data.GetAllHouses();
         users.ForEach(h => sb.AppendLine(
             $"ID: {h.Id}, " +
-            $"Адрес: {h.Adress}"
+            $"Адрес: {h.Address}"
         ));
 
         return sb.ToString();

@@ -1,4 +1,5 @@
 ﻿using MailOffice.Models.Entities.Configurations.Accounts;
+using MailOffice.Models.Entities.Residence;
 using Microsoft.EntityFrameworkCore;
 
 namespace MailOffice.Models.Entities.Accounts;
@@ -12,6 +13,10 @@ public class Subscriber {
     // Внешняя связь с Person
     public int PersonId { get; set; }
     public virtual Person Person { get; set; }
+
+    // Внешняя связь с House
+    public int HouseId { get; set; } 
+    public virtual House House { get; set; }
 
     // Связное свойство для таблицы Subscription, связь 1:M
     // Subscriber (один подписчик) -> Subscription (несколько подписок) 

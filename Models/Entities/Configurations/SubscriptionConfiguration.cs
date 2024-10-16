@@ -32,7 +32,9 @@ public class SubscriptionConfiguration : IEntityTypeConfiguration<Subscription> 
             new() {Id = 3, StartDate = DateTime.Now.AddDays(-2),  Duration = SubscriptionPeriod.Week,     SubscriberId = 2, PublicationId = 2},
             new() {Id = 4, StartDate = DateTime.Now,              Duration = SubscriptionPeriod.Month,    SubscriberId = 3, PublicationId = 3},
             new() {Id = 5, StartDate = DateTime.Now.AddDays(-45), Duration = SubscriptionPeriod.HalfYear, SubscriberId = 4, PublicationId = 4},
+
             new() {Id = 6, StartDate = DateTime.Now.AddDays(-20), Duration = SubscriptionPeriod.Year,     SubscriberId = 5, PublicationId = 5},
+            new() {Id = 7, StartDate = DateTime.Now.AddDays(7),   Duration = SubscriptionPeriod.Month,    SubscriberId = 1, PublicationId = 5},
         ];
         builder.HasData(subscriptions);
 
