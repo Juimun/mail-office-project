@@ -9,12 +9,15 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <None Remove="Assets\mail.png" />
-    <None Remove="Assets\warning.png" />
+    <Compile Remove="Models\Interfaces\**" />
+    <EmbeddedResource Remove="Models\Interfaces\**" />
+    <None Remove="Models\Interfaces\**" />
+    <Page Remove="Models\Interfaces\**" />
   </ItemGroup>
 
   <ItemGroup>
-    <Folder Include="Models\Interfaces\" />
+    <None Remove="Assets\mail.png" />
+    <None Remove="Assets\warning.png" />
   </ItemGroup>
 
   <ItemGroup>
@@ -25,6 +28,7 @@
       <PrivateAssets>all</PrivateAssets>
       <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
     </PackageReference>
+    <PackageReference Include="Newtonsoft.Json" Version="13.0.3" />
   </ItemGroup>
 
   <ItemGroup>

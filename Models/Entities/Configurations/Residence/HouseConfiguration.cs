@@ -1,5 +1,4 @@
-﻿using MailOffice.Models.Entities.Accounts;
-using MailOffice.Models.Entities.Residence;
+﻿using MailOffice.Models.Entities.Residence;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
 

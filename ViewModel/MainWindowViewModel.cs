@@ -8,7 +8,7 @@ namespace MailOffice.ViewModel;
 
 public class MainWindowViewModel {
 
-    // Контроллеры для визуализации
+    // Контроллер для визуализации
     private readonly DatabaseDisplayController _data; 
 
     public MainWindow HostWindow { get; set; }
@@ -27,7 +27,7 @@ public class MainWindowViewModel {
           .AppendLine($"Запрос №4\nСколько почтальонов работает в почтовом отделении\n{_data.ShowQuery4()}\n\n")
           .AppendLine($"Запрос №5\nНа каком участке количество экземпляров подписных изданий максимально\n{_data.ShowQuery5()}\n\n")
           .AppendLine($"Запрос №6\nКакой средний срок подписки по каждому изданию\n{_data.ShowQuery6()}\n\n");
-
+        
         HostWindow.TblTables.Text = sb.ToString();
     } // MainWindowViewModel
 
@@ -35,5 +35,25 @@ public class MainWindowViewModel {
         obj => Application.Current.Shutdown(),
         obj => true
     );
+
+    public RelayCommand SignAccountCommand => new (  
+    obj => SignAccount(),
+    obj => true
+    );
+
+    public RelayCommand CloseAccountCommand => new(
+        obj => Application.Current.Shutdown(),
+        obj => true
+    );
+    
+    public RelayCommand ChangeAccountCommand => new( 
+        obj => Application.Current.Shutdown(),
+        obj => true
+    );
+
+    public void SignAccount() {
+        var auth = new AuthorizationWindow();
+        auth.ShowDialog();
+    } //SignAccount
 
 } //MainWindowViewModel

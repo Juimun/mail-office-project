@@ -17,6 +17,7 @@ public partial class MainWindow : Window {
         _data = new DatabaseDisplayController();
 
         DataContext = new MainWindowViewModel(this, _data);
+
     } 
 
 } //MainWindow

@@ -18,16 +18,22 @@
         </Grid.RowDefinitions>
         <Menu Grid.Row="0">
             <MenuItem Header="Файл">
-                <MenuItem 
-                    Header="Войти в другой аккаунт..."
-                    />
-                <MenuItem 
-                    Header="Выйти из аккаунта..."
-                    />
                 <Separator />
                 <MenuItem 
                     Header="Выход"
                     Command="{Binding ExitCommand}"/>
+            </MenuItem>
+            <MenuItem Header="Аккаунт">
+                <MenuItem 
+                    Header="Войти в аккаунт"
+                    Command="{Binding SignAccountCommand}"/>
+                <MenuItem 
+                    Header="Сменить аккаунт"
+                    Command="{Binding ChangeAccountCommand}"/>
+                <Separator />
+                <MenuItem 
+                    Header="Выйти из аккаунта"
+                    Command="{Binding CloseAccountCommand}"/>
             </MenuItem>
         </Menu>
         <ScrollViewer 
@@ -37,8 +43,7 @@
                 Name="TblTables"
                 Margin="5" 
                 FontFamily="Courier New"
-                FontSize="16">
-            </TextBlock>
+                FontSize="16" />
         </ScrollViewer>
     </Grid>
 </Window>

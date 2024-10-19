@@ -1,0 +1,87 @@
+﻿<Window x:Class="MailOffice.View.RegistrationWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        mc:Ignorable="d"
+
+        MinHeight="280" Width="300"
+        WindowStartupLocation="CenterScreen"
+        WindowStyle="None"
+        ResizeMode="NoResize">
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="*"/>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="Auto"/>
+        </Grid.RowDefinitions>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="*"/>
+            <ColumnDefinition Width="*"/>
+        </Grid.ColumnDefinitions>
+
+        <Border Grid.RowSpan="2" Grid.ColumnSpan="2"
+            BorderBrush="Black" 
+            BorderThickness="3"
+            Margin="10"
+            CornerRadius="10">
+            <Grid>
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="*" />
+                    <RowDefinition Height="*" />
+                    <RowDefinition Height="*" />
+                    <RowDefinition Height="*"/>
+                </Grid.RowDefinitions>
+
+                <TextBlock Grid.Row="0" 
+                       Text="Registration"
+                       Margin="10 10 10 20"
+                       Padding="3 0 0 0"
+                       FontSize="16"
+                       FontWeight="Bold" />
+
+                <StackPanel Grid.Row="1">
+                    <TextBlock Padding="35 0" 
+                           Text="Логин:"/>
+                    <TextBox Margin="15 0 15 5"
+                         Padding="15 0" 
+                         Text="Введите логин"/>
+                </StackPanel>
+
+                <StackPanel Grid.Row="2">
+                    <TextBlock Padding="35 0" 
+                           Text="Пароль:"/>
+                    <TextBox Margin="15 0 15 5"
+                         Padding="15 0" 
+                         Text="Введите пароль"/>
+                </StackPanel>
+
+                <StackPanel Grid.Row="3">
+                    <TextBlock Padding="35 0" 
+                               Text="Подтвердите пароль:"/>
+                    <TextBox Margin="15 0 15 20"
+                             Padding="15 0" 
+                             Text="Введите пароль повторно"/>
+                </StackPanel>
+            </Grid>
+        </Border>
+
+        <Button Grid.Row="2" 
+            Grid.Column="0"
+            Margin="10 "
+            Padding="10"
+            Background="DarkTurquoise"
+
+            Content="Регистрация"
+            Command="{Binding Path=RegistrationCommand}"/>
+
+        <Button Grid.Row="2" 
+            Grid.Column="1"
+            Margin="10"
+            Padding="10"
+            Background="IndianRed"
+
+            Content="Отмена"
+            Command="{Binding Path=CanselCommand}"/>
+    </Grid>
+</Window>

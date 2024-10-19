@@ -7,7 +7,21 @@
     </ApplicationDefinition>
   </ItemGroup>
   <ItemGroup>
+    <Compile Update="View\AuthorizationWindow.xaml.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Update="View\RegistrationWindow.xaml.cs">
+      <SubType>Code</SubType>
+    </Compile>
+  </ItemGroup>
+  <ItemGroup>
+    <Page Update="View\AuthorizationWindow.xaml">
+      <SubType>Designer</SubType>
+    </Page>
     <Page Update="View\MainWindow.xaml">
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Update="View\RegistrationWindow.xaml">
       <SubType>Designer</SubType>
     </Page>
   </ItemGroup>
