@@ -53,7 +53,9 @@ public class MainWindowViewModel {
 
     public void SignAccount() {
         var auth = new AuthorizationWindow();
-        auth.ShowDialog();
+
+        //TODO: Изменить после проверок!
+        auth.Show();
     } //SignAccount
 
 } //MainWindowViewModel

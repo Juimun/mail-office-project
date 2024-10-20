@@ -18,6 +18,7 @@ public partial class MainWindow : Window {
 
         DataContext = new MainWindowViewModel(this, _data);
 
-    } 
+    }
 
+   
 } //MainWindow

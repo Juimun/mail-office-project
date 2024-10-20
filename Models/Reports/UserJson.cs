@@ -1,6 +1,6 @@
 ﻿namespace MailOffice.Models.Reports;
 
-public record JsonSerialize(
+public record UserJson( 
     string Login, 
     byte[] Password
     );

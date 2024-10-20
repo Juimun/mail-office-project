@@ -3,6 +3,62 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              StartupUri="/View/MainWindow.xaml">
     <Application.Resources>
-         
+        <!-- Стиль для Window 
+           1. Используется для Главного окна приложения
+        -->
+        <Style x:Key="MainWindowStyle" TargetType="{x:Type Window}">  
+            <Setter Property="Foreground" Value="White"/>
+            <Setter Property="Background" Value="#2d333c"/>
+            <Setter Property="ResizeMode" Value="CanResize"/>
+            <Setter Property="Height"     Value="400"/>
+            <Setter Property="Width"      Value="1000"/>
+        </Style>
+
+        <!-- 
+           2. Используется для Окон аутентификации
+        -->
+        <Style x:Key="AuthenticationWindowStyle" TargetType="{x:Type Window}"> 
+            <Setter Property="Foreground"  Value="White"/>
+            <Setter Property="Background"  Value="#171d25"/>
+            <Setter Property="ResizeMode"  Value="NoResize"/>
+            <Setter Property="WindowStyle" Value="None"/>
+            <Setter Property="Height"      Value="280"/>
+            <Setter Property="Width"       Value="300"/>
+        </Style>
+
+
+        <!-- Стиль для Menu 
+           1. Используется для меню Профиля
+        -->
+        <Style x:Key="MenuStyle" TargetType="{x:Type Menu}">
+            <Setter Property="Foreground"  Value="LightSkyBlue"/>
+            <Setter Property="Background"  Value="#171d25"/>
+            <Setter Property="BorderBrush" Value="Black"/>
+            <Setter Property="FontWeight"  Value="Bold"/>
+        </Style>
+
+        <!-- Стиль для MenuItem -->
+        <Style x:Key="MenuItemStyle" TargetType="{x:Type MenuItem}"> 
+            <Setter Property="Foreground" Value="White"/>
+            <Setter Property="Background" Value="#434953"/>
+            <Setter Property="Height"     Value="30"/>
+            <Setter Property="FontSize"   Value="14"/>
+            <Setter Property="FontWeight" Value="Bold"/>
+        </Style>
+
+        <!-- Стиль для TextBlock -->
+        <Style x:Key="TextBlockStyle" TargetType="{x:Type TextBlock}">
+            <Setter Property="Foreground" Value="#434953"/>
+            <Setter Property="Padding" Value="35 0"/>
+        </Style>
+
+        <!-- Стиль для TextBox -->
+        <Style x:Key="TextBoxStyle" TargetType="{x:Type TextBox}">
+            <Setter Property="Foreground" Value="White"/>
+            <Setter Property="Background" Value="#434953"/>
+            <Setter Property="Padding" Value="15 0"/>
+            <Setter Property="Margin" Value="15 0 15 5"/>
+        </Style>
+
     </Application.Resources>
 </Application>

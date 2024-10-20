@@ -70,4 +70,14 @@ public partial class DatabaseQueries {
         )))
         .ToList();
 
+    //Запрос к БД Users
+    // Создание списка для авторизации
+    // (Для использования класса User в JSON)
+    public UserJson Query07(string login, string password) => db
+        .Users
+        .AsEnumerable()
+        .Where(u => u.Authenticate(login, password))
+        .Select(u => new UserJson(u.Login, u.Password))
+        .First();
+     
 } //DatabaseQueries

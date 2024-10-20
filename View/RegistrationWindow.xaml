@@ -5,10 +5,8 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         mc:Ignorable="d"
 
-        MinHeight="280" Width="300"
         WindowStartupLocation="CenterScreen"
-        WindowStyle="None"
-        ResizeMode="NoResize">
+        Style="{StaticResource AuthenticationWindowStyle}">
     <Grid>
         <Grid.RowDefinitions>
             <RowDefinition Height="*"/>

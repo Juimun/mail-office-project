@@ -5,10 +5,10 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         mc:Ignorable="d"
 
-        Height="250" Width="300"
         WindowStartupLocation="CenterScreen"
-        WindowStyle="None"
-        ResizeMode="NoResize">
+        Style="{StaticResource AuthenticationWindowStyle}"
+        
+        Height="250">
     <Grid>
         <Grid.RowDefinitions>
             <RowDefinition Height="Auto"/>
@@ -38,29 +38,29 @@
                            Margin="10 10 10 20"
                            Padding="3 0 0 0"
                            FontSize="16"
-                           FontWeight="Bold" />
+                           FontWeight="Bold" 
+                           Foreground="#235ecf"/>
 
                 <StackPanel Grid.Row="1">
-                    <TextBlock Padding="35 0" 
-                               Text="Логин:"/>
-                    <TextBox Name="LoginTextBox"
-                             TabIndex="0"
-                             Margin="15 0 15 5"
-                             Padding="15 0" 
+                    <TextBlock Text="Логин:"
+                               Style="{StaticResource TextBlockStyle}"/>
+                    <TextBox TabIndex="0"
+                             Name="LoginTextBox"
                              Text="Введите логин"
+                             Style="{StaticResource TextBoxStyle}"
                              
                              GotFocus="TextBox_OnGotFocus"
                              LostFocus="TextBox_OnLostFocus"/>
                 </StackPanel>
 
                 <StackPanel Grid.Row="2">
-                    <TextBlock Padding="35 0" 
-                               Text="Пароль:"/>
-                    <TextBox Name="PasswordTextBox"
-                             TabIndex="1"
-                             Margin="15 0 15 20"
-                             Padding="15 0" 
+                    <TextBlock Text="Пароль:"
+                               Style="{StaticResource TextBlockStyle}"/>
+                    <TextBox TabIndex="1"
+                             Name="PasswordTextBox"
                              Text="Введите пароль"
+                             Style="{StaticResource TextBoxStyle}"
+                             Margin="15 0 15 20"
                              
                              GotFocus="TextBox_OnGotFocus"
                              LostFocus="TextBox_OnLostFocus"/>
@@ -74,13 +74,16 @@
                   Content="Запомнить меня"
                   IsChecked="{Binding RememberMe, Mode=TwoWay}"
                   Command="{Binding RememberMeCommand}"
-                  CommandParameter="{Binding RememberMe}"/>
+                  CommandParameter="{Binding RememberMe}"
+                  Background="#434953"
+                  Foreground="White"/>
 
         <Button Grid.Row="3" 
                 Grid.Column="0"
                 Margin="10 10 10 30"
                 Padding="10"
-                Background="DarkTurquoise"
+                Background="#235ecf"
+                Foreground="White"
 
                 Content="Вход"
                 TabIndex="3"
@@ -90,7 +93,8 @@
                 Grid.Column="1"
                 Margin="10 10 10 30"
                 Padding="10"
-                Background="IndianRed"
+                Background="#3d4450"
+                Foreground="White"
 
                 Content="Отмена"
                 TabIndex="4"

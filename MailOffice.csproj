@@ -17,6 +17,10 @@
 
   <ItemGroup>
     <None Remove="Assets\mail.png" />
+    <None Remove="Assets\User\addUser.png" />
+    <None Remove="Assets\User\defaultUser.png" />
+    <None Remove="Assets\User\defaultUser2.png" />
+    <None Remove="Assets\User\defaultUser3.png" />
     <None Remove="Assets\warning.png" />
   </ItemGroup>
 
@@ -33,6 +37,18 @@
 
   <ItemGroup>
     <Resource Include="Assets\mail.png">
+      <CopyToOutputDirectory>Never</CopyToOutputDirectory>
+    </Resource>
+    <Resource Include="Assets\User\addUser.png">
+      <CopyToOutputDirectory>Never</CopyToOutputDirectory>
+    </Resource>
+    <Resource Include="Assets\User\defaultUser.png">
+      <CopyToOutputDirectory>Never</CopyToOutputDirectory>
+    </Resource>
+    <Resource Include="Assets\User\defaultUser2.png">
+      <CopyToOutputDirectory>Never</CopyToOutputDirectory>
+    </Resource>
+    <Resource Include="Assets\User\defaultUser3.png">
       <CopyToOutputDirectory>Never</CopyToOutputDirectory>
     </Resource>
     <Resource Include="Assets\warning.png">

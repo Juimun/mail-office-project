@@ -5,35 +5,62 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         mc:Ignorable="d"
 
-        Title="Почтовое отделение" 
-        Height="400" 
-        Width="1000"
+        Title="Почтовое отделение"
         WindowStartupLocation="CenterScreen"
-        
+        Style="{StaticResource MainWindowStyle}"
+
         Icon="/Assets/mail.png">
     <Grid>
         <Grid.RowDefinitions>
             <RowDefinition Height="Auto"/>
             <RowDefinition Height="150*"/>
         </Grid.RowDefinitions>
-        <Menu Grid.Row="0">
-            <MenuItem Header="Файл">
+        <Menu Grid.Column="0"
+              Background="#171d25"
+              Foreground="#8b929a">
+            <MenuItem Header="Файл" 
+                      Height="25"
+                      BorderBrush="Black">
                 <Separator />
-                <MenuItem 
+                <MenuItem
                     Header="Выход"
-                    Command="{Binding ExitCommand}"/>
+                    Style="{StaticResource MenuItemStyle}"
+                    Command="{Binding ExitCommand}" />
             </MenuItem>
-            <MenuItem Header="Аккаунт">
-                <MenuItem 
-                    Header="Войти в аккаунт"
-                    Command="{Binding SignAccountCommand}"/>
-                <MenuItem 
-                    Header="Сменить аккаунт"
-                    Command="{Binding ChangeAccountCommand}"/>
+        </Menu>
+
+        <Menu HorizontalAlignment="Right"
+              Style="{StaticResource MenuStyle}">
+            <Image Source="/Assets/User/defaultUser3.png" 
+                   Stretch="Fill"
+                   Width="32"
+                   Height="32"/>
+            <MenuItem Name="ProfileItem" 
+                      Header="Guest ∨" 
+                      Width="150" 
+                      Height="40"
+                      ToolTip="Управление аккаунтом">
+                <MenuItem
+                    Header="Мой профиль"
+                    Style="{StaticResource MenuItemStyle}"
+                    Command="{Binding OpenProfileCommand}" />
+                <MenuItem
+                    Header="Подписки"
+                    Style="{StaticResource MenuItemStyle}"
+                    Command="{Binding SubscriptionsCommand}" />
                 <Separator />
-                <MenuItem 
-                    Header="Выйти из аккаунта"
-                    Command="{Binding CloseAccountCommand}"/>
+                <MenuItem
+                    Header="Войти в аккаунт"
+                    Style="{StaticResource MenuItemStyle}"
+                    Command="{Binding SignAccountCommand}" />
+                <MenuItem
+                    Header="Войти в другой аккаунт..."
+                    Style="{StaticResource MenuItemStyle}"
+                    Command="{Binding ChangeAccountCommand}" />
+                <MenuItem
+                    Header="Выйти из аккаунта..."
+                    Style="{StaticResource MenuItemStyle}"
+                    Command="{Binding CloseAccountCommand}" />
             </MenuItem>
         </Menu>
         <ScrollViewer 
@@ -43,7 +70,8 @@
                 Name="TblTables"
                 Margin="5" 
                 FontFamily="Courier New"
-                FontSize="16" />
+                FontSize="16" 
+                Foreground="White"/>
         </ScrollViewer>
     </Grid>
 </Window>

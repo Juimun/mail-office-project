@@ -9,24 +9,11 @@ using MailOffice.View;
 
 namespace MailOffice.ViewModel.Authentication;
 
-public class AuthorizationViewModel : INotifyPropertyChanged {
+public class AuthorizationViewModel(AuthorizationWindow hostWindow) : INotifyPropertyChanged {
 
-    public static string SourcePathFile = AppDomain.CurrentDomain.BaseDirectory;
-    public static string FolderPath = Path.Combine(SourcePathFile, "Saves");
-    public static string AccountsJsonPath = Path.Combine(FolderPath, "accounts.json"); 
+    public AuthorizationWindow HostWindow { get; set; } = hostWindow;
 
-    public AuthorizationWindow HostWindow { get; set; } 
-
-    public AuthorizationViewModel(AuthorizationWindow hostWindow) {
-        HostWindow = hostWindow;
-
-        if (!Directory.Exists(FolderPath))
-            Directory.CreateDirectory(FolderPath);
-
-       
-    }
-
-private bool _rememberMe;
+    private bool _rememberMe;
     public bool RememberMe {
         get => _rememberMe;
         set { 
@@ -52,22 +39,43 @@ private bool _rememberMe;
     );
     #endregion
 
+    private List<UserJson> _savedUsers = new();
+
+    //TODO: Доделать!
     public void EntryAuthorization() { 
-        var db = new DatabaseQueries();
-        var users = db.GetAllUsers();
+        if (RememberMe == true) {
+            var data = new DatabaseQueries();
 
-        var firstUser = users
-            .Where(u => u.Authenticate(HostWindow.LoginTextBox.Text, HostWindow.PasswordTextBox.Text))
-            .Select(u => new JsonSerialize(u.Login, u.Password))
-            .ToList(); 
-        
+            UserJson savedUser;
+            try {
+                savedUser = data
+                    .Query07(HostWindow.LoginTextBox.Text, HostWindow.PasswordTextBox.Text);
+            }
+            catch {
+                MessageBox.Show("Аккаунт не найден!", "Ошибка", MessageBoxButton.OK, MessageBoxImage.Error);
+                return;
+            }
 
-        if (!File.Exists(AccountsJsonPath)) {
-            Utils.JsonSerialize(firstUser, AccountsJsonPath);
+            // Перезапись в JSON для добавления нескольких аккаунтов
+            if (File.Exists(App.AccountsJsonPath)) {
+                _savedUsers = Utils.JsonDeserialize(App.AccountsJsonPath);
+            }
+
+            // Проверка на дубликаты
+            if (_savedUsers.Any(u => u.Login == savedUser.Login)) {
+                MessageBox.Show("Данный аккаунт уже сохранен!", "Подсказка", MessageBoxButton.OK, MessageBoxImage.Warning);
+                return;
+            }
+
+            // Проверка на ограничение количества 
+            if (_savedUsers.Count >= 4) {
+                MessageBox.Show("Вы сохранили максимальное количество аккаунтов!", "Подсказка", MessageBoxButton.OK, MessageBoxImage.Warning);
+                return;
+            }
+
+            _savedUsers.Add(savedUser);
+            Utils.JsonSerialize(_savedUsers, App.AccountsJsonPath);
         }
-        else
-            Utils.JsonDeserialize(AccountsJsonPath);
-
 
         HostWindow.Close();
     } //EntryAuthorization
