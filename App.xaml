@@ -60,5 +60,53 @@
             <Setter Property="Margin" Value="15 0 15 5"/>
         </Style>
 
+        <!-- Помогло изменение шаблона MenuItem
+           Позаимствовал тут:
+           https://stackoverflow.com/questions/4029917/wpf-transparent-menu
+        -->
+        <ControlTemplate x:Key="{x:Static MenuItem.TopLevelHeaderTemplateKey}" TargetType="{x:Type MenuItem}">
+            <Border Name="Border" >
+                <Grid>
+                    <ContentPresenter 
+                        Margin="6,3,6,3" 
+                        ContentSource="Header"
+                        RecognizesAccessKey="True" />
+                    <Popup 
+                        Name="Popup"
+                        Placement="Bottom"
+                        IsOpen="{TemplateBinding IsSubmenuOpen}"
+                        AllowsTransparency="True" 
+                        Focusable="False"
+                        PopupAnimation="Fade">
+                        <Border 
+                            Name="SubmenuBorder"
+                            SnapsToDevicePixels="True"
+                            Background="Gray">
+                            <StackPanel  
+                                IsItemsHost="True" 
+                                KeyboardNavigation.DirectionalNavigation="Cycle" />
+                        </Border>
+                    </Popup>
+                </Grid>
+            </Border>
+            <ControlTemplate.Triggers>
+                <Trigger Property="IsSuspendingPopupAnimation" Value="true">
+                    <Setter TargetName="Popup" Property="PopupAnimation" Value="None"/>
+                </Trigger>
+                <Trigger Property="IsHighlighted" Value="true">
+                    <Setter TargetName="Border" Property="Background" Value="#2d333c"/>
+                    <Setter TargetName="Border" Property="BorderBrush" Value="Transparent"/>
+                </Trigger>
+                <Trigger SourceName="Popup" Property="Popup.AllowsTransparency" Value="True">
+                    <Setter TargetName="SubmenuBorder" Property="CornerRadius" Value="0,0,4,4"/>
+                    <Setter TargetName="SubmenuBorder" Property="Padding" Value="5"/>
+                    <Setter TargetName="SubmenuBorder" Property="Background" Value="#171d25"/>
+                </Trigger>
+                <Trigger Property="IsEnabled" Value="False">
+                    <Setter Property="Foreground" Value="#2d333c"/>
+                </Trigger>
+            </ControlTemplate.Triggers>
+        </ControlTemplate>
+
     </Application.Resources>
 </Application>

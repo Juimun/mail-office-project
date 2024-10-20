@@ -16,15 +16,15 @@
             <RowDefinition Height="150*"/>
         </Grid.RowDefinitions>
         <Menu Grid.Column="0"
-              Background="#171d25"
-              Foreground="#8b929a">
+              Style="{StaticResource MenuStyle}"
+              Foreground="DarkGray">
             <MenuItem Header="Файл" 
                       Height="25"
                       BorderBrush="Black">
                 <Separator />
                 <MenuItem
                     Header="Выход"
-                    Style="{StaticResource MenuItemStyle}"
+                   
                     Command="{Binding ExitCommand}" />
             </MenuItem>
         </Menu>
@@ -42,24 +42,19 @@
                       ToolTip="Управление аккаунтом">
                 <MenuItem
                     Header="Мой профиль"
-                    Style="{StaticResource MenuItemStyle}"
                     Command="{Binding OpenProfileCommand}" />
                 <MenuItem
                     Header="Подписки"
-                    Style="{StaticResource MenuItemStyle}"
                     Command="{Binding SubscriptionsCommand}" />
-                <Separator />
-                <MenuItem
+                <Separator Margin="6"/>
+                    <MenuItem
                     Header="Войти в аккаунт"
-                    Style="{StaticResource MenuItemStyle}"
                     Command="{Binding SignAccountCommand}" />
                 <MenuItem
                     Header="Войти в другой аккаунт..."
-                    Style="{StaticResource MenuItemStyle}"
                     Command="{Binding ChangeAccountCommand}" />
                 <MenuItem
                     Header="Выйти из аккаунта..."
-                    Style="{StaticResource MenuItemStyle}"
                     Command="{Binding CloseAccountCommand}" />
             </MenuItem>
         </Menu>
