@@ -13,60 +13,137 @@
     <Grid>
         <Grid.RowDefinitions>
             <RowDefinition Height="Auto"/>
+            <RowDefinition Height="Auto"/>
             <RowDefinition Height="150*"/>
         </Grid.RowDefinitions>
         <Menu Grid.Column="0"
               Style="{StaticResource MenuStyle}"
-              Foreground="DarkGray">
+              Foreground="#999999"
+              FontSize="14">
             <MenuItem Header="Файл" 
                       Height="25"
-                      BorderBrush="Black">
+                     >
                 <Separator />
                 <MenuItem
                     Header="Выход"
-                   
-                    Command="{Binding ExitCommand}" />
+                    Foreground="White"
+                    Command="{Binding ExitCommand}">
+
+                    <MenuItem.Icon>
+                        <Image Source="/Assets/exit.png"/>
+                    </MenuItem.Icon>
+                </MenuItem>
             </MenuItem>
         </Menu>
 
         <Menu HorizontalAlignment="Right"
-              Style="{StaticResource MenuStyle}">
+              Style="{StaticResource MenuStyle}"
+              FontSize="16">
             <Image Source="/Assets/User/defaultUser3.png" 
                    Stretch="Fill"
                    Width="32"
                    Height="32"/>
             <MenuItem Name="ProfileItem" 
                       Header="Guest ∨" 
-                      Width="150" 
-                      Height="40"
-                      ToolTip="Управление аккаунтом">
+                      MinWidth="150" 
+                      ToolTip="Управление аккаунтом"
+                      HorizontalAlignment="Center">
                 <MenuItem
                     Header="Мой профиль"
-                    Command="{Binding OpenProfileCommand}" />
+                    Foreground="White"
+                    Command="{Binding OpenProfileCommand}">
+
+                    <MenuItem.Icon>
+                      <Image Source="/Assets/User/defaultUser.png"/>
+                    </MenuItem.Icon>
+                </MenuItem>
                 <MenuItem
                     Header="Подписки"
-                    Command="{Binding SubscriptionsCommand}" />
+                    Foreground="White"
+                    Command="{Binding SubscriptionsCommand}" >
+                    <MenuItem.Icon>
+                        <Image Source="/Assets/Account/subscribe.png"/>
+                    </MenuItem.Icon>
+                </MenuItem>
                 <Separator Margin="6"/>
                     <MenuItem
                     Header="Войти в аккаунт"
-                    Command="{Binding SignAccountCommand}" />
+                    Foreground="White"
+                    Command="{Binding SignAccountCommand}" >
+                        <MenuItem.Icon>
+                            <Image Source="/Assets/Account/signIn.png"/>
+                        </MenuItem.Icon>
+                    </MenuItem>
                 <MenuItem
                     Header="Войти в другой аккаунт..."
-                    Command="{Binding ChangeAccountCommand}" />
+                    Foreground="White"
+                    Command="{Binding ChangeAccountCommand}" >
+                    <MenuItem.Icon>
+                        <Image Source="/Assets/Account/change.png"/>
+                    </MenuItem.Icon>
+                </MenuItem>
                 <MenuItem
                     Header="Выйти из аккаунта..."
-                    Command="{Binding CloseAccountCommand}" />
+                    Foreground="White"
+                    Command="{Binding CloseAccountCommand}" >
+                    <MenuItem.Icon>
+                        <Image Source="/Assets/Account/signOut.png"/>
+                    </MenuItem.Icon>
+                </MenuItem>
             </MenuItem>
         </Menu>
-        <ScrollViewer 
-            Grid.Row="1"
-            VerticalScrollBarVisibility="Visible">
-            <TextBlock 
-                Name="TblTables"
-                Margin="5" 
-                FontFamily="Courier New"
-                FontSize="16" 
-                Foreground="White"/>
-        </ScrollViewer>
+        <ToolBarTray Grid.Row="1" Background="#171d25" >
+            <ToolBar>
+                <Button Command="{Binding Path=LeftTabCommand}">
+                    <Image Height="32" 
+                           Source="/Assets/arrowLeft.png" 
+                           Stretch="Fill" 
+                           Width="32"/>
+
+                </Button>
+                <Button Command="{Binding Path=RightTabCommand}">
+                    <Image Height="32" 
+                           Source="/Assets/arrowRight.png" 
+                           Stretch="Fill" 
+                           Width="32"/>
+                </Button>
+            </ToolBar>
+        </ToolBarTray>
+        <TabControl Grid.Row="2" Name="TbcMain" Background="#434953">
+            <TabItem BorderThickness="1">
+                <TabItem.Header>
+                    <TextBlock Name="TblTablesHeader"
+                               FontFamily="Verdana"
+                               FontSize="14">
+                        Таблицы базы данных
+                    </TextBlock>
+                </TabItem.Header>
+                <ScrollViewer 
+                    VerticalScrollBarVisibility="Visible">
+                    <TextBlock 
+                        Name="TblTables"
+                        Margin="5" 
+                        FontFamily="Courier New"
+                        FontSize="16" 
+                        Foreground="White"/>
+                </ScrollViewer>
+            </TabItem>
+            <TabItem BorderThickness="1">
+                <TabItem.Header>
+                    <TextBlock Name="TblQueriesHeader"
+                               FontFamily="Verdana"
+                               FontSize="14">
+                        Выборки по запросам
+                    </TextBlock>
+                </TabItem.Header>
+                <ScrollViewer VerticalScrollBarVisibility="Visible">
+                    <TextBlock Name="TblQueries"
+                               Margin="5" 
+                               FontFamily="Courier New"
+                               FontSize="16">
+                    </TextBlock>
+                </ScrollViewer>
+            </TabItem>
+        </TabControl>
     </Grid>
 </Window>

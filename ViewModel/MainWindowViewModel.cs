@@ -9,7 +9,7 @@ namespace MailOffice.ViewModel;
 public class MainWindowViewModel {
 
     // Контроллер для визуализации
-    private readonly DatabaseDisplayController _data; 
+    private DatabaseDisplayController _data; 
 
     public MainWindow HostWindow { get; set; }
 

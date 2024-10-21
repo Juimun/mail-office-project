@@ -16,6 +16,13 @@
   </ItemGroup>
 
   <ItemGroup>
+    <None Remove="Assets\Account\change.png" />
+    <None Remove="Assets\Account\signIn.png" />
+    <None Remove="Assets\Account\signOut.png" />
+    <None Remove="Assets\Account\subscribe.png" />
+    <None Remove="Assets\arrowLeft.png" />
+    <None Remove="Assets\arrowRight.png" />
+    <None Remove="Assets\exit.png" />
     <None Remove="Assets\mail.png" />
     <None Remove="Assets\User\addUser.png" />
     <None Remove="Assets\User\defaultUser.png" />
@@ -36,6 +43,27 @@
   </ItemGroup>
 
   <ItemGroup>
+    <Resource Include="Assets\Account\change.png">
+      <CopyToOutputDirectory>Never</CopyToOutputDirectory>
+    </Resource>
+    <Resource Include="Assets\Account\signIn.png">
+      <CopyToOutputDirectory>Never</CopyToOutputDirectory>
+    </Resource>
+    <Resource Include="Assets\Account\signOut.png">
+      <CopyToOutputDirectory>Never</CopyToOutputDirectory>
+    </Resource>
+    <Resource Include="Assets\Account\subscribe.png">
+      <CopyToOutputDirectory>Never</CopyToOutputDirectory>
+    </Resource>
+    <Resource Include="Assets\arrowLeft.png">
+      <CopyToOutputDirectory>Never</CopyToOutputDirectory>
+    </Resource>
+    <Resource Include="Assets\arrowRight.png">
+      <CopyToOutputDirectory>Never</CopyToOutputDirectory>
+    </Resource>
+    <Resource Include="Assets\exit.png">
+      <CopyToOutputDirectory>Never</CopyToOutputDirectory>
+    </Resource>
     <Resource Include="Assets\mail.png">
       <CopyToOutputDirectory>Never</CopyToOutputDirectory>
     </Resource>
