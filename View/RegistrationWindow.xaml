@@ -5,81 +5,124 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         mc:Ignorable="d"
 
+        Title="Вход в аккаунт"
         WindowStartupLocation="CenterScreen"
-        Style="{StaticResource AuthenticationWindowStyle}">
-    <Grid>
-        <Grid.RowDefinitions>
-            <RowDefinition Height="*"/>
-            <RowDefinition Height="Auto"/>
-            <RowDefinition Height="Auto"/>
-        </Grid.RowDefinitions>
-        <Grid.ColumnDefinitions>
-            <ColumnDefinition Width="*"/>
-            <ColumnDefinition Width="*"/>
-        </Grid.ColumnDefinitions>
+        Style="{StaticResource AuthenticationWindowStyle}"
 
-        <Border Grid.RowSpan="2" Grid.ColumnSpan="2"
-            BorderBrush="Black" 
+        Width="500"
+        Height="480"
+        BorderBrush="Black"
+        BorderThickness="0 0 2 2"
+        Icon="/Assets/mail.png">
+
+    <StackPanel>
+        <Border BorderBrush="Black" 
             BorderThickness="3"
             Margin="10"
             CornerRadius="10">
-            <Grid>
-                <Grid.RowDefinitions>
-                    <RowDefinition Height="*" />
-                    <RowDefinition Height="*" />
-                    <RowDefinition Height="*" />
-                    <RowDefinition Height="*"/>
-                </Grid.RowDefinitions>
-
-                <TextBlock Grid.Row="0" 
-                       Text="Registration"
-                       Margin="10 10 10 20"
-                       Padding="3 0 0 0"
-                       FontSize="16"
-                       FontWeight="Bold" />
-
-                <StackPanel Grid.Row="1">
-                    <TextBlock Padding="35 0" 
-                           Text="Логин:"/>
-                    <TextBox Margin="15 0 15 5"
-                         Padding="15 0" 
-                         Text="Введите логин"/>
+    
+            <StackPanel>
+                <TextBlock Text="Registration"
+                       Margin="20"
+                       Padding="3 0"
+                       FontSize="26"
+                       FontWeight="Bold" 
+                       Foreground="#235ecf"/>
+    
+                <StackPanel Orientation="Horizontal">
+                    <TextBlock FontFamily="Segoe UI"
+                               Text="ИМЯ АККАУНТА:"
+                               Style="{StaticResource TextBlockStyle}"/>
+                    <TextBlock Text="*"
+                               FontSize="20"
+                               Foreground="#235ecf"
+                               ToolTip="Это поле обязательно для заполнения!"/>
                 </StackPanel>
-
-                <StackPanel Grid.Row="2">
-                    <TextBlock Padding="35 0" 
-                           Text="Пароль:"/>
-                    <TextBox Margin="15 0 15 5"
-                         Padding="15 0" 
-                         Text="Введите пароль"/>
+                <TextBox TabIndex="0"
+                      x:Name="LoginTextBox"
+                      Text="Введите логин"
+                      Style="{StaticResource TextBoxStyle}"
+                      
+                      GotFocus="TextBox_OnGotFocus"
+                      LostFocus="TextBox_OnLostFocus"/>
+    
+                <StackPanel Orientation="Horizontal">
+                    <TextBlock FontFamily="Segoe UI"
+                               Text="ПАРОЛЬ:"
+                               Style="{StaticResource TextBlockStyle}"/>
+                    <TextBlock Text="*"
+                               FontSize="20"
+                               Foreground="#235ecf"
+                               ToolTip="Это поле обязательно для заполнения!"/>
                 </StackPanel>
-
-                <StackPanel Grid.Row="3">
-                    <TextBlock Padding="35 0" 
-                               Text="Подтвердите пароль:"/>
-                    <TextBox Margin="15 0 15 20"
-                             Padding="15 0" 
-                             Text="Введите пароль повторно"/>
+                <TextBox TabIndex="1"
+                      x:Name="PasswordTextBox"
+                      Text="Введите пароль"
+                      Style="{StaticResource TextBoxStyle}"
+                      
+                      GotFocus="TextBox_OnGotFocus"
+                      LostFocus="TextBox_OnLostFocus"/>
+    
+                <StackPanel Orientation="Horizontal">
+                    <TextBlock FontFamily="Segoe UI"
+                               Text="ПОДТВЕРДИТЬ ПАРОЛЬ:"
+                               Style="{StaticResource TextBlockStyle}"/>
+                    <TextBlock Text="*"
+                               FontSize="20"
+                               Foreground="#235ecf"
+                               ToolTip="Это поле обязательно для заполнения!"/>
                 </StackPanel>
-            </Grid>
+                <TextBox TabIndex="1"
+                         x:Name="PasswordRepeatTextBox" 
+                         Text="Введите пароль повторно"
+                         Style="{StaticResource TextBoxStyle}"
+      
+                         GotFocus="TextBox_OnGotFocus"
+                         LostFocus="TextBox_OnLostFocus"/>
+    
+            </StackPanel>
         </Border>
-
-        <Button Grid.Row="2" 
-            Grid.Column="0"
-            Margin="10 "
-            Padding="10"
-            Background="DarkTurquoise"
-
-            Content="Регистрация"
-            Command="{Binding Path=RegistrationCommand}"/>
-
-        <Button Grid.Row="2" 
-            Grid.Column="1"
-            Margin="10"
-            Padding="10"
-            Background="IndianRed"
-
-            Content="Отмена"
-            Command="{Binding Path=CanselCommand}"/>
-    </Grid>
+        <Button Background="Transparent" 
+                Foreground="#999999"
+                Padding="5"
+                BorderThickness="0"
+                Opacity="0.5"
+                Margin="70 0 70 0"
+                MouseEnter="UIElement_OnMouseEnter"
+                MouseLeave="UIElement_OnMouseLeave"
+                Command="{Binding AuthorizationCommand}">
+            <TextBlock>
+                <Run Text="Уже зарегестрированы?"/>
+                <Run Text=" Авторизоваться . . ." TextDecorations="Underline" />
+            </TextBlock>
+        </Button>
+    
+        <StackPanel Orientation="Horizontal">
+            <Button Margin="30 10"
+                Padding="10"
+                Background="#235ecf"
+                Foreground="White"
+                BorderBrush="Black"
+                BorderThickness="0 0 2 2"
+                Content="Регистрация"
+                TabIndex="3"
+                Width="210"
+                MouseEnter="UIElement_OnMouseEnter"
+                MouseLeave="UIElement_OnMouseLeave"
+                Command="{Binding EntryCommand}"/>
+    
+            <Button Margin="30 10"
+                Padding="10"
+                Background="#3d4450"
+                Foreground="White"
+                BorderBrush="Black"
+                BorderThickness="0 0 2 2"
+                Content="Отменить"
+                TabIndex="4"
+                Width="150"
+                MouseEnter="UIElement_OnMouseEnter"
+                MouseLeave="UIElement_OnMouseLeave"
+                Command="{Binding Path=CanselCommand}"/>
+        </StackPanel>
+    </StackPanel>
 </Window>

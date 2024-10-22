@@ -1,13 +1,26 @@
-﻿using MailOffice.View;
+﻿using MailOffice.Infrastructure;
+using MailOffice.View;
 
 namespace MailOffice.ViewModel.Authentication;
 
-public class RegistrationViewModel {
+public class RegistrationViewModel(RegistrationWindow hostWindow) {
 
-    public RegistrationWindow HostWindow { get; set; }
+    public RegistrationWindow HostWindow { get; set; } = hostWindow;
 
-    public RegistrationViewModel(RegistrationWindow hostWindow) {
-        HostWindow = hostWindow;
-    }
+    public RelayCommand CanselCommand => new(
+        obj => HostWindow.Close(),
+        obj => true
+    ); 
 
+    public RelayCommand AuthorizationCommand => new (
+        obj => ShowAuthorization(),
+        obj => true
+    );
+
+    private void ShowAuthorization() { 
+        HostWindow.Close();
+         
+        var authWindow = new AuthorizationWindow();
+        authWindow.ShowDialog();
+    } //ShowRegistration
 } //RegistrationViewModel

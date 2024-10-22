@@ -69,7 +69,10 @@
                     Foreground="#999999"
                     Padding="5"
                     BorderThickness="0"
-                    Opacity="0.5">
+                    Opacity="0.5"
+                    MouseEnter="UIElement_OnMouseEnter"
+                    MouseLeave="UIElement_OnMouseLeave"
+                    Command="{Binding RegistrationCommand}">
                 <TextBlock>
                 <Run Text="Нет аккаунта?"/>
                 <Run Text=" Создать бесплатный аккаунт . . ." TextDecorations="Underline" />
@@ -87,6 +90,8 @@
                     Content="Вход"
                     TabIndex="3"
                     Width="210"
+                    MouseEnter="UIElement_OnMouseEnter"
+                    MouseLeave="UIElement_OnMouseLeave"
                     Command="{Binding EntryCommand}"/>
 
             <Button Margin="30 10"
@@ -98,6 +103,8 @@
                     Content="Отменить"
                     TabIndex="4"
                     Width="150"
+                    MouseEnter="UIElement_OnMouseEnter"
+                    MouseLeave="UIElement_OnMouseLeave"
                     Command="{Binding Path=CanselCommand}"/>
         </StackPanel>
     </StackPanel>

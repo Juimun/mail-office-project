@@ -37,7 +37,19 @@ public class AuthorizationViewModel(AuthorizationWindow hostWindow) : INotifyPro
         obj => RememberMe = (bool)obj,
         obj => true
     );
+
+    public RelayCommand RegistrationCommand => new(
+        obj => ShowRegistration(),
+        obj => true
+    );
     #endregion
+
+    private void ShowRegistration() {
+        HostWindow.Close();
+
+        var regWindow = new RegistrationWindow();
+        regWindow.ShowDialog();
+    } //ShowRegistration
 
     private List<UserJson> _savedUsers = new();
 

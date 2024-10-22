@@ -1,6 +1,7 @@
 ﻿using System.Windows;
 using System.Windows.Controls;
-using System.Windows.Shell;
+using System.Windows.Input;
+using System.Windows.Media;
 using MailOffice.ViewModel.Authentication;
 
 namespace MailOffice.View;
@@ -9,6 +10,9 @@ namespace MailOffice.View;
 /// Логика взаимодействия для Authorization.xaml
 /// </summary>
 public partial class AuthorizationWindow : Window {
+
+    private SolidColorBrush _originalBackgroundBrush;
+    private SolidColorBrush _originalForegroundBrush;
 
     public AuthorizationWindow() {
         InitializeComponent();
@@ -32,4 +36,20 @@ public partial class AuthorizationWindow : Window {
             };
     } //TextBox_OnLostFocus
 
+    private void UIElement_OnMouseEnter(object sender, MouseEventArgs e) {
+        Button button = (Button)sender;
+        _originalBackgroundBrush = (SolidColorBrush)button.Background;
+        _originalForegroundBrush = (SolidColorBrush)button.Foreground;
+
+        button.Foreground = Brushes.Black;
+    }
+
+
+    private void UIElement_OnMouseLeave(object sender, MouseEventArgs e) {
+        Button button = (Button)sender;
+
+        // Восстанавливаем исходные цвета
+        button.Background = _originalBackgroundBrush;
+        button.Foreground = _originalForegroundBrush;
+    }
 } //AuthorizationWindow
