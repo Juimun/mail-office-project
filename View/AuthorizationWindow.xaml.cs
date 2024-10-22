@@ -1,5 +1,6 @@
 ﻿using System.Windows;
 using System.Windows.Controls;
+using System.Windows.Shell;
 using MailOffice.ViewModel.Authentication;
 
 namespace MailOffice.View;

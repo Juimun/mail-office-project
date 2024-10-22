@@ -48,16 +48,18 @@
 
         <!-- Стиль для TextBlock -->
         <Style x:Key="TextBlockStyle" TargetType="{x:Type TextBlock}">
-            <Setter Property="Foreground" Value="#999999"/>
-            <Setter Property="Padding" Value="35 0"/> 
+            <Setter Property="Foreground" Value="White"/>
+            <Setter Property="Padding" Value="15 0"/>
+            <Setter Property="Margin" Value="5"/>
+            <Setter Property="FontWeight"  Value="Bold"/>
         </Style>
 
         <!-- Стиль для TextBox -->
         <Style x:Key="TextBoxStyle" TargetType="{x:Type TextBox}">
-            <Setter Property="Foreground" Value="White"/>
+            <Setter Property="Foreground" Value="#999999"/>
             <Setter Property="Background" Value="#434953"/>
-            <Setter Property="Padding" Value="15 0"/>
-            <Setter Property="Margin" Value="15 0 15 5"/>
+            <Setter Property="Padding" Value="15"/>
+            <Setter Property="Margin" Value="10"/>
         </Style>
 
         <!-- Переопределение стандартного шаблона MenuItem
@@ -117,7 +119,7 @@
             <Setter Property="Template">
                 <Setter.Value>
                     <ControlTemplate TargetType="{x:Type TabItem}">
-                        <Border Background="#999999" 
+                        <Border Background="#303b4a" 
                                 CornerRadius="5 5 0 0">
                             <ContentPresenter Content="{TemplateBinding Header}" Margin="7"/>
                         </Border>
@@ -126,14 +128,15 @@
             </Setter>
             <Style.Triggers>
                 <Trigger Property="IsSelected" Value="True">
-                    <Setter Property="Foreground" Value="Black"/>
+                    <Setter Property="Foreground" Value="White"/>
                     <Setter Property="FontWeight" Value="Bold"/>
                 </Trigger>
                 <Trigger Property="IsSelected" Value="False">
-                    <Setter Property="Foreground" Value="Black"/>
+                    <Setter Property="Foreground" Value="#999999"/>
                     <Setter Property="FontWeight" Value="Normal"/>
                 </Trigger>
             </Style.Triggers>
         </Style>
+
     </Application.Resources>
 </Application>

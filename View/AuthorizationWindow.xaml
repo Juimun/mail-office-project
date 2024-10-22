@@ -8,98 +8,97 @@
         Title="Вход в аккаунт"
         WindowStartupLocation="CenterScreen"
         Style="{StaticResource AuthenticationWindowStyle}"
-        
-        Height="250"
-        Icon="/Assets/mail.png">
-    <Grid>
-        <Grid.RowDefinitions>
-            <RowDefinition Height="Auto"/>
-            <RowDefinition Height="Auto"/>
-            <RowDefinition Height="Auto"/>
-            <RowDefinition Height="Auto"/>
-        </Grid.RowDefinitions>
-        <Grid.ColumnDefinitions>
-            <ColumnDefinition Width="*"/>
-            <ColumnDefinition Width="*"/>
-        </Grid.ColumnDefinitions>
 
-        <Border Grid.RowSpan="2" Grid.ColumnSpan="2"
-                BorderBrush="Black" 
+        Width="500"
+        Height="400"
+        BorderBrush="Black"
+        BorderThickness="0 0 2 2"
+        Icon="/Assets/mail.png">
+
+    <StackPanel>
+        <Border BorderBrush="Black" 
                 BorderThickness="3"
                 Margin="10"
                 CornerRadius="10">
-            <Grid>
-                <Grid.RowDefinitions>
-                    <RowDefinition Height="*" />
-                    <RowDefinition Height="*" />
-                    <RowDefinition Height="*" />
-                </Grid.RowDefinitions>
 
-                <TextBlock Grid.Row="0" 
-                           Text="Sign In"
-                           Margin="10 10 10 20"
-                           Padding="3 0 0 0"
-                           FontSize="16"
+            <StackPanel>
+                <TextBlock Text="Sign In"
+                           Margin="20"
+                           Padding="3 0"
+                           FontSize="26"
                            FontWeight="Bold" 
                            Foreground="#235ecf"/>
 
-                <StackPanel Grid.Row="1">
-                    <TextBlock Text="Логин:"
-                               Style="{StaticResource TextBlockStyle}"/>
-                    <TextBox TabIndex="0"
-                             Name="LoginTextBox"
-                             Text="Введите логин"
-                             Style="{StaticResource TextBoxStyle}"
-                             
-                             GotFocus="TextBox_OnGotFocus"
-                             LostFocus="TextBox_OnLostFocus"/>
-                </StackPanel>
 
-                <StackPanel Grid.Row="2">
-                    <TextBlock Text="Пароль:"
-                               Style="{StaticResource TextBlockStyle}"/>
-                    <TextBox TabIndex="1"
-                             Name="PasswordTextBox"
-                             Text="Введите пароль"
-                             Style="{StaticResource TextBoxStyle}"
-                             Margin="15 0 15 20"
-                             
-                             GotFocus="TextBox_OnGotFocus"
-                             LostFocus="TextBox_OnLostFocus"/>
-                </StackPanel>
-            </Grid>
+                <TextBlock FontFamily="Segoe UI"
+                           Text="ИМЯ АККАУНТА:"
+                           Style="{StaticResource TextBlockStyle}"/>
+                <TextBox TabIndex="0"
+                          x:Name="LoginTextBox"
+                          Text="Введите логин"
+                          Style="{StaticResource TextBoxStyle}"
+                          
+                          GotFocus="TextBox_OnGotFocus"
+                          LostFocus="TextBox_OnLostFocus"/>
+
+
+
+                <TextBlock FontFamily="Segoe UI"
+                           Text="ПАРОЛЬ:"
+                           Style="{StaticResource TextBlockStyle}"/>
+                <TextBox TabIndex="1"
+                          x:Name="PasswordTextBox"
+                          Text="Введите пароль"
+                          Style="{StaticResource TextBoxStyle}"
+                          
+                          GotFocus="TextBox_OnGotFocus"
+                          LostFocus="TextBox_OnLostFocus"/>
+
+            </StackPanel>
         </Border>
+        <StackPanel Orientation="Horizontal">
+            <CheckBox Margin="20 10 65 10"
+                      Content="Запомнить меня"
+                      IsChecked="{Binding RememberMe, Mode=TwoWay}"
+                      Command="{Binding RememberMeCommand}"
+                      CommandParameter="{Binding RememberMe}"
+                      Background="#434953"
+                      Foreground="White"/>
 
-        <CheckBox Grid.Row="2" 
-                  Grid.ColumnSpan="2"
-                  Margin="10 0 10 5"
-                  Content="Запомнить меня"
-                  IsChecked="{Binding RememberMe, Mode=TwoWay}"
-                  Command="{Binding RememberMeCommand}"
-                  CommandParameter="{Binding RememberMe}"
-                  Background="#434953"
-                  Foreground="White"/>
+            <Button Background="Transparent" 
+                    Foreground="#999999"
+                    Padding="5"
+                    BorderThickness="0"
+                    Opacity="0.5">
+                <TextBlock>
+                <Run Text="Нет аккаунта?"/>
+                <Run Text=" Создать бесплатный аккаунт . . ." TextDecorations="Underline" />
+                </TextBlock>
+            </Button>
+        </StackPanel>
 
-        <Button Grid.Row="3" 
-                Grid.Column="0"
-                Margin="10 10 10 30"
-                Padding="10"
-                Background="#235ecf"
-                Foreground="White"
+        <StackPanel Orientation="Horizontal">
+            <Button Margin="30 10"
+                    Padding="10"
+                    Background="#235ecf"
+                    Foreground="White"
+                    BorderBrush="Black"
+                    BorderThickness="0 0 2 2"
+                    Content="Вход"
+                    TabIndex="3"
+                    Width="210"
+                    Command="{Binding EntryCommand}"/>
 
-                Content="Вход"
-                TabIndex="3"
-                Command="{Binding Path=EntryCommand}"/>
-
-        <Button Grid.Row="3" 
-                Grid.Column="1"
-                Margin="10 10 10 30"
-                Padding="10"
-                Background="#3d4450"
-                Foreground="White"
-
-                Content="Отмена"
-                TabIndex="4"
-                Command="{Binding Path=CanselCommand}"/>
-    </Grid>
+            <Button Margin="30 10"
+                    Padding="10"
+                    Background="#3d4450"
+                    Foreground="White"
+                    BorderBrush="Black"
+                    BorderThickness="0 0 2 2"
+                    Content="Отменить"
+                    TabIndex="4"
+                    Width="150"
+                    Command="{Binding Path=CanselCommand}"/>
+        </StackPanel>
+    </StackPanel>
 </Window>
