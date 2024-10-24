@@ -8,6 +8,11 @@ public class HouseConfiguration() : IEntityTypeConfiguration<House>
 {
 
     public void Configure(EntityTypeBuilder<House> builder) {
+
+        builder.ToTable("Houses");
+        builder.Property(h => h.Id)
+            .ValueGeneratedNever();
+
         // Настройка адреса дома
         builder
             .Property(h => h.Street)

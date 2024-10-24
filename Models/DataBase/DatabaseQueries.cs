@@ -1,4 +1,5 @@
-﻿using MailOffice.Models.Category;
+﻿using MailOffice.Infrastructure;
+using MailOffice.Models.Category;
 using MailOffice.Models.Reports;
 using Microsoft.EntityFrameworkCore;
 
@@ -79,5 +80,40 @@ public partial class DatabaseQueries {
         .Where(u => u.Authenticate(login, password))
         .Select(u => new UserJson(u.Login, u.Password))
         .First();
-     
+
+    #region Максимальный Id в БД
+    //Какой Id в таблице User максимальный
+    private Task<int> MaxUserIdQueryAsync() => db 
+        .Users
+        .Select(g => g.Id)
+        .MaxAsync();
+
+    //Какой Id в таблице Person максимальный 
+    private Task<int> MaxPersonIdQueryAsync() => db
+        .People
+        .Select(g => g.Id)
+        .MaxAsync();
+    #endregion
+
+    #region Добавление сущности в БД 
+    // Асинхронный запрос для создания случайной сущности User
+    public async void AddUser() { 
+        // Асинхронное получение максимальных ID
+        var maxUserId = await MaxUserIdQueryAsync() + 1;
+        var maxPersonId = await MaxPersonIdQueryAsync() + 1;
+
+        db
+            .Users
+            .Add(Factory.GetUser(maxUserId));
+
+        db
+            .People
+            .Add(Factory.GetPerson(maxPersonId, maxUserId));
+
+        await db.SaveChangesAsync();
+    } // AddUser
+
+
+    #endregion
+
 } //DatabaseQueries

@@ -1,6 +1,7 @@
 ﻿using MailOffice.Infrastructure;
 using MailOffice.View;
 
+
 namespace MailOffice.ViewModel.Authentication;
 
 public class RegistrationViewModel(RegistrationWindow hostWindow) {
@@ -23,4 +24,8 @@ public class RegistrationViewModel(RegistrationWindow hostWindow) {
         var authWindow = new AuthorizationWindow();
         authWindow.ShowDialog();
     } //ShowRegistration
+
+    private void AddUser() {
+        
+    } //AddUser
 } //RegistrationViewModel

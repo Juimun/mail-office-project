@@ -11,10 +11,8 @@ public class UserConfiguration : IEntityTypeConfiguration<User>
     {
 
         builder.ToTable("Users");
-
-        builder.HasKey(u => u.Id);
         builder.Property(u => u.Id)
-            .UseIdentityColumn();
+            .ValueGeneratedNever();
 
         builder
             .Property(u => u.Login)

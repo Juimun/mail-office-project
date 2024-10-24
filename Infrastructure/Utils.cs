@@ -20,7 +20,7 @@ public static class Utils {
 
     public static byte[] GetBytes(string arr) =>
     Encoding.UTF8.GetBytes(arr);
-     
+
     public static void JsonSerialize(List<UserJson> dataList, string fileName) =>
         File.WriteAllText(fileName, JsonConvert.SerializeObject(dataList, Formatting.Indented), Encoding.UTF8);
 

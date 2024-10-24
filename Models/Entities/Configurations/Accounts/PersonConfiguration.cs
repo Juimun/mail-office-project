@@ -13,7 +13,7 @@ public class PersonConfiguration : IEntityTypeConfiguration<Person>
 
         builder.ToTable("People");
         builder.Property(a => a.Id)
-            .UseIdentityColumn();
+            .ValueGeneratedNever();
 
         builder
             .Property(p => p.FirstName)

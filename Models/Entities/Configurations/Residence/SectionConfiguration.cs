@@ -10,7 +10,9 @@ public class SectionConfiguration : IEntityTypeConfiguration<Section>
     public void Configure(EntityTypeBuilder<Section> builder) {
 
         builder.ToTable("Sections");
-        builder.HasKey(sec => sec.Id);
+        builder.Property(s => s.Id)
+            .ValueGeneratedNever(); 
+
 
         // Настройка наименования участка
         builder

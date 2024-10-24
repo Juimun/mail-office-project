@@ -7,6 +7,9 @@ public enum PersonCategory {
     // Гость - минимальное количество прав
     Guest,
 
+    // Зарегестрированный пользователь (TODO: пока не используется!)
+    Registered,
+
     // Подписчик
     Subscriber,
 

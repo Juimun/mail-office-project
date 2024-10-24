@@ -8,6 +8,10 @@ namespace MailOffice.Models.Entities.Configurations;
 public class PublicationConfiguration : IEntityTypeConfiguration<Publication> {
     public void Configure(EntityTypeBuilder<Publication> builder) {
 
+        builder.ToTable("Publications");
+        builder.Property(p => p.Id)
+            .ValueGeneratedNever();
+
         builder
             .Property(p => p.Name)
             .HasMaxLength(100)

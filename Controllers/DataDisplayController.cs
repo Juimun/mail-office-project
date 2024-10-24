@@ -1,6 +1,7 @@
 ﻿using MailOffice.Infrastructure;
 using MailOffice.Models.DataBase;
 using System.Text;
+using System.Windows;
 
 namespace MailOffice.Controllers;
 
@@ -8,6 +9,11 @@ namespace MailOffice.Controllers;
 public partial class DatabaseDisplayController(DatabaseQueries data) {
 
     public DatabaseDisplayController() : this(new DatabaseQueries()) { }
+
+    //TODO: Проверка!
+    public void ShowAddUser() { 
+        data.AddUser();
+    }
 
     public string ShowAllTables() { 
         var sb = new StringBuilder();

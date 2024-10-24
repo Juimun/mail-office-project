@@ -19,6 +19,8 @@ public class MainWindowViewModel {
         (HostWindow, _data) = 
             (hostWindow, dataController);
 
+        dataController.ShowAddUser();
+
         var sb = new StringBuilder("\n");
         sb.AppendLine($"Запрос №1\nОпределить наименование и количество экземпляров всех изданий\n{_data.ShowQuery1()}\n\n")
           .AppendLine($"Запрос №2\nПо заданному адресу определить фамилию почтальона, обслуживающего подписчика\n{_data.ShowQuery2("ул.Артема", "140")}\n\n")
