@@ -1,0 +1,65 @@
+﻿<Window x:Class="MailOffice.View.ChangeAccountWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        mc:Ignorable="d"
+
+        Title="Вход в аккаунт"
+        WindowStartupLocation="CenterScreen"
+        Style="{StaticResource AuthenticationWindowStyle}"
+        
+        Width="500"
+        Height="250"
+        BorderBrush="Black"
+        BorderThickness="0 0 2 2"
+        Icon="/Assets/Menu/mail.png">
+
+    <StackPanel>
+        <Button Content="✖" 
+                Name="ExitBtn"
+                HorizontalAlignment="Right" 
+                Margin="0,5,10,0" 
+                Padding="10" 
+                FontSize="6" 
+                BorderThickness="0"
+                Background="Transparent" 
+                Foreground="White"
+                Command="{Binding Path=ExitCommand}"
+                MouseEnter="UIElement_OnMouseEnter"
+                MouseLeave="UIElement_OnMouseLeave"/>
+
+            <Border BorderBrush="Black" 
+                BorderThickness="3"
+                Margin="10"
+                CornerRadius="10">
+
+            <StackPanel>
+                <TextBlock Text="Войти как..."
+                           VerticalAlignment="Center"
+                       Margin="20"
+                       Padding="145 0"
+                       FontSize="26"
+                       FontWeight="Bold" 
+                       Foreground="#235ecf"/>
+
+                <StackPanel 
+                    Name="SavedAccountsPanel"
+                    Orientation="Horizontal"
+                    HorizontalAlignment="Center"
+                    Margin="10" >
+
+                <Button Content="➕" 
+                        Margin="10" 
+                        Padding="10" 
+                        FontSize="18" 
+                        Background="#171d25" 
+                        Foreground="White"
+                        
+                        Command="{Binding Path=AuthorizationCommand}"/>
+                </StackPanel>
+            </StackPanel>
+        </Border>
+
+    </StackPanel>
+</Window>

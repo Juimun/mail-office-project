@@ -1,0 +1,111 @@
+﻿<Window x:Class="MailOffice.View.AuthorizationWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        mc:Ignorable="d"
+
+        Title="Вход в аккаунт"
+        WindowStartupLocation="CenterScreen"
+        Style="{StaticResource AuthenticationWindowStyle}"
+
+        Width="500"
+        Height="400"
+        BorderBrush="Black"
+        BorderThickness="0 0 2 2"
+        Icon="/Assets/Menu/mail.png">
+
+    <StackPanel>
+        <Border BorderBrush="Black" 
+                BorderThickness="3"
+                Margin="10"
+                CornerRadius="10">
+
+            <StackPanel>
+                <TextBlock Text="Sign In"
+                           Margin="20"
+                           Padding="3 0"
+                           FontSize="26"
+                           FontWeight="Bold" 
+                           Foreground="#235ecf"/>
+
+
+                <TextBlock FontFamily="Segoe UI"
+                           Text="ИМЯ АККАУНТА:"
+                           Style="{StaticResource TextBlockStyle}"/>
+                <TextBox TabIndex="0"
+                          x:Name="LoginTextBox"
+                          Text="Введите логин"
+                          Style="{StaticResource TextBoxStyle}"
+                          
+                          GotFocus="TextBox_OnGotFocus"
+                          LostFocus="TextBox_OnLostFocus"/>
+
+
+
+                <TextBlock FontFamily="Segoe UI"
+                           Text="ПАРОЛЬ:"
+                           Style="{StaticResource TextBlockStyle}"/>
+                <TextBox TabIndex="1"
+                          x:Name="PasswordTextBox"
+                          Text="Введите пароль"
+                          Style="{StaticResource TextBoxStyle}"
+                          
+                          GotFocus="TextBox_OnGotFocus"
+                          LostFocus="TextBox_OnLostFocus"/>
+
+            </StackPanel>
+        </Border>
+        <StackPanel Orientation="Horizontal">
+            <CheckBox Margin="20 10 65 10"
+                      Content="Запомнить меня"
+                      IsChecked="{Binding RememberMe, Mode=TwoWay}"
+                      Command="{Binding RememberMeCommand}"
+                      CommandParameter="{Binding RememberMe}"
+                      Background="#434953"
+                      Foreground="White"/>
+
+            <Button Background="Transparent" 
+                    Foreground="#999999"
+                    Padding="5"
+                    BorderThickness="0"
+                    Opacity="0.5"
+                    MouseEnter="UIElement_OnMouseEnter"
+                    MouseLeave="UIElement_OnMouseLeave"
+                    Command="{Binding RegistrationCommand}">
+                <TextBlock>
+                <Run Text="Нет аккаунта?"/>
+                <Run Text=" Создать бесплатный аккаунт . . ." TextDecorations="Underline" />
+                </TextBlock>
+            </Button>
+        </StackPanel>
+
+        <StackPanel Orientation="Horizontal">
+            <Button Margin="30 10"
+                    Padding="10"
+                    Background="#235ecf"
+                    Foreground="White"
+                    BorderBrush="Black"
+                    BorderThickness="0 0 2 2"
+                    Content="Вход"
+                    TabIndex="3"
+                    Width="210"
+                    MouseEnter="UIElement_OnMouseEnter"
+                    MouseLeave="UIElement_OnMouseLeave"
+                    Command="{Binding EntryCommand}"/>
+
+            <Button Margin="30 10"
+                    Padding="10"
+                    Background="#3d4450"
+                    Foreground="White"
+                    BorderBrush="Black"
+                    BorderThickness="0 0 2 2"
+                    Content="Отменить"
+                    TabIndex="4"
+                    Width="150"
+                    MouseEnter="UIElement_OnMouseEnter"
+                    MouseLeave="UIElement_OnMouseLeave"
+                    Command="{Binding Path=CanselCommand}"/>
+        </StackPanel>
+    </StackPanel>
+</Window>
