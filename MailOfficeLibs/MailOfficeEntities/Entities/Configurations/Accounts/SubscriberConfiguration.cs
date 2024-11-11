@@ -11,8 +11,8 @@ public class SubscriberConfiguration : IEntityTypeConfiguration<Subscriber>
     {
 
         builder.ToTable("Subscribers");
-        builder.Property(s => s.PersonId)
-            .ValueGeneratedNever(); 
+        builder.Property(s => s.Id)
+            .ValueGeneratedOnAdd();
 
         builder
             .HasMany(s => s.Subscriptions)

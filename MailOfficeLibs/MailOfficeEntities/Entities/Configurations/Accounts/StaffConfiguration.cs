@@ -12,7 +12,7 @@ public class StaffConfiguration : IEntityTypeConfiguration<Staff>
 
         builder.ToTable("Staff");
         builder.Property(s => s.Id)
-            .ValueGeneratedNever();
+            .ValueGeneratedOnAdd();
 
         builder
             .HasOne(s => s.Person)

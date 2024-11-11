@@ -11,7 +11,7 @@ public class SectionConfiguration : IEntityTypeConfiguration<Section>
 
         builder.ToTable("Sections");
         builder.Property(s => s.Id)
-            .ValueGeneratedNever(); 
+            .ValueGeneratedOnAdd();
 
 
         // Настройка наименования участка

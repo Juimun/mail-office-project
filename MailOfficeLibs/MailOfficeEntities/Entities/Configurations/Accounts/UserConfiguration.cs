@@ -11,7 +11,7 @@ public class UserConfiguration : IEntityTypeConfiguration<User>
 
         builder.ToTable("Users");
         builder.Property(u => u.Id)
-            .ValueGeneratedNever();
+            .ValueGeneratedOnAdd();
 
         builder
             .Property(u => u.Login)

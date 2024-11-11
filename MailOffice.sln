@@ -17,7 +17,7 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "MailOfficeDataBase", "MailO
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "MailOfficeTool", "MailOfficeLibs\MailOfficeTool\MailOfficeTool.csproj", "{9502E3B6-51B0-4308-B3F4-D5A90DC6F8EF}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MailOfiiceDataSeeder", "MailOfiiceDataSeeder\MailOfiiceDataSeeder.csproj", "{4080319E-D029-4293-82DF-D6217C87485C}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "MailOfiiceDataSeeder", "MailOfiiceDataSeeder\MailOfiiceDataSeeder.csproj", "{4080319E-D029-4293-82DF-D6217C87485C}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

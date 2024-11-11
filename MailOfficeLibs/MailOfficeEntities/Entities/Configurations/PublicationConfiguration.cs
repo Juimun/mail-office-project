@@ -8,7 +8,7 @@ public class PublicationConfiguration : IEntityTypeConfiguration<Publication> {
 
         builder.ToTable("Publications");
         builder.Property(p => p.Id)
-            .ValueGeneratedNever();
+            .ValueGeneratedOnAdd();
 
         builder
             .Property(p => p.Name)

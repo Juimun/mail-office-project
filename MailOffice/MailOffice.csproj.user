@@ -7,10 +7,10 @@
     </ApplicationDefinition>
   </ItemGroup>
   <ItemGroup>
-    <Compile Update="View\AuthorizationWindow.xaml.cs">
+    <Compile Update="View\Authentication\AuthorizationWindow.xaml.cs">
       <SubType>Code</SubType>
     </Compile>
-    <Compile Update="View\ChangeAccountWindow.xaml.cs">
+    <Compile Update="View\Authentication\ChangeAccountWindow.xaml.cs">
       <SubType>Code</SubType>
     </Compile>
     <Compile Update="View\Queries\Query2Window.xaml.cs">
@@ -19,15 +19,15 @@
     <Compile Update="View\Queries\Query3Window.xaml.cs">
       <SubType>Code</SubType>
     </Compile>
-    <Compile Update="View\RegistrationWindow.xaml.cs">
+    <Compile Update="View\Authentication\RegistrationWindow.xaml.cs">
       <SubType>Code</SubType>
     </Compile>
   </ItemGroup>
   <ItemGroup>
-    <Page Update="View\AuthorizationWindow.xaml">
+    <Page Update="View\Authentication\AuthorizationWindow.xaml">
       <SubType>Designer</SubType>
     </Page>
-    <Page Update="View\ChangeAccountWindow.xaml">
+    <Page Update="View\Authentication\ChangeAccountWindow.xaml">
       <SubType>Designer</SubType>
     </Page>
     <Page Update="View\MainWindow.xaml">
@@ -39,7 +39,7 @@
     <Page Update="View\Queries\Query3Window.xaml">
       <SubType>Designer</SubType>
     </Page>
-    <Page Update="View\RegistrationWindow.xaml">
+    <Page Update="View\Authentication\RegistrationWindow.xaml">
       <SubType>Designer</SubType>
     </Page>
   </ItemGroup>

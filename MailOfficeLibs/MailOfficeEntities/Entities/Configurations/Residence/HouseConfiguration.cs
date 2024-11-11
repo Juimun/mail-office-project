@@ -11,7 +11,7 @@ public class HouseConfiguration() : IEntityTypeConfiguration<House>
 
         builder.ToTable("Houses");
         builder.Property(h => h.Id)
-            .ValueGeneratedNever();
+            .ValueGeneratedOnAdd();
 
         // Настройка адреса дома
         builder
