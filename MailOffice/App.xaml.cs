@@ -1,4 +1,5 @@
-﻿using System.IO;
+﻿using System.Diagnostics;
+using System.IO;
 using System.Windows;
 
 namespace MailOffice;
@@ -17,5 +18,17 @@ public partial class App : Application {
 
         if (!Directory.Exists(FolderPath))
             Directory.CreateDirectory(FolderPath);
+
+        // Запуск и ожидание работы MailOfiiceDataSeeder
+        Process.Start(DataSeederPath()).WaitForExit();
     }
+
+    // Создание пути к файлу MailOfiiceDataSeeder.exe
+    private string DataSeederPath() {
+        var dataSeederPath = SourceFilePath;
+        for (var cnt = 0; cnt < 5; cnt++)
+            dataSeederPath = Path.GetDirectoryName(dataSeederPath);
+
+        return Path.Combine(dataSeederPath!, @"MailOfiiceDataSeeder\bin\Debug\net8.0\MailOfiiceDataSeeder.exe");
+    } //DataSeederPath
 } //App

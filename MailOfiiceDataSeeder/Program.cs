@@ -1,10 +1,10 @@
 ﻿using MailOfficeDataBase.DataBase;
 
-Console.WriteLine($"[{DateTime.Now:HH:MM:ss}] Начало генерации!");
+Console.WriteLine($"[{DateTime.Now:HH:MM:ss}] Подготовка тестовых данных… Это может занять некоторое время.");
 
-// Перегенерирование тестовых данных 
+// Создание "случайных" тестовых данных 
 var data = new DatabaseQueries(new MailOfficeContext(true));
 data.AddTestEntities();
 
-Console.WriteLine($"[{DateTime.Now:HH:MM:ss}] Я все сгенерировал! ");
-Console.ReadKey();
+// Завершение работы приложения после генерации данных
+Environment.Exit(0);
