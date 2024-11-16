@@ -17,10 +17,7 @@ public class AuthorizationViewModel(AuthorizationWindow hostWindow) : INotifyPro
     private bool _rememberMe;
     public bool RememberMe {
         get => _rememberMe;
-        set { 
-            _rememberMe = value; 
-            OnPropertyChanged();
-        }
+        set => SetField(ref _rememberMe, value);
     }
 
     #region Команды
@@ -54,23 +51,24 @@ public class AuthorizationViewModel(AuthorizationWindow hostWindow) : INotifyPro
 
     private List<UserJson> _savedUsers = new();
 
-    public void EntryAuthorization() { 
-        if (RememberMe == true) {
-            var data = new DatabaseQueries();
+    public void EntryAuthorization() {
+        var data = new DatabaseQueries();
 
-            UserJson savedUser;
-            try {
-                savedUser = data
-                    .Query07(HostWindow.LoginTextBox.Text, HostWindow.PasswordTextBox.Text);
-            }
-            catch {
-                MessageBox.Show("Аккаунт не найден!", "Ошибка", MessageBoxButton.OK, MessageBoxImage.Error);
-                return;
-            }
-
-            SaveUser(savedUser);
+        UserJson savedUser;
+        try
+        {
+            savedUser = data.GetUserJson(HostWindow.LoginTextBox.Text, Utils.GetBytes(HostWindow.PasswordTextBox.Text));
+        }
+        catch (Exception e)
+        {
+            MessageBox.Show($"Аккаунт не найден! Попробуйте еще раз...", "Подсказка", MessageBoxButton.OK, MessageBoxImage.Warning);
+            return;
         }
 
+        if (RememberMe) 
+            SaveUser(savedUser);
+        
+        HostWindow.DialogResult = true;
         HostWindow.Close();
     } //EntryAuthorization
 

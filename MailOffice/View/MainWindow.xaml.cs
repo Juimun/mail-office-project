@@ -1,6 +1,7 @@
 ﻿using System.Windows;
 using MailOffice.ViewModel;
 using MailOfficeControllers.Controllers;
+using MailOfficeDataBase.DataBase;
 
 namespace MailOffice.View;
 
@@ -9,14 +10,16 @@ namespace MailOffice.View;
 /// </summary>
 public partial class MainWindow : Window {
 
-    private DatabaseDisplayController _data;  
+    private DatabaseDisplayController _dataController;
+    private DatabaseQueries _dataQueries; 
 
     public MainWindow() {
         InitializeComponent();
 
-        _data = new DatabaseDisplayController(); 
-        
-        DataContext = new MainWindowViewModel(this, _data);
+        _dataController = new DatabaseDisplayController();
+        _dataQueries = new DatabaseQueries();
+
+        DataContext = new MainWindowViewModel(this, _dataController, _dataQueries);
 
     }
 

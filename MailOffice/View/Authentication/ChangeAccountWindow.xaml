@@ -49,14 +49,14 @@
                     HorizontalAlignment="Center"
                     Margin="10" >
 
-                <Button Content="➕" 
-                        Margin="10" 
-                        Padding="10" 
-                        FontSize="18" 
-                        Background="#171d25" 
-                        Foreground="White"
-                        
-                        Command="{Binding Path=AuthorizationCommand}"/>
+                    <Button Content="➕" 
+                            Margin="10" 
+                            Padding="10" 
+                            FontSize="18" 
+                            Background="#171d25" 
+                            Foreground="White"
+                            HorizontalAlignment="Right"
+                            Command="{Binding Path=AuthorizationCommand}"/>
                 </StackPanel>
             </StackPanel>
         </Border>

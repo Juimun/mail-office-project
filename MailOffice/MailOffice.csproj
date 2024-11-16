@@ -19,9 +19,12 @@
     <None Remove="Assets\mail.png" />
     <None Remove="Assets\Menu\arrowLeft.png" />
     <None Remove="Assets\Menu\arrowRight.png" />
+    <None Remove="Assets\Menu\clear.png" />
     <None Remove="Assets\Menu\exit.png" />
     <None Remove="Assets\Menu\mail.png" />
     <None Remove="Assets\Menu\queries.png" />
+    <None Remove="Assets\Menu\report.png" />
+    <None Remove="Assets\Menu\test.png" />
     <None Remove="Assets\Menu\warning.png" />
     <None Remove="Assets\Queries\queries %281%29.png" />
     <None Remove="Assets\Queries\queries %282%29.png" />
@@ -70,6 +73,9 @@
     <Resource Include="Assets\Menu\arrowRight.png">
       <CopyToOutputDirectory>Never</CopyToOutputDirectory>
     </Resource>
+    <Resource Include="Assets\Menu\clear.png">
+      <CopyToOutputDirectory>Never</CopyToOutputDirectory>
+    </Resource>
     <Resource Include="Assets\Menu\exit.png">
       <CopyToOutputDirectory>Never</CopyToOutputDirectory>
     </Resource>
@@ -77,6 +83,12 @@
       <CopyToOutputDirectory>Never</CopyToOutputDirectory>
     </Resource>
     <Resource Include="Assets\Menu\queries.png">
+      <CopyToOutputDirectory>Never</CopyToOutputDirectory>
+    </Resource>
+    <Resource Include="Assets\Menu\report.png">
+      <CopyToOutputDirectory>Never</CopyToOutputDirectory>
+    </Resource>
+    <Resource Include="Assets\Menu\test.png">
       <CopyToOutputDirectory>Never</CopyToOutputDirectory>
     </Resource>
     <Resource Include="Assets\Menu\warning.png">

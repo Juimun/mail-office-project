@@ -23,6 +23,15 @@
             <MenuItem Header="Файл" 
                       Height="25"
                      >
+                <MenuItem
+                      Header="Генерация тестовых данных"
+                      Foreground="White"
+                      Command="{Binding GenerateTextEntitiesCommand}">
+
+                    <MenuItem.Icon>
+                        <Image Source="/Assets/Menu/test.png"/>
+                    </MenuItem.Icon>
+                </MenuItem>
                 <Separator />
                 <MenuItem
                     Header="Выход"
@@ -34,11 +43,102 @@
                     </MenuItem.Icon>
                 </MenuItem>
             </MenuItem>
+            <MenuItem Header="Запросы" 
+                      Height="25"
+                     >
+                <MenuItem
+                     Header="Запрос №1"
+                     Foreground="White"
+                     Command="{Binding Query1Command}">
+
+                    <MenuItem.Icon>
+                        <Image Source="/Assets/Queries/queries (1).png"/>
+                    </MenuItem.Icon>
+                </MenuItem>
+                <MenuItem
+                    Header="Запрос №2"
+                    Foreground="White"
+                    Command="{Binding Query2Command}">
+
+                    <MenuItem.Icon>
+                        <Image Source="/Assets/Queries/queries (2).png"/>
+                    </MenuItem.Icon>
+                </MenuItem>
+                <MenuItem
+                     Header="Запрос №3"
+                     Foreground="White"
+                     Command="{Binding Query3Command}">
+
+                    <MenuItem.Icon>
+                        <Image Source="/Assets/Queries/queries (3).png"/>
+                    </MenuItem.Icon>
+                </MenuItem>
+                <MenuItem
+                     Header="Запрос №4"
+                     Foreground="White"
+                     Command="{Binding Query4Command}">
+
+                    <MenuItem.Icon>
+                        <Image Source="/Assets/Queries/queries (4).png"/>
+                    </MenuItem.Icon>
+                </MenuItem>
+                <MenuItem
+                     Header="Запрос №5"
+                     Foreground="White"
+                     Command="{Binding Query5Command}">
+
+                    <MenuItem.Icon>
+                        <Image Source="/Assets/Queries/queries (5).png"/>
+                    </MenuItem.Icon>
+                </MenuItem>
+                <MenuItem
+                     Header="Запрос №6"
+                     Foreground="White"
+                     Command="{Binding Query6Command}">
+
+                    <MenuItem.Icon>
+                        <Image Source="/Assets/Queries/queries (6).png"/>
+                    </MenuItem.Icon>
+                </MenuItem>
+                <Separator />
+                <MenuItem
+                     Header="Очистить запрос"
+                     Foreground="White"
+                     Command="{Binding ClearQueryCommand}">
+
+                    <MenuItem.Icon>
+                        <Image Source="/Assets/Menu/clear.png"/>
+                    </MenuItem.Icon>
+                </MenuItem>
+            </MenuItem>
+            <MenuItem Header="Отчет" 
+                      Height="25"
+                     >
+                <MenuItem
+                     Header="Создать отчет"
+                     Foreground="White"
+                     Command="{Binding ReportCommand}">
+
+                    <MenuItem.Icon>
+                        <Image Source="/Assets/Menu/report.png"/>
+                    </MenuItem.Icon>
+                </MenuItem>
+                <MenuItem
+                     Header="Очистить отчет"
+                     Foreground="White"
+                     Command="{Binding ClearReportCommand}">
+
+                    <MenuItem.Icon>
+                        <Image Source="/Assets/Menu/clear.png"/>
+                    </MenuItem.Icon>
+                </MenuItem>
+            </MenuItem>
         </Menu>
 
         <Menu HorizontalAlignment="Right"
               Style="{StaticResource MenuStyle}"
-              FontSize="16">
+              FontSize="16"
+              Name="ProfileMenu">
             <Image Source="/Assets/User/defaultUser3.png" 
                    Stretch="Fill"
                    Width="32"
@@ -52,7 +152,7 @@
                     Header="Мой профиль"
                     Foreground="White"
                     Name="OpenProfileItem" 
-                    Command="{Binding OpenProfileCommand}">
+                    Command="{Binding ShowProfileCommand}">
 
                     <MenuItem.Icon>
                       <Image Source="/Assets/User/defaultUser.png"/>
@@ -62,7 +162,7 @@
                     Header="Подписки"
                     Foreground="White"
                     Name="SubscriptionsItem" 
-                    Command="{Binding SubscriptionsCommand}" >
+                    Command="{Binding ShowSubscribersCommand}" >
                     <MenuItem.Icon>
                         <Image Source="/Assets/Account/subscribe.png"/>
                     </MenuItem.Icon>
@@ -113,6 +213,13 @@
                            Width="32"/>
                 </Button>
                 <Separator />
+                <Button Command="{Binding Path=ReportCommand}">
+                    <Image Height="32" 
+                           Source="/Assets/Menu/report.png" 
+                           Stretch="Fill" 
+                           Width="32"/>
+                </Button>
+                <Separator />
                 <Button Command="{Binding Path=Query1Command}">
                     <Image Height="32" 
                            Source="/Assets/Queries/queries (1).png" 
@@ -158,27 +265,58 @@
                 <TabItem.Header>
                     <TextBlock Name="TblTablesHeader"
                                FontFamily="Verdana"
-                               FontSize="14">
-                        Таблицы базы данных
+                               FontSize="14"
+                               Text="Таблицы базы данных">
                     </TextBlock>
                 </TabItem.Header>
                 <ScrollViewer 
                               VerticalScrollBarVisibility="Visible">
-                    <DataGrid x:Name="DataGrid"
-                              AutoGenerateColumns="True" 
-                              VirtualizingStackPanel.IsVirtualizing="True" />
+                    <TextBlock Name="TblTables" 
+                               Margin="5" 
+                               FontFamily="Courier New"
+                               FontSize="16" />
                 </ScrollViewer>
             </TabItem>
             <TabItem BorderThickness="1">
                 <TabItem.Header>
                     <TextBlock Name="TblQueriesHeader"
                                FontFamily="Verdana"
-                               FontSize="14">
-                        Выборки по запросам
+                               FontSize="14"
+                               Text="Выборки по запросам">
                     </TextBlock>
                 </TabItem.Header>
                 <ScrollViewer VerticalScrollBarVisibility="Visible">
                     <TextBlock Name="TblQueries"
+                               Margin="5" 
+                               FontFamily="Courier New"
+                               FontSize="16" />
+                </ScrollViewer>
+            </TabItem>
+            <TabItem BorderThickness="1">
+                <TabItem.Header>
+                    <TextBlock Name="TblReportsHeader"
+                               FontFamily="Verdana"
+                               FontSize="14"
+                               Text="Отчеты и справки">
+                    </TextBlock>
+                </TabItem.Header>
+                <ScrollViewer VerticalScrollBarVisibility="Visible">
+                    <TextBlock Name="TblReports"
+                   Margin="5" 
+                   FontFamily="Courier New"
+                   FontSize="16" />
+                </ScrollViewer>
+            </TabItem>
+            <TabItem BorderThickness="1">
+                <TabItem.Header>
+                    <TextBlock Name="TblProfileHeader"  
+                               FontFamily="Verdana"
+                               FontSize="14"
+                               Text="Аккаунт">
+                    </TextBlock>
+                </TabItem.Header>
+                <ScrollViewer VerticalScrollBarVisibility="Visible">
+                    <TextBlock Name="TblProfile"
                                Margin="5" 
                                FontFamily="Courier New"
                                FontSize="16" />

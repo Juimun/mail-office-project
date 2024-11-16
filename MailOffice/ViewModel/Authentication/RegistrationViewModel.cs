@@ -34,7 +34,7 @@ public class RegistrationViewModel(RegistrationWindow hostWindow) {
 
     // Создание нового пользователя 
     //TODO: Пока хардкод - Переделать!
-    private async void EntryRegistration() {
+    private void EntryRegistration() {
 
         // Проверка на пустые строки и пробелы
         if (string.IsNullOrEmpty(HostWindow.LoginTextBox.Text) && string.IsNullOrEmpty(HostWindow.PasswordTextBox.Text)) {
@@ -44,7 +44,7 @@ public class RegistrationViewModel(RegistrationWindow hostWindow) {
 
         // Проверка логина на повтор
         var data = new DatabaseQueries();
-        if (await data.LoginExistAsync(HostWindow.LoginTextBox.Text)) {
+        if (data.LoginExist(HostWindow.LoginTextBox.Text)) { 
             MessageBox.Show("Неверный логин для регистрации!", "Подсказка", MessageBoxButton.OK, MessageBoxImage.Warning);
             return;
         } //if
@@ -64,16 +64,14 @@ public class RegistrationViewModel(RegistrationWindow hostWindow) {
 
         if (HostWindow.PasswordTextBox.Text == HostWindow.PasswordRepeatTextBox.Text) {
             // Добавление новой записи в БД
-            await data.AddRegisteredUserAsync(HostWindow.LoginTextBox.Text,
+            data.AddRegisteredUser(HostWindow.LoginTextBox.Text,
                 Utils.GetBytes(HostWindow.PasswordTextBox.Text));
 
-            // Сменить регистрацию на вход
-            ShowAuthorization();
+            HostWindow.Close();
         } //if
         else {
             MessageBox.Show("Пароли НЕ совпадают", "Подсказка", MessageBoxButton.OK, MessageBoxImage.Warning);
         }
-        
     } //EntryRegistration
 
 } //RegistrationViewModel

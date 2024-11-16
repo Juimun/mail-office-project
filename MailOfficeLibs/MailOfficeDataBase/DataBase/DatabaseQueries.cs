@@ -1,9 +1,11 @@
 ﻿using MailOfficeDataBase.Reports;
 using MailOfficeEntities.Category;
+using MailOfficeEntities.Entities;
 using MailOfficeEntities.Entities.Accounts;
 using MailOfficeFactory.Factories;
 using MailOfficeTool.Entities;
 using Microsoft.EntityFrameworkCore;
+using System.Linq;
 
 namespace MailOfficeDataBase.DataBase;
 
@@ -45,7 +47,7 @@ public partial class DatabaseQueries {
         .ToList();
 
     //Сколько почтальонов работает в почтовом отделении
-    public int Query04() => db
+    public int PostmansCount() => db  
         .Staff
         .Count(s => s.Role == StaffRole.Postman);
 
@@ -76,21 +78,23 @@ public partial class DatabaseQueries {
     //Запрос к БД Users
     // Создание списка для авторизации
     // (Для использования класса User в JSON)
-    public UserJson Query07(string login, string password) => db
+    public UserJson GetUserJson(string login, byte[] password) => db  
         .Users
-        .AsEnumerable()
-        .Where(u => u.Authenticate(login, password))
+        .Where(u => u.Login == login && u.Password == password)
         .Select(u => new UserJson(u.Login, u.Password))
         .First();
 
     // Регистрация нового пользователя 
-    public async Task AddRegisteredUserAsync(string newLogin, byte[] newPassword) {  
-        await db.AddAsync(new User() { Login = newLogin, Password = newPassword });
+    public void AddRegisteredUser(string newLogin, byte[] newPassword) {
 
-        // Создаем таблицу People
-        await db.AddAsync(new Person());
+        // Создаем сущность User 
+        var newUser = new User() { Id = db.Users.Max(u => u.Id) + 1, Login = newLogin, Password = newPassword };
+        db.Add(newUser);
+
+        // Создаем сущность People и связываем с User
+        db.Add(new Person() { Id = db.People.Max(u => u.Id) + 1, UserId = newUser.Id});
         
-        await db.SaveChangesAsync();
+        db.SaveChanges();
     } //AddNewUser
 
     //Создание сужностей для тестов
@@ -145,7 +149,105 @@ public partial class DatabaseQueries {
         .ToList();
 
     // Проверка на совпадение логинов
-    public async Task<bool> LoginExistAsync(string newLogin) =>
-        await db.Users.AnyAsync(u => u.Login == newLogin);
-    
+    public bool LoginExist(string newLogin) => db
+        .Users
+        .Any(u => u.Login == newLogin);
+
+    // Получение данных введенного аккаунта 
+    public AccountProfile? GetAccount(string currentLogin, byte[] currentPassword) => db 
+        .Users 
+        .Include(u => u.Person)
+            .ThenInclude(p => p.Staff)
+            .ThenInclude(s => s!.Section)
+        .Include(u => u.Person.Subscriber)
+            .ThenInclude(s => s!.House)
+        .Where(u => u.Login == currentLogin && u.Password == currentPassword)
+        .Select(u => new AccountProfile( 
+            u.Id,
+            u.Login,
+            u.Person.FirstName,
+            u.Person.SecondName,
+            u.Person.Patronymic,
+            u.Person.Role,
+            u.Person.Staff!.Role,
+            u.Person.Subscriber!.House.Street,
+            u.Person.Subscriber!.House.HouseNumber,
+            u.Person.Staff!.Section!.Id,
+            u.Person.Staff!.Section!.Name
+            ))
+        .FirstOrDefault();
+
+    // Получение данных о всех профилях
+    public List<AccountProfile> GetAccounts() => db  
+        .Users 
+        .Include(u => u.Person)
+            .ThenInclude(p => p.Staff)
+            .ThenInclude(s => s!.Section)
+        .Include(u => u.Person.Subscriber)
+            .ThenInclude(s => s!.House)
+        .Select(u => new AccountProfile(
+            u.Id,
+            u.Login,
+            u.Person.FirstName,
+            u.Person.SecondName,
+            u.Person.Patronymic,
+            u.Person.Role,
+            u.Person.Staff!.Role,
+            u.Person.Subscriber!.House.Street,
+            u.Person.Subscriber!.House.HouseNumber,
+            u.Person.Staff!.Section!.Id,
+            u.Person.Staff!.Section!.Name
+            ))
+        .ToList();
+
+    // Получение списка подписных изданий введенного аккаунта
+    public Subscription? GetCurrentSubscriptions(string currentLogin, byte[] currentPassword) => db
+        .Subscriptions
+        .Include(s => s.Subscriber)
+            .ThenInclude(sub => sub.Person)
+            .ThenInclude(p => p.User)
+        .Where(s => s.Subscriber.Person.User.Login == currentLogin &&
+                    s.Subscriber.Person.User.Password == currentPassword)
+        .Select(s => s)
+        .FirstOrDefault();
+
+    // Проверка на роль Director или Administrator
+    public bool IsDirector(string newLogin, byte[] newPassword) => db 
+        .Users
+        .Include(u => u.Person)
+            .ThenInclude(s => s.Staff)
+        .Where(u => u.Login == newLogin && u.Password == newPassword)
+        .Any(u => u.Person.Staff!.Role == StaffRole.Director || u.Person.Staff.Role == StaffRole.Administrator);
+
+    // Количество обслуживаемых участков
+    public int ServesSectionCount() => db
+        .Staff
+        .Include(s => s.Section)
+        .Where(s => s.Role == StaffRole.Postman)
+        .Select(s => s.Section)
+        .Count();
+
+    public int DeliveredPublicationCount(PublicationType type) => db
+        .Subscriptions
+        .Include(s => s.Publication)
+        .Include(s => s.Subscriber)
+        .Where(s => s.Publication.Type == type && s.Subscriber != null)
+        .Select (s => s.Publication)
+        .Distinct()
+        .Count();
+
+    public string? GetCurrentAccountFullName(string currentLogin, byte[] currentPassword) {
+        var user = db
+            .Users
+            .Include(s => s.Person)
+            .FirstOrDefault(u => u.Login == currentLogin && u.Password == currentPassword);
+
+        if (user == null) return null;
+        return user.Person.FullName;
+    }
+
+    // Проверка аутентификации
+    public bool IsAuthenticate(string newLogin, byte[] newPassword) => db
+        .Users 
+        .Any(u => u.Login == newLogin && u.Password == newPassword);
 } //DatabaseQueries

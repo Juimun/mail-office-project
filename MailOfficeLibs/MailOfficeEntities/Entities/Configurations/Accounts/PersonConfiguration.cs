@@ -14,7 +14,7 @@ public class PersonConfiguration : IEntityTypeConfiguration<Person>
         builder.ToTable("People");
         builder.Property(a => a.Id)
             .ValueGeneratedOnAdd();
-
+        
         builder
             .Property(p => p.FirstName)
             .HasMaxLength(50)
@@ -38,9 +38,9 @@ public class PersonConfiguration : IEntityTypeConfiguration<Person>
             .WithOne(u => u.Person)
             .HasForeignKey<Person>(u => u.UserId);
 
-        builder.HasMany(p => p.Subscribers)
+        builder.HasOne(p => p.Subscriber) 
             .WithOne(s => s.Person)
-            .HasForeignKey(s => s.PersonId);
+            .HasForeignKey<Subscriber>(s => s.PersonId);
 
     } //Configure
 

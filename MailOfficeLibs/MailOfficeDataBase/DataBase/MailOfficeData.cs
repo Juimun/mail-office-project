@@ -1,6 +1,7 @@
 ﻿using MailOfficeEntities.Entities;
 using MailOfficeEntities.Entities.Accounts;
 using MailOfficeEntities.Entities.Residence;
+using MailOfficeEntities.Category;
 
 namespace MailOfficeDataBase.DataBase;
 
@@ -19,6 +20,11 @@ public partial class DatabaseQueries(MailOfficeContext db) {
 
     public List<Staff> GetAllStaff() => db
         .Staff
+        .ToList();
+
+    public List<Staff> GetAllPostmans() => db 
+        .Staff
+        .Where(s => s.Role == StaffRole.Postman)
         .ToList();
 
     public List<Subscriber> GetAllSubscribers() => db 

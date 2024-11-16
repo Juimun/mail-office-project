@@ -1,5 +1,6 @@
 ﻿using System.Text;
 using MailOfficeEntities.Entities.Configurations.Accounts;
+using MailOfficeTool.Infrastructure;
 using Microsoft.EntityFrameworkCore;
 
 namespace MailOfficeEntities.Entities.Accounts;
@@ -16,10 +17,5 @@ public class User {
 
     // Внешняя связь с Person  1:1 
     public virtual Person Person { get; set; }
-
-    // Проверка аутентификации  
-    public bool Authenticate(string enteredLogin, string enteredPassword) =>
-        Login.Equals(enteredLogin, StringComparison.InvariantCulture) && 
-        Password.SequenceEqual(Encoding.UTF8.GetBytes(enteredPassword));
 
 } //User

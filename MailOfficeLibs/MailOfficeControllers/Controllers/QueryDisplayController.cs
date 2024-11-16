@@ -40,7 +40,7 @@ public partial class DatabaseDisplayController {
     public string ShowQuery4() {
         var sb = new StringBuilder();
 
-        var result = data.Query04();
+        var result = data.PostmansCount();
         sb.AppendLine($"Почтальонов в почтовом отделении: {result}");
 
         return sb.ToString();

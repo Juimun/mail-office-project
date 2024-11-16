@@ -1,30 +1,48 @@
-﻿using System.Windows;
+﻿using System.ComponentModel;
+using System.Runtime.CompilerServices;
+using System.Windows;
 using MailOffice.Infrastructure;
 using MailOffice.View;
 using MailOffice.View.Queries;
 using MailOfficeControllers.Controllers;
 using MailOfficeDataBase.DataBase;
+using MailOfficeEntities.Entities.Accounts;
+using MailOfficeTool.Entities;
+using MailOfficeTool.Infrastructure;
 
 namespace MailOffice.ViewModel;
 
-public class MainWindowViewModel {
+public class MainWindowViewModel : INotifyPropertyChanged {
 
-    // Контроллер для таблиц БД
-    private DatabaseDisplayController _dataController;   
+    // Контроллеры для таблиц БД
+    private DatabaseDisplayController _dataController;
+    private DatabaseQueries _dataQueries; 
 
     public MainWindow HostWindow { get; set; }
 
-    public MainWindowViewModel(
-        MainWindow hostWindow, DatabaseDisplayController dataController)  
-    { 
-        (HostWindow, _dataController) = 
-            (hostWindow, dataController);
+    private bool _isLoggedIn;
+    public bool IsLoggedIn {
+        get => _isLoggedIn;
+        set => SetField(ref _isLoggedIn, value);
+    }
 
-        var data = new DatabaseQueries();
-        HostWindow.DataGrid.ItemsSource = data.GetAllPeople();
+    private UserJson _currentAccount; 
+    public UserJson CurrentAccount
+    {
+        get => _currentAccount;
+        set => SetField(ref _currentAccount, value);
+    }
+
+    public MainWindowViewModel(
+        MainWindow hostWindow, DatabaseDisplayController dataController, DatabaseQueries dataQueries)   
+    { 
+        (HostWindow, _dataController, _dataQueries) = 
+            (hostWindow, dataController, dataQueries);
+
+        HostWindow.TblTables.Text = _dataController.ShowAllTables();
     } // MainWindowViewModel
 
-    #region MyRegion Команды
+    #region Команды
 
     public RelayCommand ExitCommand => new(
         obj => Application.Current.Shutdown(),
@@ -37,12 +55,22 @@ public class MainWindowViewModel {
     );
 
     public RelayCommand CloseAccountCommand => new(
-        obj => Application.Current.Shutdown(),
+        obj => CloseAccount(),
         obj => true
     );
 
     public RelayCommand ChangeAccountCommand => new(
         obj => ChangeAccount(),
+        obj => true
+    ); 
+
+    public RelayCommand ShowProfileCommand => new( 
+        obj => ShowProfile(),
+        obj => true
+    );
+
+    public RelayCommand ShowSubscribersCommand => new( 
+        obj => ShowSubscribers(),
         obj => true
     );
 
@@ -84,45 +112,56 @@ public class MainWindowViewModel {
     public RelayCommand Query6Command => new(
         obj => ShowQuery6(),
         obj => true
+    ); 
+
+    public RelayCommand ReportCommand => new(
+        obj => ShowReport(), 
+        obj => true
     );
     #endregion
 
+    #region Запросы
     // Вывод запроса № 1 
-    private void ShowQuery1() {
+    private void ShowQuery1()
+    {
         HostWindow.TbcMain.SelectedIndex = 1;
         HostWindow.TblQueries.Text = _dataController.ShowQuery1();
     } //ShowQuery1
 
     // Вывод запроса № 2 
-    private void ShowQuery2() {
-        var query2 = new Query2Window(); 
+    private void ShowQuery2()
+    {
+        var query2 = new Query2Window();
         query2.ShowDialog();
 
-        if (query2.DialogResult == true) {
+        if (query2.DialogResult == true)
+        {
             HostWindow.TbcMain.SelectedIndex = 1;
             HostWindow.TblQueries.Text = _dataController.ShowQuery2(
                 query2.StreetComboBox.Text,
-                query2.HouseNumberComboBox.Text 
-                );
+                query2.HouseNumberComboBox.Text
+            );
         } //if
     } //ShowQuery2
 
     // Вывод запроса № 3 
     //Какие газеты выписывает гражданин с указанной фамилией, именем, отчеством?
-    private void ShowQuery3() {
+    private void ShowQuery3()
+    {
         var query3 = new Query3Window();
         query3.ShowDialog();
 
-        if (query3.DialogResult == true) {
+        if (query3.DialogResult == true)
+        {
             // Делаем вкладку активной и выводим результат
             HostWindow.TbcMain.SelectedIndex = 1;
             HostWindow.TblQueries.Text = _dataController.ShowQuery3(
                 query3.SecondNameTextBox.Text,
                 query3.NameTextBox.Text,
                 query3.PatronymicTextBox.Text
-                );
+            );
         } //if
-        
+
     } //ShowQuery3
 
     // Вывод запроса № 4 
@@ -140,10 +179,12 @@ public class MainWindowViewModel {
     } //ShowQuery5
 
     // Вывод запроса № 6 
-    private void ShowQuery6() {
+    private void ShowQuery6()
+    {
         HostWindow.TbcMain.SelectedIndex = 1;
         HostWindow.TblQueries.Text = _dataController.ShowQuery6();
     } //ShowQuery6
+    #endregion
 
     private void LeftTab() {
         if (HostWindow.TbcMain.SelectedIndex > 0)
@@ -163,6 +204,19 @@ public class MainWindowViewModel {
     public void SignAccount() {
         var auth = new AuthorizationWindow();
         auth.ShowDialog();
+
+        if (auth.DialogResult == true && 
+            _dataQueries.IsAuthenticate(auth.LoginTextBox.Text, Utils.GetBytes(auth.PasswordTextBox.Text))) 
+        {
+           
+            // Сохранение данных
+            IsLoggedIn = true;
+            CurrentAccount = new UserJson(Login: auth.LoginTextBox.Text,
+                Password: Utils.GetBytes(auth.PasswordTextBox.Text));
+
+            // Отображение профиля
+            ShowProfile();
+        }
     } //SignAccount
 
     // Смена аккаунта
@@ -173,7 +227,51 @@ public class MainWindowViewModel {
 
     // Выход из аккаунта
     public void CloseAccount() {
-        
+        IsLoggedIn = false;
+        CurrentAccount = null;
+
+        HostWindow.TblProfile.Text = HostWindow.TblReports.Text = string.Empty;
     } //CloseAccount
+
+    // Отобразить профиль
+    private void ShowProfile() {
+        if (IsLoggedIn) {
+            HostWindow.TbcMain.SelectedIndex = 3;
+            HostWindow.TblProfile.Text = _dataController.ShowCurrentProfile(CurrentAccount.Login, CurrentAccount.Password);
+        } //if
+    } //ShowProfile
+
+    // Отобразить список подписок
+    private void ShowSubscribers() {
+        if (IsLoggedIn) {
+            HostWindow.TbcMain.SelectedIndex = 3;
+            HostWindow.TblProfile.Text = _dataController.ShowSubscriptionsCurrentUser(CurrentAccount.Login, CurrentAccount.Password);
+        } //if
+    } //ShowProfile
+
+    // Отобразить отчет
+    private void ShowReport() {
+
+        // Доступ к отчетам ТОЛЬКО у Director и Administrator
+        if (IsLoggedIn && _dataQueries.IsDirector(CurrentAccount.Login, CurrentAccount.Password)){
+            HostWindow.TbcMain.SelectedIndex = 2;
+            HostWindow.TblReports.Text = _dataController.ShowReport(CurrentAccount!.Login, CurrentAccount.Password);
+        } //if
+    } //ShowReport
+
+    #region INotifyPropertyChanged
+    public event PropertyChangedEventHandler? PropertyChanged;
+
+    protected virtual void OnPropertyChanged([CallerMemberName] string? propertyName = null) =>
+        PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
+
+    protected bool SetField<T>(ref T field, T value, [CallerMemberName] string? propertyName = null)
+    {
+        if (EqualityComparer<T>.Default.Equals(field, value)) return false;
+        field = value;
+        OnPropertyChanged(propertyName);
+        return true;
+    }
+    #endregion
 
 } //MainWindowViewModel
