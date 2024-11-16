@@ -1,4 +1,6 @@
-﻿using System.ComponentModel;
+﻿using System.Collections.ObjectModel;
+using System.ComponentModel;
+using System.Diagnostics;
 using System.Runtime.CompilerServices;
 using System.Windows;
 using MailOffice.Infrastructure;
@@ -6,7 +8,7 @@ using MailOffice.View;
 using MailOffice.View.Queries;
 using MailOfficeControllers.Controllers;
 using MailOfficeDataBase.DataBase;
-using MailOfficeEntities.Entities.Accounts;
+using MailOfficeEntities.Entities;
 using MailOfficeTool.Entities;
 using MailOfficeTool.Infrastructure;
 
@@ -20,18 +22,49 @@ public class MainWindowViewModel : INotifyPropertyChanged {
 
     public MainWindow HostWindow { get; set; }
 
+    #region Аккаунт
     private bool _isLoggedIn;
     public bool IsLoggedIn {
         get => _isLoggedIn;
         set => SetField(ref _isLoggedIn, value);
     }
 
-    private UserJson _currentAccount; 
-    public UserJson CurrentAccount
+    private UserJson? _currentAccount; 
+    public UserJson? CurrentAccount
     {
         get => _currentAccount;
         set => SetField(ref _currentAccount, value);
     }
+    #endregion
+
+    #region Постраничный вывод
+    // Размер страницы
+    private int _pageSize = 100;
+
+    // Всего записей в таблице
+    private int _totalRecords;
+
+    // Список публикаций
+    private List<Publication> _entities;
+    public List<Publication> Entities {
+        get => _entities; 
+        set => SetField(ref _entities, value); 
+    }
+
+    // Текущая страница
+    private int _currentPage = 1; 
+    public int CurrentPage {
+        get => _currentPage;
+        set => SetField(ref _currentPage, value); 
+    }
+
+    // Всего страниц
+    private int _totalPages;
+    public int TotalPages {
+        get => _totalPages;
+        set => SetField(ref _totalPages, value);
+    }
+    #endregion
 
     public MainWindowViewModel(
         MainWindow hostWindow, DatabaseDisplayController dataController, DatabaseQueries dataQueries)   
@@ -39,7 +72,6 @@ public class MainWindowViewModel : INotifyPropertyChanged {
         (HostWindow, _dataController, _dataQueries) = 
             (hostWindow, dataController, dataQueries);
 
-        HostWindow.TblTables.Text = _dataController.ShowAllTables();
     } // MainWindowViewModel
 
     #region Команды
@@ -71,6 +103,11 @@ public class MainWindowViewModel : INotifyPropertyChanged {
 
     public RelayCommand ShowSubscribersCommand => new( 
         obj => ShowSubscribers(),
+        obj => true
+    ); 
+
+    public RelayCommand GenerateTextEntitiesCommand => new(
+        obj => GenerateTextEntities(),
         obj => true
     );
 
@@ -233,11 +270,38 @@ public class MainWindowViewModel : INotifyPropertyChanged {
         HostWindow.TblProfile.Text = HostWindow.TblReports.Text = string.Empty;
     } //CloseAccount
 
+    //
+    private void GenerateTextEntities() {
+        // Генерация данных в MailOfficeDataSeeder (Консольное приложение в проекте)
+        Process.Start(App.DataSeederPath).WaitForExit();
+
+        LoadPublicationPage(_currentPage);
+
+        // Вывод выбранной страницы
+        HostWindow.TblTables.Text = _dataController.ShowPagePublication(Entities);
+    } //GenerateTextEntities
+
+    // Создание одной страницы из таблицы Publication
+    private void LoadPublicationPage(int pageNumber) {
+        // Выбранная страница
+        CurrentPage = pageNumber;
+
+        // Вычисление сдвига
+        int offset = (pageNumber - 1) * _pageSize;
+
+        // Список сужностей на "странице"
+        Entities = new List<Publication>(_dataQueries.GetSelectPagePublication(offset, _pageSize));
+
+        // Вычисляем общее количество страниц
+        _totalRecords = _dataQueries.GetTotalPublicationRecords();
+        TotalPages = (int)Math.Ceiling((double)_totalRecords / _pageSize);
+    } //LoadPublicationPage
+
     // Отобразить профиль
     private void ShowProfile() {
         if (IsLoggedIn) {
             HostWindow.TbcMain.SelectedIndex = 3;
-            HostWindow.TblProfile.Text = _dataController.ShowCurrentProfile(CurrentAccount.Login, CurrentAccount.Password);
+            HostWindow.TblProfile.Text = _dataController.ShowCurrentProfile(CurrentAccount!.Login, CurrentAccount.Password);
         } //if
     } //ShowProfile
 
@@ -245,7 +309,7 @@ public class MainWindowViewModel : INotifyPropertyChanged {
     private void ShowSubscribers() {
         if (IsLoggedIn) {
             HostWindow.TbcMain.SelectedIndex = 3;
-            HostWindow.TblProfile.Text = _dataController.ShowSubscriptionsCurrentUser(CurrentAccount.Login, CurrentAccount.Password);
+            HostWindow.TblProfile.Text = _dataController.ShowSubscriptionsCurrentUser(CurrentAccount!.Login, CurrentAccount.Password);
         } //if
     } //ShowProfile
 
@@ -253,7 +317,7 @@ public class MainWindowViewModel : INotifyPropertyChanged {
     private void ShowReport() {
 
         // Доступ к отчетам ТОЛЬКО у Director и Administrator
-        if (IsLoggedIn && _dataQueries.IsDirector(CurrentAccount.Login, CurrentAccount.Password)){
+        if (IsLoggedIn && _dataQueries.IsDirector(CurrentAccount!.Login, CurrentAccount.Password)){
             HostWindow.TbcMain.SelectedIndex = 2;
             HostWindow.TblReports.Text = _dataController.ShowReport(CurrentAccount!.Login, CurrentAccount.Password);
         } //if

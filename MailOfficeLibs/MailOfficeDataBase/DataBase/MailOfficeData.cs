@@ -2,6 +2,7 @@
 using MailOfficeEntities.Entities.Accounts;
 using MailOfficeEntities.Entities.Residence;
 using MailOfficeEntities.Category;
+using System.Collections.Generic;
 
 namespace MailOfficeDataBase.DataBase;
 
@@ -43,8 +44,23 @@ public partial class DatabaseQueries(MailOfficeContext db) {
         .Houses
         .ToList();
 
-    public List<Section> GetAllSections() => db 
-        .Sections 
+    public List<Section> GetAllSections() => db
+    .Sections
+    .ToList();
+
+    // Получить список "страницы" публикаций
+    //  offset - сколько записей нужно пропустить 
+    //  pageSize - размер одной страницы
+    public List<Publication> GetSelectPagePublication(int offset, int pageSize) => db 
+        .Publications
+        .Skip(offset)
+        .Take(pageSize)
         .ToList();
+
+    // Сколько всего записей в таблице Publications
+    public int GetTotalPublicationRecords() => db
+        .Publications
+        .Count();
+
 
 } //DatabaseQueries

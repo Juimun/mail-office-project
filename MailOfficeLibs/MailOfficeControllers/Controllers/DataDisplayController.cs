@@ -1,7 +1,7 @@
 ﻿using System.Text;
 using MailOfficeDataBase.DataBase;
 using MailOfficeEntities.Category;
-using MailOfficeEntities.Entities.Accounts;
+using MailOfficeEntities.Entities;
 using MailOfficeTool.Infrastructure;
 
 namespace MailOfficeControllers.Controllers;
@@ -87,7 +87,7 @@ public partial class DatabaseDisplayController(DatabaseQueries data) {
         return sb.ToString();
     } //ShowHouses
 
-    public async Task<string> ShowSubscriptions() {
+    public string ShowSubscriptions() {
         var sb = new StringBuilder();
 
         var users = data.GetAllSubscriptions();
@@ -229,5 +229,19 @@ public partial class DatabaseDisplayController(DatabaseQueries data) {
 
         return sb.ToString();
     } //ShowReport
+
+    // Строковое представление "страницы" списка
+    public string ShowPagePublication(List<Publication> publications) {
+        var sb = new StringBuilder();
+
+        publications.ForEach(p => sb.AppendLine(
+            $"ID: {p.Id}, " +
+            $"Наименование: {p.Name}, " +
+            $"Тип издания: {p.Type}, " +
+            $"Цена: {p.Price}"
+        ));
+
+        return sb.ToString();
+    } //ShowPagePublication
 } //DataDisplayController
 

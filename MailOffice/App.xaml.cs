@@ -12,6 +12,7 @@ public partial class App : Application {
     public static string SourceFilePath = AppDomain.CurrentDomain.BaseDirectory;
     public static string FolderPath = Path.Combine(SourceFilePath, "Saves");
     public static string AccountsJsonPath = Path.Combine(FolderPath, "accounts.json");
+    public static string DataSeederPath = GetDataSeederPath();
 
     protected override void OnStartup(StartupEventArgs e) {
         base.OnStartup(e);
@@ -19,12 +20,10 @@ public partial class App : Application {
         if (!Directory.Exists(FolderPath))
             Directory.CreateDirectory(FolderPath);
 
-        // Запуск и ожидание работы MailOfiiceDataSeeder
-        Process.Start(DataSeederPath()).WaitForExit();
     }
 
     // Создание пути к файлу MailOfiiceDataSeeder.exe
-    private string DataSeederPath() {
+    private static string GetDataSeederPath() {
         var dataSeederPath = SourceFilePath;
         for (var cnt = 0; cnt < 5; cnt++)
             dataSeederPath = Path.GetDirectoryName(dataSeederPath);
