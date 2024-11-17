@@ -1,5 +1,4 @@
-﻿using System.Collections.ObjectModel;
-using System.ComponentModel;
+﻿using System.ComponentModel;
 using System.Diagnostics;
 using System.Runtime.CompilerServices;
 using System.Windows;
@@ -37,41 +36,15 @@ public class MainWindowViewModel : INotifyPropertyChanged {
     }
     #endregion
 
-    #region Постраничный вывод
-    // Размер страницы
-    private int _pageSize = 100;
-
-    // Всего записей в таблице
-    private int _totalRecords;
-
-    // Список публикаций
-    private List<Publication> _entities;
-    public List<Publication> Entities {
-        get => _entities; 
-        set => SetField(ref _entities, value); 
-    }
-
-    // Текущая страница
-    private int _currentPage = 1; 
-    public int CurrentPage {
-        get => _currentPage;
-        set => SetField(ref _currentPage, value); 
-    }
-
-    // Всего страниц
-    private int _totalPages;
-    public int TotalPages {
-        get => _totalPages;
-        set => SetField(ref _totalPages, value);
-    }
-    #endregion
-
     public MainWindowViewModel(
         MainWindow hostWindow, DatabaseDisplayController dataController, DatabaseQueries dataQueries)   
     { 
         (HostWindow, _dataController, _dataQueries) = 
             (hostWindow, dataController, dataQueries);
 
+        LoadPublicationPage(1);
+
+        UpdateUi();
     } // MainWindowViewModel
 
     #region Команды
@@ -155,6 +128,26 @@ public class MainWindowViewModel : INotifyPropertyChanged {
         obj => ShowReport(), 
         obj => true
     );
+
+    public RelayCommand BackPageCommand => new( 
+        obj => BackPage(),
+        obj => true
+    );
+
+    public RelayCommand NextPageCommand => new(
+        obj => NextPage(),
+        obj => true
+    );
+
+    public RelayCommand FirstPageCommand => new(
+        obj => FirstPage(),
+        obj => true
+    );
+
+    public RelayCommand LastPageCommand => new( 
+        obj => LastPage(),
+        obj => true
+    );
     #endregion
 
     #region Запросы
@@ -223,6 +216,79 @@ public class MainWindowViewModel : INotifyPropertyChanged {
     } //ShowQuery6
     #endregion
 
+    #region Постраничный вывод
+    // Размер страницы
+    private int _pageSize = 100;
+
+    // Всего записей в таблице
+    private int _totalRecords;
+
+    // Список публикаций
+    private List<Publication> _entities;
+    public List<Publication> Entities
+    {
+        get => _entities;
+        set => SetField(ref _entities, value);
+    }
+
+    // Текущая страница
+    private int _currentPage;
+    public int CurrentPage
+    {
+        get => _currentPage;
+        set => SetField(ref _currentPage, value);
+    }
+
+    // Всего страниц
+    private int _totalPages;
+    public int TotalPages
+    {
+        get => _totalPages;
+        set => SetField(ref _totalPages, value);
+    }
+
+    private void FirstPage() {
+        CurrentPage = 1;
+        LoadPublicationPage(CurrentPage);
+        UpdateUi();
+    } //FirstPage
+
+    private void LastPage() {
+        CurrentPage = TotalPages;
+        LoadPublicationPage(CurrentPage);
+        UpdateUi();
+    } //LastPage
+
+    private void BackPage() {
+        CurrentPage = CurrentPage > 1 ? CurrentPage - 1 : TotalPages;
+        LoadPublicationPage(CurrentPage);
+        UpdateUi();
+    } //BackPage
+
+    private void NextPage() {
+        CurrentPage = CurrentPage < TotalPages ? CurrentPage + 1 : 1;
+        LoadPublicationPage(CurrentPage);
+        UpdateUi();
+    } //NextPage
+
+    // Создание одной страницы из таблицы Publication
+    private void LoadPublicationPage(int pageNumber) {
+
+        // Выбранная страница
+        CurrentPage = pageNumber;
+
+        // Вычисление сдвига
+        int offset = (pageNumber - 1) * _pageSize;
+
+        // Список сужностей на "странице"
+        Entities = new List<Publication>(_dataQueries.GetSelectPagePublication(offset, _pageSize));
+
+        // Вычисляем общее количество страниц
+        _totalRecords = _dataQueries.GetTotalPublicationRecords();
+        TotalPages = (int)Math.Ceiling((double)_totalRecords / _pageSize);
+    } //LoadPublicationPage
+    #endregion
+
     private void LeftTab() {
         if (HostWindow.TbcMain.SelectedIndex > 0)
             HostWindow.TbcMain.SelectedIndex--;
@@ -236,6 +302,10 @@ public class MainWindowViewModel : INotifyPropertyChanged {
         else
             HostWindow.TbcMain.SelectedIndex = 0;
     } //RightTab
+
+    // Обновление UI в TblTables
+    private void UpdateUi() =>
+        HostWindow.TblTables.Text = _dataController.ShowPagePublication(Entities);
 
     // Вход в аккаунт
     public void SignAccount() {
@@ -270,32 +340,16 @@ public class MainWindowViewModel : INotifyPropertyChanged {
         HostWindow.TblProfile.Text = HostWindow.TblReports.Text = string.Empty;
     } //CloseAccount
 
-    //
+    // Генерация случайных тестовых значений
     private void GenerateTextEntities() {
         // Генерация данных в MailOfficeDataSeeder (Консольное приложение в проекте)
         Process.Start(App.DataSeederPath).WaitForExit();
 
-        LoadPublicationPage(_currentPage);
+        LoadPublicationPage(1);
 
         // Вывод выбранной страницы
-        HostWindow.TblTables.Text = _dataController.ShowPagePublication(Entities);
+        UpdateUi();
     } //GenerateTextEntities
-
-    // Создание одной страницы из таблицы Publication
-    private void LoadPublicationPage(int pageNumber) {
-        // Выбранная страница
-        CurrentPage = pageNumber;
-
-        // Вычисление сдвига
-        int offset = (pageNumber - 1) * _pageSize;
-
-        // Список сужностей на "странице"
-        Entities = new List<Publication>(_dataQueries.GetSelectPagePublication(offset, _pageSize));
-
-        // Вычисляем общее количество страниц
-        _totalRecords = _dataQueries.GetTotalPublicationRecords();
-        TotalPages = (int)Math.Ceiling((double)_totalRecords / _pageSize);
-    } //LoadPublicationPage
 
     // Отобразить профиль
     private void ShowProfile() {

@@ -301,7 +301,8 @@
                             Name="BackPage"
                             TabIndex="3"
                             Width="70"
-                            HorizontalAlignment="Right"/>
+                            HorizontalAlignment="Right"
+                            Command="{Binding FirstPageCommand}"/>
                         <Button Grid.Row="1"
                             Grid.Column="1"
                             Margin="10"
@@ -313,7 +314,8 @@
                             Content="-1"
                             Name="NextPage"
                             TabIndex="3"
-                            Width="50"/>
+                            Width="50"
+                            Command="{Binding BackPageCommand}" />
                         <TextBox Grid.Row="1"
                             Grid.Column="2"
                                  TabIndex="1"
@@ -331,7 +333,8 @@
                             Content="+1"
                             Name="FirstPage"
                             TabIndex="3"
-                            Width="50"/>
+                            Width="50"
+                            Command="{Binding NextPageCommand}" />
                         <Button Grid.Row="1"
                             Grid.Column="4"
                             Margin="0 10"
@@ -344,7 +347,8 @@
                             Name="LastPage"
                             TabIndex="3"
                             Width="70"
-                            HorizontalAlignment="Left"/>
+                            HorizontalAlignment="Left"
+                            Command="{Binding LastPageCommand}"/>
                     </Grid>
                 </ScrollViewer>
             </TabItem>
