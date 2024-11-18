@@ -8,9 +8,8 @@ namespace MailOfficeFactory.Factories;
 public static partial class Factory {
 
     // Создание случайной сущности Person 
-    public static Person GetPerson(int personId, int userId) => new()
+    public static Person GetPerson(int userId) => new()
         {
-            Id = personId,
             FirstName = GetRandomFirstName(),
             SecondName = GetRandomSurname(),
             Patronymic = GetRandomPatronymic(),
@@ -20,10 +19,9 @@ public static partial class Factory {
    
 
     // Создание списка сущностей Person 
-    public static List<Person> GetPeople(int count, Func<int, int, Person> getPerson) => Enumerable
-        .Range(1, count)
-        .Select(p => getPerson(p, p))
-        .ToList();
+    public static List<Person> GetPeople(List<User> users, Func<int, Person> getPerson) => users
+            .Select(p => getPerson(p.Id))
+            .ToList();
 
     // Генератор случайной роли PersonCategory
     private static int _countStaff = 0, _countSubscriber = 0;

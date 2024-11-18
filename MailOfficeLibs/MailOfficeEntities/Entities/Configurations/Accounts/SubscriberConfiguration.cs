@@ -24,6 +24,11 @@ public class SubscriberConfiguration : IEntityTypeConfiguration<Subscriber>
             .WithOne(s => s.Subscriber)
             .HasForeignKey<Subscriber>(r => r.HouseId);
 
+        builder
+            .HasOne(s => s.Person)
+            .WithOne(p => p.Subscriber)
+            .HasForeignKey<Subscriber>(s => s.PersonId);
+
     } //Configure
 
 } //SubscriberConfiguration

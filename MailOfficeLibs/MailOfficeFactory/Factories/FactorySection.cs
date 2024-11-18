@@ -7,7 +7,6 @@ public static partial class Factory {
     // Создание сущности Section
     public static Section GetSection(int sectionId) => new() 
     {
-        Id = sectionId,
         Name = GetSectionName(sectionId)
     };
 

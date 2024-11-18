@@ -9,7 +9,6 @@ public static partial class Factory {
     // Создание сущности Publication
     public static Publication GetPublication(int publicationId) => new() 
     {
-        Id = publicationId,
         Name = GetRandomTitle(),
         Price = Utils.GetRandom(100, 10_000),
         Type = GetRandomType() 

@@ -7,11 +7,10 @@ namespace MailOfficeFactory.Factories;
 public static partial class Factory {
 
     // Создание сущности Staff
-    public static Staff GetStaff(int staffId, int personId, int sectionId) { 
+    public static Staff GetStaff(int personId, int sectionId) { 
         var role = GetRandomStaffRole();
         return new Staff() 
         {
-            Id = staffId,
             PersonId = personId,
             Role = role,
             SectionId = role == StaffRole.Postman ? sectionId : null
@@ -19,9 +18,9 @@ public static partial class Factory {
     } //GetStaff
 
     // Создание списка сущностей Staff 
-    public static List<Staff> GetStaff(List<Person> people, Func<int, int, int, Staff> getStaff) => people
+    public static List<Staff> GetStaff(List<Person> people, Func< int, int, Staff> getStaff) => people
             .Where(p => p.Role == PersonCategory.Staff) 
-            .Select((p, index) => getStaff(index + 1, p.Id, index + 1))  
+            .Select((p, index) => getStaff(p.Id, index + 1))  
             .ToList();
 
     // Генератор случайной роли StaffRole

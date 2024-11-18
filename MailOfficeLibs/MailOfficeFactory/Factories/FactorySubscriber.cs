@@ -9,7 +9,7 @@ public static partial class Factory {
     public static Subscriber GetSubscriber(int personId, int houseId) => new()     
     { 
         PersonId = personId,
-        HouseId = houseId,
+        HouseId = houseId
     };
 
     // Создание списка сущностей Staff 

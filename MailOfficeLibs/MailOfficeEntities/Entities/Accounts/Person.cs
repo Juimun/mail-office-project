@@ -29,7 +29,7 @@ public class Person {
     public virtual Staff? Staff { get; set; }
 
     //// Внешняя связь с Subscribers 1:1
-    public virtual Subscriber? Subscriber { get; set; } = new();  
+    public virtual Subscriber? Subscriber { get; set; }   
 
     public string FullName => $"{SecondName} {FirstName[0]}.{Patronymic[0]}.";
 

@@ -6,22 +6,20 @@ namespace MailOfficeFactory.Factories;
 public static partial class Factory {
 
     // Создание сущности House
-    public static House GetHouse(int houseId, int sectionId) => new()
+    public static House GetHouse(int sectionId) => new()
     {
-        Id = houseId,
         Street = GetRandomStreet(),
         HouseNumber = GetRandomHouseNumber(),
-        SectionId = Utils.GetRandom(1, sectionId)
+        SectionId = sectionId
     };
 
     // Создание списка сущностей House
-    public static List<House> GetHouses(int count, Func<int, int, House> getHouse) => Enumerable     
-        .Range(1, count)
-        .Select(p => getHouse(p, p))
+    public static List<House> GetHouses(List<Section> sections, Func<int, House> getHouse) => sections
+        .Select(section => getHouse(section.Id))
         .ToList();
 
     // Генерация "случаных" номеров домов
-    private const int MinHouseNumber = 1, MaxHouseNumber = 300;
+    private const int MinHouseNumber = 1, MaxHouseNumber = 300; 
     private static string GetRandomHouseNumber() =>  
         $"{Utils.GetRandom(MinHouseNumber, MaxHouseNumber)}";
 

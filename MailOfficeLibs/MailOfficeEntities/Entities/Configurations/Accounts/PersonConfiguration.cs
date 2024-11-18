@@ -38,10 +38,6 @@ public class PersonConfiguration : IEntityTypeConfiguration<Person>
             .WithOne(u => u.Person)
             .HasForeignKey<Person>(u => u.UserId);
 
-        builder.HasOne(p => p.Subscriber) 
-            .WithOne(s => s.Person)
-            .HasForeignKey<Subscriber>(s => s.PersonId);
-
     } //Configure
 
 } //PersonConfiguration

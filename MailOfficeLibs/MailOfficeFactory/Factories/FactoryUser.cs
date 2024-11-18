@@ -8,9 +8,7 @@ namespace MailOfficeFactory.Factories;
 public static partial class Factory {
 
     // Создание сущности User
-    public static User GetUser(int userId) => new()
-    {
-        Id = userId, 
+    public static User GetUser(int userId) => new() {
         Login = GetRandomLogin(userId), 
         Password = Utils.GetBytes(GetRandomPassword(MinLength, MaxLength))
     };

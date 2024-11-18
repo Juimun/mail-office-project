@@ -85,6 +85,7 @@ public partial class DatabaseQueries {
         .First();
 
     // Регистрация нового пользователя 
+    // TODO: переделать!
     public void AddRegisteredUser(string newLogin, byte[] newPassword) {
 
         // Создаем сущность User 
@@ -104,33 +105,30 @@ public partial class DatabaseQueries {
 
         // Создаем таблицу Users
         db.AddRange(Factory.GetUsers(users, Factory.GetUser));
+        db.SaveChanges();
 
         // Создаем таблицу Publication
         db.AddRange(Factory.GetPublications(quantityPublication, Factory.GetPublication));
 
         // Создаем таблицу Section
         db.AddRange(Factory.GetSections(quantitySection, Factory.GetSection));
-
+        
         // Создаем таблицу People
-        var people = Factory.GetPeople(users, Factory.GetPerson);
-        db.AddRange(people);
-
-        // Создаем таблицу Staff
-        db.AddRange(Factory.GetStaff(people, Factory.GetStaff));
-
-        // Создаем таблицу House
-        db.AddRange(Factory.GetHouses(quantitySection, Factory.GetHouse));
-
-        // Создаем таблицу Subscriber
-        var subscribers = Factory.GetSubscribers(people, Factory.GetSubscriber);
-        db.AddRange(subscribers);
-
+        db.AddRange(Factory.GetPeople(GetAllUsers(), Factory.GetPerson));
         db.SaveChanges();
 
-        //TODO: должен быть вариант получше - переделать!
+        // Создаем таблицу House
+        db.AddRange(Factory.GetHouses(GetAllSections(), Factory.GetHouse));
+
+        // Создаем таблицу Subscriber
+        db.AddRange(Factory.GetSubscribers(GetAllPeople(), Factory.GetSubscriber));
+        
+        // Создаем таблицу Staff
+        db.AddRange(Factory.GetStaff(GetAllPeople(), Factory.GetStaff));
+        db.SaveChanges();
+       
         // Создаем таблицу Subscription
         db.AddRange(Factory.GetSubscriptions(GetAllSubscribers(), Factory.GetSubscription));
-        
         db.SaveChanges();
     } //AddTestEntities
 
