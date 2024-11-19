@@ -29,7 +29,7 @@ public partial class Query2Window : Window {
 
     // Событие для выбора номера дома только по выбранной улице
     private void StreetComboBox_SelectionChanged(object sender, SelectionChangedEventArgs e) {
-        if (StreetComboBox.SelectedItem != null) 
+        if (StreetComboBox.SelectedItem != null) {
             HouseNumberComboBox.ItemsSource = _data.GetHouseNumbersByStreet(StreetComboBox.SelectedItem.ToString());
     } //StreetComboBox_SelectionChanged
 

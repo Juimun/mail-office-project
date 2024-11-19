@@ -60,6 +60,14 @@
             <Setter Property="Background" Value="#434953"/>
             <Setter Property="Padding" Value="15"/>
             <Setter Property="Margin" Value="10"/>
+        </Style> 
+
+        <!-- Стиль для ComboBox -->
+        <Style x:Key="ComboBoxStyle" TargetType="{x:Type ComboBox}">
+            <Setter Property="Foreground" Value="#999999"/>
+            <Setter Property="Background" Value="#434953"/>
+            <Setter Property="Padding" Value="10"/>
+            <Setter Property="Margin" Value="10"/>
         </Style>
 
         <!-- Переопределение стандартного стиля MenuItem
