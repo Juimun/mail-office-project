@@ -3,6 +3,7 @@ using MailOfficeEntities.Entities.Accounts;
 using MailOfficeEntities.Entities.Residence;
 using MailOfficeEntities.Category;
 using System.Collections.Generic;
+using System.Collections;
 
 namespace MailOfficeDataBase.DataBase;
 
@@ -45,8 +46,8 @@ public partial class DatabaseQueries(MailOfficeContext db) {
         .ToList();
 
     public List<Section> GetAllSections() => db
-    .Sections
-    .ToList();
+         .Sections
+         .ToList();
 
     // Получить список "страницы" публикаций
     //  offset - сколько записей нужно пропустить 
@@ -61,6 +62,5 @@ public partial class DatabaseQueries(MailOfficeContext db) {
     public int GetTotalPublicationRecords() => db
         .Publications
         .Count();
-
 
 } //DatabaseQueries

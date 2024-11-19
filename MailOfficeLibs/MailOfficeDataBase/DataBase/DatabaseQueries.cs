@@ -132,7 +132,7 @@ public partial class DatabaseQueries {
         db.SaveChanges();
     } //AddTestEntities
 
-    // Получение списка всех улиц
+    // Получение списка всех уникальных улиц
     public List<string> GetAllStreets() => db
         .Houses
         .Select(h => h.Street)
@@ -248,4 +248,31 @@ public partial class DatabaseQueries {
     public bool IsAuthenticate(string newLogin, byte[] newPassword) => db
         .Users 
         .Any(u => u.Login == newLogin && u.Password == newPassword);
+
+    // Получение списка всех уникальных имен подписчиков
+    public List<string> GetAllNames() => db
+        .People
+        .Where(p => p.Role == PersonCategory.Subscriber)
+        .Select(p => p.FirstName)
+        .Distinct()
+        .ToList();
+
+    // Получение списка всех уникальных фамилий подписчиков по имени
+    public List<string> GetSurnamesByFirstName(string? firstName) => db 
+        .People
+        .Where(p => p.FirstName == firstName 
+                    && p.Role == PersonCategory.Subscriber)
+        .Select(p => p.SecondName)
+        .Distinct()
+        .ToList();
+
+    // Получение списка всех уникальных отчеств подписчиков по фамилии
+    public List<string> GetPatronymicsBySecondName(string? firstName, string? secondName) => db 
+        .People
+        .Where(p => p.FirstName == firstName 
+                    && p.SecondName == secondName 
+                    && p.Role == PersonCategory.Subscriber)
+        .Select(p => p.Patronymic)
+        .Distinct()
+        .ToList();
 } //DatabaseQueries
