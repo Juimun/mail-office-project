@@ -62,7 +62,7 @@
             <Setter Property="Margin" Value="10"/>
         </Style>
 
-        <!-- Переопределение стандартного шаблона MenuItem
+        <!-- Переопределение стандартного стиля MenuItem
            Позаимствовал тут:
            https://stackoverflow.com/questions/4029917/wpf-transparent-menu
         -->
@@ -111,7 +111,7 @@
             </ControlTemplate.Triggers>
         </ControlTemplate>
 
-        <!-- Переопределение стандартного шаблона TabItem
+        <!-- Переопределение стандартного стиля TabItem
            Переопределены только стандартные цвета TabItem.Header
         -->
         <Style TargetType="{x:Type TabItem}">
@@ -135,6 +135,46 @@
                     <Setter Property="FontWeight" Value="Normal"/>
                 </Trigger>
             </Style.Triggers>
+        </Style>
+
+        <!-- Переопределение стандартного стиля DataGrid
+           Переопределены:
+            1. Цвета всего DataGrid
+            2. Переопределен стиль заголовка (DataGridColumnHeader): 
+                Фон, цвет текста, вес шрифта, выравнивание, минимальная высота
+            3. Переопределены строки таблицы (DataGridRow): 
+                Фон, цвет текста, фон при выделении
+        -->
+        <Style TargetType="{x:Type DataGrid}">
+            <Setter Property="Background" Value="#434953"/>
+            <Setter Property="Foreground" Value="Black" />
+            <Setter Property="AlternatingRowBackground" Value="#434953" />
+            <Setter Property="BorderBrush" Value="Black"/>
+            <Setter Property="BorderThickness" Value="1"/>
+            <Setter Property="ColumnHeaderStyle">
+                <Setter.Value>
+                    <Style TargetType="{x:Type DataGridColumnHeader}">
+                        <Setter Property="Background" Value="#171d25" />
+                        <Setter Property="Foreground" Value="#999999" />
+                        <Setter Property="FontWeight" Value="Bold"/>
+                        <Setter Property="HorizontalContentAlignment" Value="Center"/>
+                        <Setter Property="MinHeight" Value="30" />
+                    </Style>
+                </Setter.Value>
+            </Setter>
+            <Setter Property="RowStyle">
+                <Setter.Value>
+                    <Style TargetType="DataGridRow">
+                        <Setter Property="Background" Value="#434953" />
+                        <Setter Property="Foreground" Value="White" />
+                        <Style.Triggers>
+                            <Trigger Property="IsSelected" Value="True">
+                                <Setter Property="Background" Value="LightBlue" />
+                            </Trigger>
+                        </Style.Triggers>
+                    </Style>
+                </Setter.Value>
+            </Setter>
         </Style>
     </Application.Resources>
 </Application>
