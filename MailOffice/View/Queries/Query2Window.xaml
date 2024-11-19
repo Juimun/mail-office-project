@@ -45,6 +45,7 @@
                            Margin="40 0 "
                            Padding="10 15 0  0"/>
                 <ComboBox Name="HouseNumberComboBox"
+                          IsEnabled="False"
                           Foreground="#235ecf"
                           Margin="40 10 40 20"
                           Padding="10"/>

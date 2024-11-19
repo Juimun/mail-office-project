@@ -31,6 +31,8 @@ public partial class Query2Window : Window {
     private void StreetComboBox_SelectionChanged(object sender, SelectionChangedEventArgs e) {
         if (StreetComboBox.SelectedItem != null) {
             HouseNumberComboBox.ItemsSource = _data.GetHouseNumbersByStreet(StreetComboBox.SelectedItem.ToString());
+            HouseNumberComboBox.IsEnabled = true;
+        } //if
     } //StreetComboBox_SelectionChanged
 
     private void UIElement_OnMouseEnter(object sender,MouseEventArgs mouseEventArgs)
