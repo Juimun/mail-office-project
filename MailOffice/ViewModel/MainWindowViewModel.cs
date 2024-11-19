@@ -186,9 +186,9 @@ public class MainWindowViewModel : INotifyPropertyChanged {
             // Делаем вкладку активной и выводим результат
             HostWindow.TbcMain.SelectedIndex = 1;
             HostWindow.TblQueries.Text = _dataController.ShowQuery3(
-                query3.SecondNameTextBox.Text,
-                query3.NameTextBox.Text,
-                query3.PatronymicTextBox.Text
+                query3.SecondNameComboBox.Text,
+                query3.NameComboBox.Text,
+                query3.PatronymicComboBox.Text
             );
         } //if
 
