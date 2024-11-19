@@ -32,36 +32,30 @@
                 <TextBlock FontFamily="Segoe UI"
                    Text="ИМЯ:"
                    Style="{StaticResource TextBlockStyle}"/>
-                <TextBox TabIndex="0"
-                  x:Name="NameTextBox"
+                <ComboBox TabIndex="0"
+                  x:Name="NameComboBox"
                   Text="Введите имя"
-                  Style="{StaticResource TextBoxStyle}"
-                  
-                  GotFocus="TextBox_OnGotFocus"
-                  LostFocus="TextBox_OnLostFocus"/>
+                  Style="{StaticResource ComboBoxStyle}"
+                  SelectionChanged="FirstNameComboBox_SelectionChanged"/>
 
                 <TextBlock FontFamily="Segoe UI"
                        Text="ФАМИЛИЯ:"
                        Style="{StaticResource TextBlockStyle}"/>
-                <TextBox TabIndex="1"
-                     x:Name="SecondNameTextBox" 
+                <ComboBox TabIndex="1"
+                     x:Name="SecondNameComboBox" 
                      Text="Введите фамилию"
-                     Style="{StaticResource TextBoxStyle}"
-   
-                     GotFocus="TextBox_OnGotFocus"
-                     LostFocus="TextBox_OnLostFocus"/>
+                     IsEnabled="False"
+                     Style="{StaticResource ComboBoxStyle}"
+                     SelectionChanged="SecondNameComboBox_SelectionChanged"/>
 
                 <TextBlock FontFamily="Segoe UI"
                    Text="ОТЧЕСТВО:"
                    Style="{StaticResource TextBlockStyle}"/>
-                <TextBox TabIndex="2"
-                  x:Name="PatronymicTextBox" 
+                <ComboBox TabIndex="2"
+                  x:Name="PatronymicComboBox" 
                   Text="Введите отчество"
-                  Style="{StaticResource TextBoxStyle}"
-                  
-                  GotFocus="TextBox_OnGotFocus"
-                  LostFocus="TextBox_OnLostFocus"/>
-
+                  IsEnabled="False"
+                  Style="{StaticResource ComboBoxStyle}"/>
             </StackPanel>
         </Border>
         <StackPanel Orientation="Horizontal">

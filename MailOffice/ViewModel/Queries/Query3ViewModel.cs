@@ -8,9 +8,9 @@ public class Query3ViewModel(Query3Window hostWindow) {
     public RelayCommand EntryCommand => new( 
         obj => hostWindow.DialogResult = true,
         obj => 
-            !string.IsNullOrWhiteSpace(hostWindow.NameTextBox.Text)       && hostWindow.NameTextBox.Text != "Введите имя" &&
-            !string.IsNullOrWhiteSpace(hostWindow.SecondNameTextBox.Text) && hostWindow.SecondNameTextBox.Text != "Введите фамилию" &&
-            !string.IsNullOrWhiteSpace(hostWindow.PatronymicTextBox.Text) && hostWindow.PatronymicTextBox.Text != "Введите отчество"
+            !string.IsNullOrWhiteSpace(hostWindow.NameComboBox.Text)       && hostWindow.NameComboBox.Text != "Введите имя" &&
+            !string.IsNullOrWhiteSpace(hostWindow.SecondNameComboBox.Text) && hostWindow.SecondNameComboBox.Text != "Введите фамилию" &&
+            !string.IsNullOrWhiteSpace(hostWindow.PatronymicComboBox.Text) && hostWindow.PatronymicComboBox.Text != "Введите отчество"
     );
 
     public RelayCommand CanselCommand => new( 
