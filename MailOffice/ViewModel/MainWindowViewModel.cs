@@ -44,7 +44,7 @@ public class MainWindowViewModel : INotifyPropertyChanged {
 
         LoadPublicationPage(1);
 
-        UpdateUi();
+        UpdateDataGridSources();
     } // MainWindowViewModel
 
     #region Команды
@@ -250,25 +250,25 @@ public class MainWindowViewModel : INotifyPropertyChanged {
     private void FirstPage() {
         CurrentPage = 1;
         LoadPublicationPage(CurrentPage);
-        UpdateUi();
+        UpdateDataGridSources();
     } //FirstPage
 
     private void LastPage() {
         CurrentPage = TotalPages;
         LoadPublicationPage(CurrentPage);
-        UpdateUi();
+        UpdateDataGridSources();
     } //LastPage
 
     private void BackPage() {
         CurrentPage = CurrentPage > 1 ? CurrentPage - 1 : TotalPages;
         LoadPublicationPage(CurrentPage);
-        UpdateUi();
+        UpdateDataGridSources();
     } //BackPage
 
     private void NextPage() {
         CurrentPage = CurrentPage < TotalPages ? CurrentPage + 1 : 1;
         LoadPublicationPage(CurrentPage);
-        UpdateUi();
+        UpdateDataGridSources();
     } //NextPage
 
     // Создание одной страницы из таблицы Publication
@@ -303,9 +303,18 @@ public class MainWindowViewModel : INotifyPropertyChanged {
             HostWindow.TbcMain.SelectedIndex = 0;
     } //RightTab
 
-    // Обновление UI в TblTables
-    private void UpdateUi() =>
-        HostWindow.TblTables.Text = _dataController.ShowPagePublication(Entities);
+    // Разделение и привязка в DataGrid
+    private void UpdateDataGridSources() {
+        int halfCount = Entities.Count / 2; 
+
+        HostWindow.SelectedFirstPartDataGrid.ItemsSource = Entities
+            .Take(halfCount)
+            .ToList();
+
+        HostWindow.SelectedSecondPartDataGrid.ItemsSource = Entities
+            .Skip(halfCount)
+            .ToList();
+    } //UpdateDataGridSources
 
     // Вход в аккаунт
     public void SignAccount() {
@@ -348,7 +357,7 @@ public class MainWindowViewModel : INotifyPropertyChanged {
         LoadPublicationPage(1);
 
         // Вывод выбранной страницы
-        UpdateUi();
+        UpdateDataGridSources();
     } //GenerateTextEntities
 
     // Отобразить профиль
