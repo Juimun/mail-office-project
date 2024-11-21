@@ -24,7 +24,7 @@ public partial class Query3Window : Window {
         DataContext = new Query3ViewModel(this);
 
         _data = new DatabaseQueries();
-        NameComboBox.ItemsSource = _data.GetAllNames(); 
+        NameComboBox.ItemsSource = _data.GetNewspaperSubscriberFirstNames(); 
     }
 
     private void TextBox_OnGotFocus(object sender, RoutedEventArgs e)
@@ -84,7 +84,7 @@ public partial class Query3Window : Window {
     // Событие для выбора фамилии по выбранному имени
     private void FirstNameComboBox_SelectionChanged(object sender, SelectionChangedEventArgs e) {
         if (NameComboBox.SelectedItem != null) {
-            SecondNameComboBox.ItemsSource = _data.GetSurnamesByFirstName(NameComboBox.SelectedItem.ToString());
+            SecondNameComboBox.ItemsSource = _data.GetNewspaperSubscriberSecondNames(NameComboBox.SelectedItem.ToString()); 
             SecondNameComboBox.IsEnabled = true;
         } //if
     } //FirstNameComboBox_SelectionChanged 
@@ -92,7 +92,7 @@ public partial class Query3Window : Window {
     // Событие для выбора фамилии по выбранному имени
     private void SecondNameComboBox_SelectionChanged(object sender, SelectionChangedEventArgs e) {
         if (SecondNameComboBox.SelectedItem != null) {
-            PatronymicComboBox.ItemsSource = _data.GetPatronymicsBySecondName(NameComboBox.SelectedItem.ToString(), SecondNameComboBox.SelectedItem.ToString()); 
+            PatronymicComboBox.ItemsSource = _data.GetNewspaperSubscriberPatronymics(NameComboBox.SelectedItem.ToString(), SecondNameComboBox.SelectedItem.ToString()); 
             PatronymicComboBox.IsEnabled = true;
         } //if
     } //SecondNameComboBox_SelectionChanged

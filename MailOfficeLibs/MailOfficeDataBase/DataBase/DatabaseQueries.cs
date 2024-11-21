@@ -249,30 +249,42 @@ public partial class DatabaseQueries {
         .Users 
         .Any(u => u.Login == newLogin && u.Password == newPassword);
 
-    // Получение списка всех уникальных имен подписчиков
-    public List<string> GetAllNames() => db
-        .People
-        .Where(p => p.Role == PersonCategory.Subscriber)
-        .Select(p => p.FirstName)
+    // Получение уникальных имен подписчиков газет
+    public List<string> GetNewspaperSubscriberFirstNames() => db
+        .Subscriptions
+        .Include(s => s.Publication)
+        .Include(s => s.Subscriber)
+            .ThenInclude(s => s.Person)
+        .Where(s => s.Subscriber.Person.Role == PersonCategory.Subscriber 
+                    && s.Publication.Type == PublicationType.Newspaper)
+        .Select(s => s.Subscriber.Person.FirstName) 
         .Distinct()
         .ToList();
 
-    // Получение списка всех уникальных фамилий подписчиков по имени
-    public List<string> GetSurnamesByFirstName(string? firstName) => db 
-        .People
-        .Where(p => p.FirstName == firstName 
-                    && p.Role == PersonCategory.Subscriber)
-        .Select(p => p.SecondName)
+    // Получение уникальных фамилий подписчиков газет по имени
+    public List<string> GetNewspaperSubscriberSecondNames(string? firstName) => db 
+        .Subscriptions
+        .Include(s => s.Publication)
+        .Include(s => s.Subscriber)
+            .ThenInclude(s => s.Person)
+        .Where(s => s.Subscriber.Person.FirstName == firstName
+                    && s.Subscriber.Person.Role == PersonCategory.Subscriber
+                    && s.Publication.Type == PublicationType.Newspaper)
+        .Select(s => s.Subscriber.Person.SecondName)
         .Distinct()
         .ToList();
 
-    // Получение списка всех уникальных отчеств подписчиков по фамилии
-    public List<string> GetPatronymicsBySecondName(string? firstName, string? secondName) => db 
-        .People
-        .Where(p => p.FirstName == firstName 
-                    && p.SecondName == secondName 
-                    && p.Role == PersonCategory.Subscriber)
-        .Select(p => p.Patronymic)
+    // Получение уникальных отчеств подписчиков газет по имени и фамилии
+    public List<string> GetNewspaperSubscriberPatronymics(string? firstName, string? secondName) => db 
+        .Subscriptions
+        .Include(s => s.Publication)
+        .Include(s => s.Subscriber)
+            .ThenInclude(s => s.Person)
+        .Where(s => s.Subscriber.Person.FirstName == firstName
+                    && s.Subscriber.Person.SecondName == secondName
+                    && s.Subscriber.Person.Role == PersonCategory.Subscriber
+                    && s.Publication.Type == PublicationType.Newspaper)
+        .Select(s => s.Subscriber.Person.Patronymic)
         .Distinct()
         .ToList();
 } //DatabaseQueries
