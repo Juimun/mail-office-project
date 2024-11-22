@@ -189,26 +189,32 @@ public partial class DatabaseDisplayController(DatabaseQueries data) {
         var sb = new StringBuilder();
 
         var cnt = 1;
-        var accounts = data.GetAccounts();
+        sb.AppendLine("\n\n\t\tОтчет о доставке почтой газет и журналов:\n\n");
+        data.GetAllPostmans().ForEach(p => {
 
-        sb.AppendLine("\n\n\t\tОтчет о доставке почтой газет и журналов:\n");
-        accounts.ForEach(a => {
-            
             // Отчет должен быть упорядочен по участкам
             sb.AppendLine(
                 $"\t{cnt++}. " +
-                $"{a.SectionName}\n" +
-                $"\tID участка: {a.SectionId} :\n\n" +
+                $"{p.Section!.Name}, " +
+                $"ID участка: {p.Section.Id}:\n" +
 
                 // Для каждого участка указывается фамилия и инициалы почтальона, обслуживающего участок
-                $"\tФамилия: {a.SecondName}\n" +
-                $"\tИмя: {a.FirstName}\n" +
-                $"\tОтчество: {a.Patronymic}\n\n"
-            );
+                $"\tФИО почтальена: {p.Person.FullName}\n\n" +
 
-            //accounts.ForEach(a => sb.AppendLine(
-            //    
-            //));
+                $"\t\t\tПеречень доставленных изданий:\n"
+                );
+
+            // Перечень доставляемых изданий 
+            //  (индекс и название издания, адрес доставки, срок подписки).
+            data.GetDeliveredSubscriptions(p).ForEach(s => {
+                sb.AppendLine(
+                    $"\tИндекс: {s.Publication.Id}\n" +
+                    $"\tНазвание: {s.Publication.Name}\n" +
+                    $"\tАдрес доставки: {s.Subscriber.House.Address}\n" +
+                    $"\t\tСрок подписки:\n\t{s.StartDate} => {s.EndDate}\n" +
+                    $"\tКоличество дней: {s.Duration}\n\n"
+                    );
+            });
         });
 
         // В отчете должно быть указано сколько почтальонов работает в почтовом отделении, 
@@ -220,9 +226,9 @@ public partial class DatabaseDisplayController(DatabaseQueries data) {
             $"\tОбслуживаемых участков: {data.ServesSectionCount()}/{data.GetAllSections().Count}\n\n" +
 
             $"\t\tКоличество доставляемых изданий:\n" +
-            $"\t{cnt++}.Журналов => {data.DeliveredPublicationCount(PublicationType.Journal)}шт.\n" +
-            $"\t{cnt++}.Газет    => {data.DeliveredPublicationCount(PublicationType.Newspaper)}шт.\n" +
-            $"\t{cnt++}.Книг     => {data.DeliveredPublicationCount(PublicationType.Book)}шт.\n\n" +
+            $"\t{cnt++}.Журналов => {data.DeliveredPublicationCount(PublicationType.Journal)} шт.\n" +
+            $"\t{cnt++}.Газет    => {data.DeliveredPublicationCount(PublicationType.Newspaper)} шт.\n" +
+            $"\t{cnt++}.Книг     => {data.DeliveredPublicationCount(PublicationType.Book)} шт." +
 
             $"\t\t{data.GetCurrentAccountFullName(currentLogin, currentPassword)}\t\t\t{DateTime.Now:f}"
             );

@@ -5,6 +5,7 @@ using MailOfficeEntities.Entities.Accounts;
 using MailOfficeFactory.Factories;
 using MailOfficeTool.Entities;
 using Microsoft.EntityFrameworkCore;
+using System.Data;
 using System.Linq;
 
 namespace MailOfficeDataBase.DataBase;
@@ -154,11 +155,8 @@ public partial class DatabaseQueries {
     // Получение данных введенного аккаунта 
     public AccountProfile? GetAccount(string currentLogin, byte[] currentPassword) => db 
         .Users 
-        .Include(u => u.Person)
-            .ThenInclude(p => p.Staff)
-            .ThenInclude(s => s!.Section)
-        .Include(u => u.Person.Subscriber)
-            .ThenInclude(s => s!.House)
+        .Include(u => u.Person.Staff!.Section)
+        .Include(u => u.Person.Subscriber!.House)
         .Where(u => u.Login == currentLogin && u.Password == currentPassword)
         .Select(u => new AccountProfile( 
             u.Id,
@@ -174,29 +172,6 @@ public partial class DatabaseQueries {
             u.Person.Staff!.Section!.Name
             ))
         .FirstOrDefault();
-
-    // Получение данных о всех профилях
-    public List<AccountProfile> GetAccounts() => db  
-        .Users 
-        .Include(u => u.Person)
-            .ThenInclude(p => p.Staff)
-            .ThenInclude(s => s!.Section)
-        .Include(u => u.Person.Subscriber)
-            .ThenInclude(s => s!.House)
-        .Select(u => new AccountProfile(
-            u.Id,
-            u.Login,
-            u.Person.FirstName,
-            u.Person.SecondName,
-            u.Person.Patronymic,
-            u.Person.Role,
-            u.Person.Staff!.Role,
-            u.Person.Subscriber!.House.Street,
-            u.Person.Subscriber!.House.HouseNumber,
-            u.Person.Staff!.Section!.Id,
-            u.Person.Staff!.Section!.Name
-            ))
-        .ToList();
 
     // Получение списка подписных изданий введенного аккаунта
     public Subscription? GetCurrentSubscriptions(string currentLogin, byte[] currentPassword) => db

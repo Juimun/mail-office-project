@@ -4,6 +4,7 @@ using MailOfficeEntities.Entities.Residence;
 using MailOfficeEntities.Category;
 using System.Collections.Generic;
 using System.Collections;
+using Microsoft.EntityFrameworkCore;
 
 namespace MailOfficeDataBase.DataBase;
 
@@ -63,4 +64,11 @@ public partial class DatabaseQueries(MailOfficeContext db) {
         .Publications
         .Count();
 
+    public List<Subscription> GetDeliveredSubscriptions(Staff postman) => db
+        .Subscriptions
+        .Include(s => s.Subscriber.House)
+        .Where(s => s.Subscriber.House.SectionId == postman.SectionId)
+        .Select(s => s)
+        .ToList();
+    
 } //DatabaseQueries
