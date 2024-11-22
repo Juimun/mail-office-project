@@ -41,13 +41,23 @@ public class MainWindowViewModel : INotifyPropertyChanged {
     { 
         (HostWindow, _dataController, _dataQueries) = 
             (hostWindow, dataController, dataQueries);
-
+        
         LoadPublicationPage(1);
 
         UpdateDataGridSources();
     } // MainWindowViewModel
 
     #region Команды
+
+    public RelayCommand ClearReportCommand => new( 
+        obj => HostWindow.TblReports.Text = string.Empty,
+        obj => true
+    );
+
+    public RelayCommand ClearQueryCommand => new(
+        obj => HostWindow.TblQueries.Text = string.Empty,
+        obj => true
+    );
 
     public RelayCommand ExitCommand => new(
         obj => Application.Current.Shutdown(),

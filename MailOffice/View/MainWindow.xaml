@@ -286,7 +286,7 @@
                         <DataGrid Grid.Row="0"
                                   Grid.ColumnSpan="3"
                                   Name="SelectedFirstPartDataGrid" 
-                                  Margin="50 50 110 50"  
+                                  Margin="0 0 82 0"  
                                   FontFamily="Courier New"
                                   FontSize="16" 
                                   AutoGenerateColumns="False"
@@ -308,13 +308,12 @@
                                   Grid.Column="2"
                                   Grid.ColumnSpan="3"
                                   Name="SelectedSecondPartDataGrid" 
-                                  Margin="110 50 50 50"  
+                                  Margin="82 0 0 0"  
                                   FontFamily="Courier New"
                                   FontSize="16" 
                                   AutoGenerateColumns="False"
                                   CanUserAddRows="False"
-                                  IsReadOnly="True"
-                                  VerticalAlignment="Stretch">
+                                  IsReadOnly="True">
                             <DataGrid.Columns>
                                 <DataGridTextColumn Header="Идентификатор" 
                                                     Binding="{Binding Id}" 
