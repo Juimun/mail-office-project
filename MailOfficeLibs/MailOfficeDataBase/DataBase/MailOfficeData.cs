@@ -64,11 +64,20 @@ public partial class DatabaseQueries(MailOfficeContext db) {
         .Publications
         .Count();
 
+    // Получить список Subscription, которые связаны с Postman
     public List<Subscription> GetDeliveredSubscriptions(Staff postman) => db
         .Subscriptions
         .Include(s => s.Subscriber.House)
         .Where(s => s.Subscriber.House.SectionId == postman.SectionId)
         .Select(s => s)
         .ToList();
-    
+
+    // Средний срок подписки для изданий почтальена 
+    public double GetAverageSubscription(List<Subscription> selectedSubcription) => selectedSubcription
+        .Average(s => (s.EndDate - s.StartDate).TotalDays);
+
+    // Количество различных подписных изданий
+    public int GetPublicationCountsForSection(List<Subscription> selectedSubcription) => selectedSubcription
+        .Distinct()
+        .Count();
 } //DatabaseQueries

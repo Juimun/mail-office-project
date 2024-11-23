@@ -206,15 +206,24 @@ public partial class DatabaseDisplayController(DatabaseQueries data) {
 
             // Перечень доставляемых изданий 
             //  (индекс и название издания, адрес доставки, срок подписки).
-            data.GetDeliveredSubscriptions(p).ForEach(s => {
+            var subscriptionsForPostman = data.GetDeliveredSubscriptions(p);
+            subscriptionsForPostman.ForEach(s => {
                 sb.AppendLine(
                     $"\tИндекс: {s.Publication.Id}\n" +
                     $"\tНазвание: {s.Publication.Name}\n" +
                     $"\tАдрес доставки: {s.Subscriber.House.Address}\n" +
                     $"\t\tСрок подписки:\n\t{s.StartDate} => {s.EndDate}\n" +
-                    $"\tКоличество дней: {s.Duration}\n\n"
-                    );
+                    $"\tКоличество дней: {s.Duration}\n\n" 
+                );
             });
+
+            // По каждому изданию указывается средний срок подписки и количество экземпляров,
+            //  а по участку – количество различных подписных изданий
+            sb.AppendLine(
+                $"\tСредний срок подписки:  {data.GetAverageSubscription(subscriptionsForPostman):F0}\n" +
+                $"\tКоличество экземпляров: {subscriptionsForPostman.Count}\n" +
+                $"\tКоличество различных подписных изданий: {data.GetPublicationCountsForSection(subscriptionsForPostman)}\n"
+                );
         });
 
         // В отчете должно быть указано сколько почтальонов работает в почтовом отделении, 
