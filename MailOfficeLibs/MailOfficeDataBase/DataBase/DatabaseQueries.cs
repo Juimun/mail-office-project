@@ -90,12 +90,11 @@ public partial class DatabaseQueries {
     public void AddRegisteredUser(string newLogin, byte[] newPassword) {
 
         // Создаем сущность User 
-        var newUser = new User() { Id = db.Users.Max(u => u.Id) + 1, Login = newLogin, Password = newPassword };
-        db.Add(newUser);
+        db.Add(new User() { Login = newLogin, Password = newPassword });
+        db.SaveChanges();
 
         // Создаем сущность People и связываем с User
-        db.Add(new Person() { Id = db.People.Max(u => u.Id) + 1, UserId = newUser.Id});
-        
+        db.Add(new Person() { UserId = db.Users.Max(u => u.Id)});   
         db.SaveChanges();
     } //AddNewUser
 
@@ -217,7 +216,7 @@ public partial class DatabaseQueries {
 
         if (user == null) return null;
         return user.Person.FullName;
-    }
+    } //GetCurrentAccountFullName
 
     // Проверка аутентификации
     public bool IsAuthenticate(string newLogin, byte[] newPassword) => db
@@ -262,4 +261,9 @@ public partial class DatabaseQueries {
         .Select(s => s.Subscriber.Person.Patronymic)
         .Distinct()
         .ToList();
+
+    // Количество подписчиков в БД
+    public int SubscribersCount() => db
+         .Subscribers
+         .Count();
 } //DatabaseQueries

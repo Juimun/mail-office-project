@@ -1,4 +1,5 @@
-﻿using System.Text;
+﻿using System.Data;
+using System.Text;
 using MailOfficeDataBase.DataBase;
 using MailOfficeEntities.Category;
 using MailOfficeEntities.Entities;
@@ -244,6 +245,25 @@ public partial class DatabaseDisplayController(DatabaseQueries data) {
 
         return sb.ToString();
     } //ShowReport
+
+    /*
+     * Нужна справка о количестве подписчиков, 
+     *  количестве газет и количестве журналов, выписанных на текущий момент подписчиками.
+     */
+    public string ShowSubscribersStatement() {
+        var sb = new StringBuilder();
+
+        sb.AppendLine(
+           $"\n\n\t\tCправка о\n" +
+           $"\tколичестве подписчиков: {data.SubscribersCount()}\n" +
+           $"\tколичестве газет:       {data.DeliveredPublicationCount(PublicationType.Newspaper)}\n" +
+           $"\tколичестве журналов:    {data.DeliveredPublicationCount(PublicationType.Journal)}\n" +
+           $"\tколичестве книг:        { data.DeliveredPublicationCount(PublicationType.Book)}\n\n" +
+           $"\tCправка выписана в {DateTime.Now:f}."
+           );
+    
+        return sb.ToString();
+    } //ShowSubscribersStatement
 
     // Строковое представление "страницы" списка
     public string ShowPagePublication(List<Publication> publications) {
