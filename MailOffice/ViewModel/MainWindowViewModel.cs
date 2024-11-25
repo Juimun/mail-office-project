@@ -1,7 +1,9 @@
 ﻿using System.ComponentModel;
 using System.Diagnostics;
+using System.IO;
 using System.Runtime.CompilerServices;
 using System.Windows;
+using System.Windows.Forms;
 using MailOffice.Infrastructure;
 using MailOffice.View;
 using MailOffice.View.Queries;
@@ -10,6 +12,9 @@ using MailOfficeDataBase.DataBase;
 using MailOfficeEntities.Entities;
 using MailOfficeTool.Entities;
 using MailOfficeTool.Infrastructure;
+using Microsoft.Win32;
+using Application = System.Windows.Application;
+using SaveFileDialog = Microsoft.Win32.SaveFileDialog;
 
 namespace MailOffice.ViewModel;
 
@@ -41,7 +46,7 @@ public class MainWindowViewModel : INotifyPropertyChanged {
     { 
         (HostWindow, _dataController, _dataQueries) = 
             (hostWindow, dataController, dataQueries);
-        
+
         LoadPublicationPage(1);
 
         UpdateDataGridSources();
@@ -390,11 +395,27 @@ public class MainWindowViewModel : INotifyPropertyChanged {
     private void ShowReport() {
 
         // Доступ к отчетам ТОЛЬКО у Director и Administrator
-        if (IsLoggedIn && _dataQueries.IsDirector(CurrentAccount!.Login, CurrentAccount.Password)){
-            HostWindow.TbcMain.SelectedIndex = 2;
-            HostWindow.TblReports.Text = _dataController.ShowReport(CurrentAccount!.Login, CurrentAccount.Password);
+        if (IsLoggedIn && _dataQueries.IsDirector(CurrentAccount!.Login, CurrentAccount.Password)){ 
+            Utils.SaveStringAsPdf(_dataController.ShowReport(CurrentAccount!.Login, CurrentAccount.Password), GetSaveFileDialogPath());     
         } //if
     } //ShowReport
+
+    // Получение пути для сохранения pdf файла
+    private string GetSaveFileDialogPath() {
+        SaveFileDialog saveFileDialog = new SaveFileDialog() {
+            Filter = "PDF files (*.pdf)|*.pdf|All files (*.*)|*.*",
+            Title = "Сохранить отчет как...",
+            FileName = "report.pdf",
+            DefaultExt = ".pdf",
+            AddExtension = true,
+            OverwritePrompt = true
+        };
+
+        if (saveFileDialog.ShowDialog() == true)
+            return Path.Combine(App.ReportsFolderPath, saveFileDialog.FileName); 
+        else
+            return string.Empty;
+    } //GetSaveFileDialogPath
 
     #region INotifyPropertyChanged
     public event PropertyChangedEventHandler? PropertyChanged;

@@ -1,4 +1,6 @@
 ﻿using System.Text;
+using iTextSharp.text.pdf;
+using iTextSharp.text;
 using MailOfficeTool.Entities;
 using Newtonsoft.Json;
 
@@ -27,5 +29,18 @@ public static class Utils
     public static List<UserJson> JsonDeserialize(string fileName) =>
         JsonConvert.DeserializeObject<List<UserJson>>(File.ReadAllText(fileName, Encoding.UTF8))!;
 
+    // Создание файла .pdf
+    // Нужен NuGet пакет iTextSharp
+    public static void SaveStringAsPdf(List<Paragraph> text, string filePath) {
+        using (var document = new Document()) {
+            using (var writer = PdfWriter.GetInstance(document, new FileStream(filePath, FileMode.Create))) {
+                writer.SetPdfVersion(PdfWriter.PDF_VERSION_1_7);
+
+                document.Open();                
+                text.ForEach(p => document.Add(p));
+                document.Close();
+            }
+        }
+    } //SaveStringAsPdf
 
 } //Utils

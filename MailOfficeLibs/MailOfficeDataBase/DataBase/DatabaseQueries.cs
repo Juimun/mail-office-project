@@ -189,7 +189,7 @@ public partial class DatabaseQueries {
         .Include(u => u.Person)
             .ThenInclude(s => s.Staff)
         .Where(u => u.Login == newLogin && u.Password == newPassword)
-        .Any(u => u.Person.Staff!.Role == StaffRole.Director || u.Person.Staff.Role == StaffRole.Administrator);
+        .Any(u => u.Person.Staff!.Role >= StaffRole.Director);
 
     // Количество обслуживаемых участков
     public int ServesSectionCount() => db

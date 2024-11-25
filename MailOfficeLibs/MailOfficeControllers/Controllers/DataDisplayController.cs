@@ -1,5 +1,7 @@
 ﻿using System.Data;
 using System.Text;
+using iTextSharp.text;
+using iTextSharp.text.pdf;
 using MailOfficeDataBase.DataBase;
 using MailOfficeEntities.Category;
 using MailOfficeEntities.Entities;
@@ -186,64 +188,116 @@ public partial class DatabaseDisplayController(DatabaseQueries data) {
      * В отчете должно быть указано сколько почтальонов работает в почтовом отделении, 
      *  сколько всего участков оно обслуживает, сколько различных изданий доставляет подписчикам.
     */
-    public string ShowReport(string currentLogin, byte[] currentPassword) {
-        var sb = new StringBuilder();
+    public List<Paragraph> ShowReport(string currentLogin, byte[] currentPassword) {
+        string fontPath = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.Fonts), "arial.ttf");
+        BaseFont bf = BaseFont.CreateFont(fontPath, BaseFont.IDENTITY_H, BaseFont.EMBEDDED);
+        var font = new Font(bf, 12);
+        var boldFont = new Font(bf, 12, Font.BOLD);
+        var boldHeaderFont = new Font(bf, 18, Font.BOLD); 
 
-        var cnt = 1;
-        sb.AppendLine("\n\n\t\tОтчет о доставке почтой газет и журналов:\n\n");
+        var paragraphs = new List<Paragraph> {
+             
+            // Параграф заголовка
+            new("Отчет о доставке почтой газет и журналов:\n\n", new Font(bf, 20, Font.BOLD)) {
+                IndentationLeft = 80
+            } 
+        }; //paragraphs
+
+        int cnt = 1;
         data.GetAllPostmans().ForEach(p => {
 
             // Отчет должен быть упорядочен по участкам
-            sb.AppendLine(
-                $"\t{cnt++}. " +
-                $"{p.Section!.Name}, " +
-                $"ID участка: {p.Section.Id}:\n" +
+            paragraphs.Add(new Paragraph([
+                new Chunk($"{cnt++}. ", new Font(bf, 15)),
+                new Chunk(p.Section!.Name, new Font(bf, 15, Font.ITALIC)),
+                new Chunk(", ID участка: ", new Font(bf, Font.DEFAULTSIZE)),
+                new Chunk($"{p.Section.Id}", new Font(bf, 15, Font.ITALIC)),
+                new Chunk($", ФИО почтальена: ", new Font(bf, Font.DEFAULTSIZE)),
+                new Chunk($"{p.Person.FullName}\n", new Font(bf, 15, Font.ITALIC)),
 
-                // Для каждого участка указывается фамилия и инициалы почтальона, обслуживающего участок
-                $"\tФИО почтальена: {p.Person.FullName}\n\n" +
+                new Chunk("Перечень доставленных изданий:", new Font(bf, 15))
+            ]) {
+                IndentationLeft = 24,
+            }); 
 
-                $"\t\t\tПеречень доставленных изданий:\n"
-                );
-
-            // Перечень доставляемых изданий 
-            //  (индекс и название издания, адрес доставки, срок подписки).
             var subscriptionsForPostman = data.GetDeliveredSubscriptions(p);
             subscriptionsForPostman.ForEach(s => {
-                sb.AppendLine(
-                    $"\tИндекс: {s.Publication.Id}\n" +
-                    $"\tНазвание: {s.Publication.Name}\n" +
-                    $"\tАдрес доставки: {s.Subscriber.House.Address}\n" +
-                    $"\t\tСрок подписки:\n\t{s.StartDate} => {s.EndDate}\n" +
-                    $"\tКоличество дней: {s.Duration}\n\n" 
-                );
-            });
 
-            // По каждому изданию указывается средний срок подписки и количество экземпляров,
-            //  а по участку – количество различных подписных изданий
-            sb.AppendLine(
-                $"\tСредний срок подписки:  {data.GetAverageSubscription(subscriptionsForPostman):F0}\n" +
-                $"\tКоличество экземпляров: {subscriptionsForPostman.Count}\n" +
-                $"\tКоличество различных подписных изданий: {data.GetPublicationCountsForSection(subscriptionsForPostman)}\n"
-                );
+                // Перечень доставляемых изданий
+                paragraphs.Add(new Paragraph([
+                    new Chunk("Индекс: ", new Font(bf, 12)),
+                    new Chunk($"{ s.Publication.Id }\n", new Font(bf, 15, Font.ITALIC)),
+
+                    new Chunk("Название: ", new Font(bf, 12)),
+                    new Chunk($"{s.Publication.Name}\n", new Font(bf, 15, Font.ITALIC)),
+
+                    new Chunk("Адрес доставки: ", new Font(bf, 12)),
+                    new Chunk($"{s.Subscriber.House.Address}\n", new Font(bf, 15, Font.ITALIC)),
+
+                    new Chunk("Срок подписки:\n", new Font(bf, 12)),
+                    new Chunk($"{s.StartDate}", new Font(bf, 15, Font.ITALIC)),
+                    new Chunk("   =>  ", new Font(bf, Font.DEFAULTSIZE)),
+                    new Chunk($"{s.EndDate}\n", new Font(bf, 15, Font.ITALIC)),
+
+                    new Chunk("Количество дней: ", new Font(bf, 12)),
+                    new Chunk($"{s.Duration}\n\n", new Font(bf, 15, Font.ITALIC))
+                ]) {
+                    IndentationLeft = 12 
+                }); 
+            }); //ForEach
+
+            paragraphs.Add(new Paragraph([
+                new Chunk("Средний срок подписки: ", new Font(bf, 12)),
+                new Chunk($"{data.GetAverageSubscription(subscriptionsForPostman):F0}\n", new Font(bf, 15, Font.ITALIC)),
+
+                new Chunk("Количество экземпляров: ", new Font(bf, 12)),
+                new Chunk($"{subscriptionsForPostman.Count}\n", new Font(bf, 15, Font.ITALIC)),
+
+                new Chunk("Количество различных подписных изданий: ", new Font(bf, 12)),
+                new Chunk($"{data.GetPublicationCountsForSection(subscriptionsForPostman)}\n\n", new Font(bf, 15, Font.ITALIC)),
+            ]) {
+                IndentationLeft = 12
+            });
+        }); //ForEach
+
+        cnt = 1;
+        paragraphs.Add(new Paragraph("Общая информация:", new Font(bf, 20)) {
+            IndentationLeft = 24
+        });
+        paragraphs.Add(new Paragraph([
+             new Chunk("Количество почтальонов: ", new Font(bf, 15)),
+             new Chunk($"{data.PostmansCount()}\n", new Font(bf, 20, Font.ITALIC)),
+
+             new Chunk("Обслуживаемых участков: ", new Font(bf, 15)),
+             new Chunk($"{data.ServesSectionCount()}", new Font(bf, 18, Font.ITALIC)),
+             new Chunk(" / ", new Font(bf, Font.DEFAULTSIZE)),
+             new Chunk($"{data.GetAllSections().Count}\n", new Font(bf, 18, Font.ITALIC)),
+
+             new Chunk("Количество доставляемых изданий:\n", new Font(bf, 15)),
+             new Chunk($"{cnt++}. ", new Font(bf, 15)),
+             new Chunk("Журналов", new Font(bf, 15)),
+             new Chunk("  =>   ", new Font(bf, Font.DEFAULTSIZE)),
+             new Chunk($"{data.DeliveredPublicationCount(PublicationType.Journal)}", new Font(bf, 18, Font.ITALIC)),
+             new Chunk(" шт.\n", new Font(bf, 15)),
+
+             new Chunk($"{cnt++}. ", new Font(bf, 15)),
+             new Chunk("Газет   ", new Font(bf, 15)),
+             new Chunk("  =>   ", new Font(bf, Font.DEFAULTSIZE)),
+             new Chunk($"{data.DeliveredPublicationCount(PublicationType.Newspaper)}", new Font(bf, 18, Font.ITALIC)),
+             new Chunk(" шт.\n", new Font(bf, 15)),
+
+             new Chunk($"{cnt++}. ", new Font(bf, 15)),
+             new Chunk("Книг    ", new Font(bf, 15)),
+             new Chunk("  =>   ", new Font(bf, Font.DEFAULTSIZE)),
+             new Chunk($"{data.DeliveredPublicationCount(PublicationType.Book)}", new Font(bf, 18, Font.ITALIC)),
+             new Chunk(" шт.\n\n\n", new Font(bf, 15)),
+
+             new Chunk($"{data.GetCurrentAccountFullName(currentLogin, currentPassword)}             {DateTime.Now:f}", new Font(bf, 15, Font.BOLD)),
+        ]) { 
+            IndentationLeft = 12
         });
 
-        // В отчете должно быть указано сколько почтальонов работает в почтовом отделении, 
-        //  сколько всего участков оно обслуживает, сколько различных изданий доставляет подписчикам.
-        cnt = 1;
-        sb.AppendLine(
-            $"\t\t\tОбщая информация:\n" +
-            $"\tКоличество почтальонов: {data.PostmansCount()}\n" +
-            $"\tОбслуживаемых участков: {data.ServesSectionCount()}/{data.GetAllSections().Count}\n\n" +
-
-            $"\t\tКоличество доставляемых изданий:\n" +
-            $"\t{cnt++}.Журналов => {data.DeliveredPublicationCount(PublicationType.Journal)} шт.\n" +
-            $"\t{cnt++}.Газет    => {data.DeliveredPublicationCount(PublicationType.Newspaper)} шт.\n" +
-            $"\t{cnt++}.Книг     => {data.DeliveredPublicationCount(PublicationType.Book)} шт." +
-
-            $"\t\t{data.GetCurrentAccountFullName(currentLogin, currentPassword)}\t\t\t{DateTime.Now:f}"
-            );
-
-        return sb.ToString();
+        return paragraphs;
     } //ShowReport
 
     /*

@@ -10,17 +10,24 @@ namespace MailOffice;
 public partial class App : Application {
 
     public static string SourceFilePath = AppDomain.CurrentDomain.BaseDirectory;
-    public static string FolderPath = Path.Combine(SourceFilePath, "Saves");
-    public static string AccountsJsonPath = Path.Combine(FolderPath, "accounts.json");
+    public static string SavesFolderPath = Path.Combine(SourceFilePath, "Saves");
+    public static string AccountsJsonPath = Path.Combine(SavesFolderPath, "accounts.json");
+    public static string ReportsFolderPath = Path.Combine(SavesFolderPath, "Reports");   
     public static string DataSeederPath = GetDataSeederPath();
 
     protected override void OnStartup(StartupEventArgs e) {
         base.OnStartup(e);
 
-        if (!Directory.Exists(FolderPath))
-            Directory.CreateDirectory(FolderPath);
+        // Создание папки для сохранений
+        if (!Directory.Exists(SavesFolderPath)) 
+            Directory.CreateDirectory(SavesFolderPath);
 
-    }
+        // Создание подпапки для отчетов и справок
+        if (!Directory.Exists(ReportsFolderPath))
+            Directory.CreateDirectory(ReportsFolderPath);
+        
+
+    } //OnStartup
 
     // Создание пути к файлу MailOfiiceDataSeeder.exe
     private static string GetDataSeederPath() {
