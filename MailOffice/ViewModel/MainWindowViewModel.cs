@@ -8,6 +8,7 @@ using MailOffice.View;
 using MailOffice.View.Queries;
 using MailOfficeControllers.Controllers;
 using MailOfficeDataBase.DataBase;
+using MailOfficeDataBase.Reports;
 using MailOfficeEntities.Entities;
 using MailOfficeTool.Entities;
 using MailOfficeTool.Infrastructure;
@@ -31,8 +32,8 @@ public class MainWindowViewModel : INotifyPropertyChanged {
         set => SetField(ref _isLoggedIn, value);
     }
 
-    private UserJson? _currentAccount; 
-    public UserJson? CurrentAccount
+    private CurrentAccount? _currentAccount; 
+    public CurrentAccount? CurrentAccount
     {
         get => _currentAccount;
         set => SetField(ref _currentAccount, value);
@@ -51,11 +52,6 @@ public class MainWindowViewModel : INotifyPropertyChanged {
     } // MainWindowViewModel
 
     #region Команды
-
-    public RelayCommand ClearReportCommand => new( 
-        obj => HostWindow.TblReports.Text = string.Empty,
-        obj => true
-    );
 
     public RelayCommand ClearQueryCommand => new(
         obj => HostWindow.TblQueries.Text = string.Empty,
@@ -350,25 +346,28 @@ public class MainWindowViewModel : INotifyPropertyChanged {
 
             // Сохранение данных
             IsLoggedIn = true;
-            CurrentAccount = new UserJson(Login: auth.LoginTextBox.Text,
-                Password: Utils.GetBytes(auth.PasswordTextBox.Text));
+            CurrentAccount = new CurrentAccount(
+                auth.LoginTextBox.Text,
+                Utils.GetBytes(auth.PasswordTextBox.Text), 
+                _dataQueries.GetRoleCurrentAccount(auth.LoginTextBox.Text, Utils.GetBytes(auth.PasswordTextBox.Text))
+                );
 
             // TODO: Временно тут
             // 
-            if (_dataQueries.IsPostman(CurrentAccount!.Login, CurrentAccount.Password)) {
+            if (CurrentAccount.StaffRole != null && 
+                CurrentAccount.StaffRole >= MailOfficeEntities.Category.StaffRole.Postman) {
                 
                 //
-                if (_dataQueries.IsOperator(CurrentAccount!.Login, CurrentAccount.Password)) {
+                if (CurrentAccount.StaffRole >= MailOfficeEntities.Category.StaffRole.Operator) {
 
                     // Отобразить отчеты/справки и запросы
-                    if (_dataQueries.IsDirector(CurrentAccount!.Login, CurrentAccount.Password)) {
-                        HostWindow.ReportsTabItem.Visibility = HostWindow.QueriesTabItem.Visibility 
-                            = HostWindow.MainToolBarTray.Visibility = HostWindow.QueriesMenuItem.Visibility
-                            = HostWindow.GenerationMenuItem.Visibility = HostWindow.DocumentationMenuItem.Visibility
-                            = Visibility.Visible;
+                    if (CurrentAccount.StaffRole >= MailOfficeEntities.Category.StaffRole.Director) {
+                        HostWindow.QueriesTabItem.Visibility = HostWindow.MainToolBarTray.Visibility 
+                            = HostWindow.QueriesMenuItem.Visibility = HostWindow.GenerationMenuItem.Visibility 
+                            = HostWindow.DocumentationMenuItem.Visibility = Visibility.Visible;
 
                         // Отобразить кнопку перегенерацию данных БД
-                        if (_dataQueries.IsAdmin(CurrentAccount!.Login, CurrentAccount.Password)) { 
+                        if (CurrentAccount.StaffRole == MailOfficeEntities.Category.StaffRole.Administrator) { 
                             HostWindow.GenerationMenuItem.Visibility = Visibility.Visible;
                         } //if 
                     } //if
@@ -402,9 +401,9 @@ public class MainWindowViewModel : INotifyPropertyChanged {
         HostWindow.TbcMain.SelectedIndex = 1;
 
         // При выходе с аккаунта убирать элементы с правами доступа
-        HostWindow.AccountTabItem.Visibility = HostWindow.ReportsTabItem.Visibility = HostWindow.QueriesTabItem.Visibility = HostWindow.MainToolBarTray.Visibility = Visibility.Collapsed;
+        HostWindow.AccountTabItem.Visibility = HostWindow.QueriesTabItem.Visibility = HostWindow.MainToolBarTray.Visibility = Visibility.Collapsed;
         HostWindow.QueriesMenuItem.Visibility = HostWindow.GenerationMenuItem.Visibility = HostWindow.DocumentationMenuItem.Visibility = Visibility.Hidden;
-        HostWindow.TblProfile.Text = HostWindow.TblReports.Text = string.Empty;
+        HostWindow.TblProfile.Text = string.Empty;
     } //CloseAccount
 
     // Генерация случайных тестовых значений
@@ -414,7 +413,7 @@ public class MainWindowViewModel : INotifyPropertyChanged {
 
         // Перезапись данных после генерации
         Utils.SaveAsTxt(_dataQueries.GetAllAccountAuthorization(), App.AccountsTxtPath,
-            "|   Логин аккаунта   |   Пароль аккаунта\n");
+            "   Логин аккаунта   |   Пароль аккаунта   |   Роль персонала\n");
 
         LoadPublicationPage(1);
 
@@ -442,7 +441,8 @@ public class MainWindowViewModel : INotifyPropertyChanged {
     private void ShowReport() {
 
         // Доступ к отчетам ТОЛЬКО у Director и Administrator
-        if (IsLoggedIn && _dataQueries.IsDirector(CurrentAccount!.Login, CurrentAccount.Password))
+        if (IsLoggedIn && CurrentAccount!.StaffRole != null 
+            && CurrentAccount.StaffRole >= MailOfficeEntities.Category.StaffRole.Director)
             Utils.SaveAsPdf(_dataController.ShowReport(CurrentAccount!.Login, CurrentAccount.Password), GetSaveFileDialogPath());        
     } //ShowReport
 

@@ -80,4 +80,11 @@ public partial class DatabaseQueries(MailOfficeContext db) {
     public int GetPublicationCountsForSection(List<Subscription> selectedSubcription) => selectedSubcription
         .Distinct()
         .Count();
+
+    public StaffRole? GetRoleCurrentAccount(string login, byte[] password) => db
+        .Users
+        .Include(u => u.Person.Staff)
+        .Where(u => u.Login == login && u.Password == password && u.Person.Staff != null)
+        .Select(u => u.Person.Staff!.Role)
+        .FirstOrDefault();
 } //DatabaseQueries

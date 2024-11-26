@@ -31,7 +31,7 @@ public partial class App : Application {
 
         // !!! Исключительно для тестов приложения !!!
         Utils.SaveAsTxt(new DatabaseQueries().GetAllAccountAuthorization(), AccountsTxtPath,
-            "|   Логин аккаунта   |   Пароль аккаунта\n");
+            "   Логин аккаунта   |   Пароль аккаунта   |   Роль персонала\n");
 
     } //OnStartup
 

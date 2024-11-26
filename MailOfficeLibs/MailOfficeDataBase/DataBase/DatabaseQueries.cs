@@ -263,7 +263,9 @@ public partial class DatabaseQueries {
     // Создание списка данных всех аккаунтов
     public List<string> GetAllAccountAuthorization() => db
         .Users
-        .Select(u => $"| {u.Login,-18} | {Utils.GetString(u.Password)}\n")
+        .Include(u => u.Person.Staff)
+        .Select(u => $" {u.Login,-18} | {Utils.GetString(u.Password),-19} |" +
+        $" {(u.Person.Staff != null ? u.Person.Staff.Role.ToString() : null)}\n")
         .ToList();
     
          
