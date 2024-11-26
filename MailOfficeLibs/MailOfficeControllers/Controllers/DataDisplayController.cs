@@ -165,6 +165,7 @@ public partial class DatabaseDisplayController(DatabaseQueries data) {
         var sb = new StringBuilder();
 
         var currentAccount = data.GetCurrentSubscriptions(currentLogin, currentPassword);
+        if (currentAccount == null) return sb.ToString();
 
         sb.AppendLine("\n\n\t\tМои подписные издания:")
           .AppendLine(

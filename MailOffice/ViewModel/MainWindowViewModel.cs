@@ -3,7 +3,6 @@ using System.Diagnostics;
 using System.IO;
 using System.Runtime.CompilerServices;
 using System.Windows;
-using System.Windows.Forms;
 using MailOffice.Infrastructure;
 using MailOffice.View;
 using MailOffice.View.Queries;
@@ -12,7 +11,6 @@ using MailOfficeDataBase.DataBase;
 using MailOfficeEntities.Entities;
 using MailOfficeTool.Entities;
 using MailOfficeTool.Infrastructure;
-using Microsoft.Win32;
 using Application = System.Windows.Application;
 using SaveFileDialog = Microsoft.Win32.SaveFileDialog;
 
@@ -339,11 +337,43 @@ public class MainWindowViewModel : INotifyPropertyChanged {
         if (auth.DialogResult == true && 
             _dataQueries.IsAuthenticate(auth.LoginTextBox.Text, Utils.GetBytes(auth.PasswordTextBox.Text))) 
         {
-           
+
+            // Включаем кнопку выхода и выключаем кнопку входа
+            HostWindow.CloseAccountItem.Visibility = Visibility.Visible;
+            HostWindow.SignAccountItem.Visibility = Visibility.Hidden;
+
+            // Смена хедера на актуальный логин
+            HostWindow.ProfileItem.Header = $"{auth.LoginTextBox.Text} ∨";
+
+            // Отображаем окно профиля 
+            HostWindow.AccountTabItem.Visibility = Visibility.Visible;
+
             // Сохранение данных
             IsLoggedIn = true;
             CurrentAccount = new UserJson(Login: auth.LoginTextBox.Text,
                 Password: Utils.GetBytes(auth.PasswordTextBox.Text));
+
+            // TODO: Временно тут
+            // 
+            if (_dataQueries.IsPostman(CurrentAccount!.Login, CurrentAccount.Password)) {
+                
+                //
+                if (_dataQueries.IsOperator(CurrentAccount!.Login, CurrentAccount.Password)) {
+
+                    // Отобразить отчеты/справки и запросы
+                    if (_dataQueries.IsDirector(CurrentAccount!.Login, CurrentAccount.Password)) {
+                        HostWindow.ReportsTabItem.Visibility = HostWindow.QueriesTabItem.Visibility 
+                            = HostWindow.MainToolBarTray.Visibility = HostWindow.QueriesMenuItem.Visibility
+                            = HostWindow.GenerationMenuItem.Visibility = HostWindow.DocumentationMenuItem.Visibility
+                            = Visibility.Visible;
+
+                        // Отобразить кнопку перегенерацию данных БД
+                        if (_dataQueries.IsAdmin(CurrentAccount!.Login, CurrentAccount.Password)) { 
+                            HostWindow.GenerationMenuItem.Visibility = Visibility.Visible;
+                        } //if 
+                    } //if
+                } //if
+            } //if 
 
             // Отображение профиля
             ShowProfile();
@@ -361,6 +391,19 @@ public class MainWindowViewModel : INotifyPropertyChanged {
         IsLoggedIn = false;
         CurrentAccount = null;
 
+        // Отключаем кнопку выхода и включаем кнопку входа
+        HostWindow.CloseAccountItem.Visibility = Visibility.Hidden;
+        HostWindow.SignAccountItem.Visibility = Visibility.Visible;
+
+        // Смена хедера на актуальный логин
+        HostWindow.ProfileItem.Header = $"Guest ∨";
+
+        // Выбираем окно, которое отображается всегда
+        HostWindow.TbcMain.SelectedIndex = 1;
+
+        // При выходе с аккаунта убирать элементы с правами доступа
+        HostWindow.AccountTabItem.Visibility = HostWindow.ReportsTabItem.Visibility = HostWindow.QueriesTabItem.Visibility = HostWindow.MainToolBarTray.Visibility = Visibility.Collapsed;
+        HostWindow.QueriesMenuItem.Visibility = HostWindow.GenerationMenuItem.Visibility = HostWindow.DocumentationMenuItem.Visibility = Visibility.Hidden;
         HostWindow.TblProfile.Text = HostWindow.TblReports.Text = string.Empty;
     } //CloseAccount
 
@@ -368,6 +411,10 @@ public class MainWindowViewModel : INotifyPropertyChanged {
     private void GenerateTextEntities() {
         // Генерация данных в MailOfficeDataSeeder (Консольное приложение в проекте)
         Process.Start(App.DataSeederPath).WaitForExit();
+
+        // Перезапись данных после генерации
+        Utils.SaveAsTxt(_dataQueries.GetAllAccountAuthorization(), App.AccountsTxtPath,
+            "|   Логин аккаунта   |   Пароль аккаунта\n");
 
         LoadPublicationPage(1);
 
@@ -395,9 +442,8 @@ public class MainWindowViewModel : INotifyPropertyChanged {
     private void ShowReport() {
 
         // Доступ к отчетам ТОЛЬКО у Director и Administrator
-        if (IsLoggedIn && _dataQueries.IsDirector(CurrentAccount!.Login, CurrentAccount.Password)){ 
-            Utils.SaveStringAsPdf(_dataController.ShowReport(CurrentAccount!.Login, CurrentAccount.Password), GetSaveFileDialogPath());     
-        } //if
+        if (IsLoggedIn && _dataQueries.IsDirector(CurrentAccount!.Login, CurrentAccount.Password))
+            Utils.SaveAsPdf(_dataController.ShowReport(CurrentAccount!.Login, CurrentAccount.Password), GetSaveFileDialogPath());        
     } //ShowReport
 
     // Получение пути для сохранения pdf файла

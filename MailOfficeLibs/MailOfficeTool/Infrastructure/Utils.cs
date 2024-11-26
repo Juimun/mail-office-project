@@ -30,8 +30,8 @@ public static class Utils
         JsonConvert.DeserializeObject<List<UserJson>>(File.ReadAllText(fileName, Encoding.UTF8))!;
 
     // Создание файла .pdf
-    // Нужен NuGet пакет iTextSharp
-    public static void SaveStringAsPdf(List<Paragraph> text, string filePath) {
+    // Нужен NuGet пакет iTextSharp 
+    public static void SaveAsPdf(List<Paragraph> text, string filePath) {
         using (var document = new Document()) {
             using (var writer = PdfWriter.GetInstance(document, new FileStream(filePath, FileMode.Create))) {
                 writer.SetPdfVersion(PdfWriter.PDF_VERSION_1_7);
@@ -43,4 +43,11 @@ public static class Utils
         }
     } //SaveStringAsPdf
 
+    // Создание файла .txt
+    public static void SaveAsTxt(List<string> text, string filePath, string title) {
+        using (var writer = new StreamWriter(filePath)) {
+            writer.Write(title); 
+            text.ForEach(writer.Write);
+        }
+    } //SaveAsTxt
 } //Utils

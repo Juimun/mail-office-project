@@ -1,12 +1,15 @@
-﻿using MailOfficeDataBase.Reports;
+﻿using iTextSharp.xmp.impl;
+using MailOfficeDataBase.Reports;
 using MailOfficeEntities.Category;
 using MailOfficeEntities.Entities;
 using MailOfficeEntities.Entities.Accounts;
 using MailOfficeFactory.Factories;
 using MailOfficeTool.Entities;
+using MailOfficeTool.Infrastructure;
 using Microsoft.EntityFrameworkCore;
 using System.Data;
 using System.Linq;
+using Utils = MailOfficeTool.Infrastructure.Utils;
 
 namespace MailOfficeDataBase.DataBase;
 
@@ -183,14 +186,87 @@ public partial class DatabaseQueries {
         .Select(s => s)
         .FirstOrDefault();
 
-    // Проверка на роль Director или Administrator
+    // Проверка на роль Administrator
+    public bool IsAdmin(string newLogin, byte[] newPassword) => db 
+        .Users
+        .Include(u => u.Person)
+            .ThenInclude(s => s.Staff)
+        .Where(u => u.Login == newLogin && u.Password == newPassword)
+        .Any(u => u.Person.Staff!.Role == StaffRole.Administrator);
+
+    // Проверка на роль Director 
     public bool IsDirector(string newLogin, byte[] newPassword) => db 
         .Users
         .Include(u => u.Person)
             .ThenInclude(s => s.Staff)
         .Where(u => u.Login == newLogin && u.Password == newPassword)
-        .Any(u => u.Person.Staff!.Role >= StaffRole.Director);
+        .Any(u => u.Person.Staff!.Role == StaffRole.Director);
 
+    // Проверка на роль Operator
+    public bool IsOperator(string newLogin, byte[] newPassword) => db
+        .Users 
+        .Include(u => u.Person)
+            .ThenInclude(s => s.Staff)
+        .Where(u => u.Login == newLogin && u.Password == newPassword)
+        .Any(u => u.Person.Staff!.Role == StaffRole.Operator);
+
+    // Проверка на роль Postman
+    public bool IsPostman(string newLogin, byte[] newPassword) => db 
+        .Users
+        .Include(u => u.Person)
+            .ThenInclude(s => s.Staff)
+        .Where(u => u.Login == newLogin && u.Password == newPassword)
+        .Any(u => u.Person.Staff!.Role == StaffRole.Postman);
+
+    // Удалить почтальена
+    public void FirePostman(int staffId) {
+        var selectedPerson = db
+            .People
+            .Include(s => s.Staff)
+            .FirstOrDefault(p => p.Staff!.Id == staffId);
+
+        if (selectedPerson == null) return;
+
+        selectedPerson.Role = PersonCategory.Registered;
+        db.Update(selectedPerson);
+        db.Staff.Remove(selectedPerson.Staff!);
+
+        db.SaveChanges();
+    } //FirePostman
+
+    // Добавить почтальена
+    public void AddPostman(int personId) { 
+        // Находим пользователя
+        var selectedPerson = db
+            .People
+            .FirstOrDefault(p => p.Id == personId);
+
+        // Находим свободный участок
+        var freeSection = db
+            .Sections
+            .FirstOrDefault(s => s.Staff.SectionId == null);
+
+        if (selectedPerson == null || freeSection == null) 
+            return;
+
+        // Меняем роль персоны
+        selectedPerson.Role = PersonCategory.Staff;
+        db.Update(selectedPerson);
+
+        // Добавляем новую запись Staff
+        db.Staff.Add(new Staff() { PersonId = selectedPerson.Id, Role = StaffRole.Postman, SectionId = freeSection.Id });
+
+        db.SaveChanges();
+    } //AddPostman
+     
+    // Для удобства тестов
+    // Создание списка данных всех аккаунтов
+    public List<string> GetAllAccountAuthorization() => db
+        .Users
+        .Select(u => $"| {u.Login,-18} | {Utils.GetString(u.Password)}\n")
+        .ToList();
+    
+         
     // Количество обслуживаемых участков
     public int ServesSectionCount() => db
         .Staff

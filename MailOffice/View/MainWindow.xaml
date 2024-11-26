@@ -24,15 +24,20 @@
                       Height="25"
                      >
                 <MenuItem
+                      Name="GenerationMenuItem"
                       Header="Генерация тестовых данных"
                       Foreground="White"
+                      Visibility="Hidden"
+                      IsEnabled="False"
                       Command="{Binding GenerateTextEntitiesCommand}">
 
                     <MenuItem.Icon>
                         <Image Source="/Assets/Menu/test.png"/>
                     </MenuItem.Icon>
                 </MenuItem>
-                <Separator />
+                <Separator 
+                    Name="Separator1MenuItem"
+                    Visibility="Hidden"/>
                 <MenuItem
                     Header="Выход"
                     Foreground="White"
@@ -43,9 +48,11 @@
                     </MenuItem.Icon>
                 </MenuItem>
             </MenuItem>
-            <MenuItem Header="Запросы" 
-                      Height="25"
-                     >
+            <MenuItem 
+                Name="QueriesMenuItem"
+                Header="Запросы" 
+                Height="25" 
+                Visibility="Hidden">
                 <MenuItem
                      Header="Запрос №1"
                      Foreground="White"
@@ -111,17 +118,27 @@
                     </MenuItem.Icon>
                 </MenuItem>
             </MenuItem>
-            <MenuItem Header="Отчет" 
-                      Height="25"
-                     >
+            <MenuItem 
+                Name="DocumentationMenuItem"
+                Header="Документы" 
+                Height="25" 
+                Visibility="Collapsed">
                 <MenuItem
-                     Header="Создать отчет"
-                     Foreground="White"
-                     Command="{Binding ReportCommand}">
+                     Header="Сохранить как..."
+                     Foreground="White" >
 
                     <MenuItem.Icon>
                         <Image Source="/Assets/Menu/report.png"/>
                     </MenuItem.Icon>
+                    <MenuItem
+                         Header="PDF (.pdf)"
+                         Foreground="#171d25"
+                         Command="{Binding ReportCommand}">
+
+                        <MenuItem.Icon>
+                            <Image Source="/Assets/Menu/pdf.png"/>
+                        </MenuItem.Icon>
+                    </MenuItem>
                 </MenuItem>
                 <MenuItem
                      Header="Очистить отчет"
@@ -147,7 +164,7 @@
                       Header="Guest ∨" 
                       MinWidth="150" 
                       ToolTip="Управление аккаунтом"
-                      HorizontalAlignment="Center">
+                      HorizontalAlignment="Center" >
                 <MenuItem
                     Header="Мой профиль"
                     Foreground="White"
@@ -190,6 +207,7 @@
                     Header="Выйти из аккаунта..."
                     Foreground="White"
                     Name="CloseAccountItem" 
+                    Visibility="Hidden"
                     Command="{Binding CloseAccountCommand}" >
                     <MenuItem.Icon>
                         <Image Source="/Assets/Account/signOut.png"/>
@@ -197,7 +215,10 @@
                 </MenuItem>
             </MenuItem>
         </Menu>
-        <ToolBarTray Grid.Row="1" Background="#171d25" >
+        <ToolBarTray Grid.Row="1" 
+                     Background="#171d25"
+                     Name="MainToolBarTray"
+                     Visibility="Collapsed">
             <ToolBar Background="#303b4a">
                 <Button Command="{Binding Path=LeftTabCommand}">
                     <Image Height="32" 
@@ -215,46 +236,53 @@
                 <Separator />
                 <Button Command="{Binding Path=ReportCommand}">
                     <Image Height="32" 
-                           Source="/Assets/Menu/report.png" 
+                           Source="/Assets/Menu/pdf.png" 
                            Stretch="Fill" 
-                           Width="32"/>
+                           Width="32"
+                           />
                 </Button>
                 <Separator />
                 <Button Command="{Binding Path=Query1Command}">
                     <Image Height="32" 
                            Source="/Assets/Queries/queries (1).png" 
                            Stretch="Fill" 
-                           Width="32"/>
+                           Width="32"
+                           />
                 </Button>
                 <Button Command="{Binding Path=Query2Command}">
                     <Image Height="32" 
                            Source="/Assets/Queries/queries (2).png" 
                            Stretch="Fill" 
-                           Width="32"/>
+                           Width="32"
+                           />
                 </Button>
                 <Button Command="{Binding Path=Query3Command}">
                     <Image Height="32" 
                            Source="/Assets/Queries/queries (3).png" 
                            Stretch="Fill" 
-                           Width="32"/>
+                           Width="32"
+                           />
                 </Button>
                 <Button Command="{Binding Path=Query4Command}">
                     <Image Height="32" 
                            Source="/Assets/Queries/queries (4).png" 
                            Stretch="Fill" 
-                           Width="32"/>
+                           Width="32"
+                           />
                 </Button>
                 <Button Command="{Binding Path=Query5Command}">
                     <Image Height="32" 
                            Source="/Assets/Queries/queries (5).png" 
                            Stretch="Fill" 
-                           Width="32"/>
+                           Width="32"
+                           />
                 </Button>
                 <Button Command="{Binding Path=Query6Command}">
                     <Image Height="32" 
                            Source="/Assets/Queries/queries (6).png" 
                            Stretch="Fill" 
-                           Width="32"/>
+                           Width="32"
+                           />
                 </Button>
             </ToolBar>
         </ToolBarTray>
@@ -266,7 +294,7 @@
                     <TextBlock Name="TblTablesHeader"
                                FontFamily="Verdana"
                                FontSize="14"
-                               Text="Таблицы базы данных">
+                               Text="Доступные публикации">
                     </TextBlock>
                 </TabItem.Header>
                 <ScrollViewer 
@@ -286,7 +314,7 @@
                         <DataGrid Grid.Row="0"
                                   Grid.ColumnSpan="3"
                                   Name="SelectedFirstPartDataGrid" 
-                                  Margin="0 0 82 0"  
+                                  Margin="0,0,82,0"  
                                   FontFamily="Courier New"
                                   FontSize="16" 
                                   AutoGenerateColumns="False"
@@ -308,7 +336,7 @@
                                   Grid.Column="2"
                                   Grid.ColumnSpan="3"
                                   Name="SelectedSecondPartDataGrid" 
-                                  Margin="82 0 0 0"  
+                                  Margin="82,0,0,0"  
                                   FontFamily="Courier New"
                                   FontSize="16" 
                                   AutoGenerateColumns="False"
@@ -389,12 +417,15 @@
                     </Grid>
                 </ScrollViewer>
             </TabItem>
-            <TabItem BorderThickness="1">
+            <TabItem BorderThickness="1" 
+                     Visibility="Collapsed"
+                     Name="QueriesTabItem">
                 <TabItem.Header>
                     <TextBlock Name="TblQueriesHeader"
                                FontFamily="Verdana"
                                FontSize="14"
-                               Text="Выборки по запросам">
+                               Text="Выборки по запросам"
+                               >
                     </TextBlock>
                 </TabItem.Header>
                 <ScrollViewer VerticalScrollBarVisibility="Visible">
@@ -404,7 +435,9 @@
                                FontSize="16" />
                 </ScrollViewer>
             </TabItem>
-            <TabItem BorderThickness="1">
+            <TabItem BorderThickness="1"
+                     Visibility="Collapsed"
+                     Name="ReportsTabItem">
                 <TabItem.Header>
                     <TextBlock Name="TblReportsHeader"
                                FontFamily="Verdana"
@@ -419,7 +452,9 @@
                    FontSize="16" />
                 </ScrollViewer>
             </TabItem>
-            <TabItem BorderThickness="1">
+            <TabItem BorderThickness="1"
+                     Visibility="Collapsed"
+                     Name="AccountTabItem">
                 <TabItem.Header>
                     <TextBlock Name="TblProfileHeader"  
                                FontFamily="Verdana"
