@@ -10,7 +10,6 @@ using MailOfficeControllers.Controllers;
 using MailOfficeDataBase.DataBase;
 using MailOfficeDataBase.Reports;
 using MailOfficeEntities.Entities;
-using MailOfficeTool.Entities;
 using MailOfficeTool.Infrastructure;
 using Application = System.Windows.Application;
 using SaveFileDialog = Microsoft.Win32.SaveFileDialog;
@@ -155,6 +154,11 @@ public class MainWindowViewModel : INotifyPropertyChanged {
 
     public RelayCommand LastPageCommand => new( 
         obj => LastPage(),
+        obj => true
+    ); 
+
+    public RelayCommand SpecialMenuCommand => new( 
+        obj => SpecialMenu(), 
         obj => true
     );
     #endregion
@@ -312,6 +316,12 @@ public class MainWindowViewModel : INotifyPropertyChanged {
             HostWindow.TbcMain.SelectedIndex = 0;
     } //RightTab
 
+    // Меню для работой со специальными правами для ролей
+    private void SpecialMenu() {
+        var specialMenu = new SpecialMenuWindow();
+        specialMenu.ShowDialog();
+    } //SpecialMenu
+
     // Разделение и привязка в DataGrid
     private void UpdateDataGridSources() {
         int halfCount = Entities.Count / 2; 
@@ -348,37 +358,67 @@ public class MainWindowViewModel : INotifyPropertyChanged {
                 _dataQueries.GetRoleCurrentAccount(auth.LoginTextBox.Text, Utils.GetBytes(auth.PasswordTextBox.Text))
                 );
 
-            // TODO: Временно тут
-            // 
-            if (CurrentAccount.StaffRole != null && 
-                CurrentAccount.StaffRole >= MailOfficeEntities.Category.StaffRole.Postman) {
-                
-                //
-                if (CurrentAccount.StaffRole >= MailOfficeEntities.Category.StaffRole.Operator) {
-
-                    // Отобразить отчеты/справки и запросы
-                    if (CurrentAccount.StaffRole >= MailOfficeEntities.Category.StaffRole.Director) {
-                        HostWindow.QueriesTabItem.Visibility = HostWindow.MainToolBarTray.Visibility 
-                            = HostWindow.QueriesMenuItem.Visibility = HostWindow.DocumentationMenuItem.Visibility
-                            = Visibility.Visible;
-
-                        // Отобразить кнопку перегенерацию данных БД
-                        if (CurrentAccount.StaffRole == MailOfficeEntities.Category.StaffRole.Administrator) { 
-                            
-                        } //if 
-                    } //if
-                } //if
-            } //if 
+            RoleValidation();
 
             // Отображение профиля
             ShowProfile();
         }
     } //SignAccount
 
+    private void RoleValidation() {
+        // TODO: Временно тут
+        // 
+        if (CurrentAccount!.StaffRole != null &&
+            CurrentAccount.StaffRole >= MailOfficeEntities.Category.StaffRole.Postman)
+        {
+            HostWindow.SpecialMenuItem.Visibility = Visibility.Visible;
+
+            //
+            if (CurrentAccount.StaffRole >= MailOfficeEntities.Category.StaffRole.Operator)
+            {
+
+                // Отобразить отчеты/справки и запросы
+                if (CurrentAccount.StaffRole >= MailOfficeEntities.Category.StaffRole.Director)
+                {
+                    HostWindow.QueriesTabItem.Visibility = HostWindow.MainToolBarTray.Visibility
+                        = HostWindow.QueriesMenuItem.Visibility = HostWindow.DocumentationMenuItem.Visibility
+                        = Visibility.Visible;
+
+                    // Отобразить кнопку перегенерацию данных БД
+                    if (CurrentAccount.StaffRole == MailOfficeEntities.Category.StaffRole.Administrator)
+                    {
+
+                    } //if 
+                } //if
+            } //if
+        } //if 
+    }
+
     // Смена аккаунта
     public void ChangeAccount() {
-        var change = new ChangeAccountWindow();
-        change.ShowDialog();
+        if (File.Exists(App.AccountsJsonPath)) {
+            var savedUser = Utils.JsonDeserialize(App.AccountsJsonPath);
+
+            if (savedUser != null) {
+
+                // Смена хедера на актуальный логин
+                HostWindow.ProfileItem.Header = $"{savedUser.Login} ∨";
+
+                // Отображаем окно профиля 
+                HostWindow.AccountTabItem.Visibility = Visibility.Visible;
+
+
+                IsLoggedIn = true;
+                CurrentAccount = new CurrentAccount(savedUser.Login, savedUser.Password, 
+                    _dataQueries.GetRoleCurrentAccount(savedUser.Login, savedUser.Password));
+
+                RoleValidation();
+
+                // Отображение профиля
+                ShowProfile();
+            }
+        }
+        
     } //ChangeAccount
 
     // Выход из аккаунта
@@ -390,13 +430,14 @@ public class MainWindowViewModel : INotifyPropertyChanged {
         HostWindow.ProfileItem.Header = $"Guest ∨";
 
         // Выбираем окно, которое отображается всегда
-        HostWindow.TbcMain.SelectedIndex = 1;
+        HostWindow.TbcMain.SelectedIndex = 0;
 
         // При выходе с аккаунта убирать элементы с правами доступа
         HostWindow.MainToolBarTray.Visibility = Visibility.Collapsed;
         HostWindow.AccountTabItem.Visibility = HostWindow.QueriesTabItem.Visibility 
             = HostWindow.MainToolBarTray.Visibility = HostWindow.QueriesMenuItem.Visibility 
-            = HostWindow.DocumentationMenuItem.Visibility = Visibility.Hidden;
+            = HostWindow.DocumentationMenuItem.Visibility = HostWindow.SpecialMenuItem.Visibility 
+            = Visibility.Hidden;
 
         HostWindow.TblProfile.Text = string.Empty;
     } //CloseAccount
@@ -419,7 +460,7 @@ public class MainWindowViewModel : INotifyPropertyChanged {
     // Отобразить профиль
     private void ShowProfile() {
         if (IsLoggedIn) {
-            HostWindow.TbcMain.SelectedIndex = 3;
+            HostWindow.TbcMain.SelectedIndex = 2;
             HostWindow.TblProfile.Text = _dataController.ShowCurrentProfile(CurrentAccount!.Login, CurrentAccount.Password);
         } //if
     } //ShowProfile
@@ -427,7 +468,7 @@ public class MainWindowViewModel : INotifyPropertyChanged {
     // Отобразить список подписок
     private void ShowSubscribers() {
         if (IsLoggedIn) {
-            HostWindow.TbcMain.SelectedIndex = 3;
+            HostWindow.TbcMain.SelectedIndex = 2;
             HostWindow.TblProfile.Text = _dataController.ShowSubscriptionsCurrentUser(CurrentAccount!.Login, CurrentAccount.Password);
         } //if
     } //ShowProfile

@@ -26,6 +26,7 @@
     <None Remove="Assets\Menu\pdf.png" />
     <None Remove="Assets\Menu\queries.png" />
     <None Remove="Assets\Menu\report.png" />
+    <None Remove="Assets\Menu\staffOnly.png" />
     <None Remove="Assets\Menu\test.png" />
     <None Remove="Assets\Menu\warning.png" />
     <None Remove="Assets\Queries\queries %281%29.png" />
@@ -94,6 +95,9 @@
       <CopyToOutputDirectory>Never</CopyToOutputDirectory>
     </Resource>
     <Resource Include="Assets\Menu\report.png">
+      <CopyToOutputDirectory>Never</CopyToOutputDirectory>
+    </Resource>
+    <Resource Include="Assets\Menu\staffOnly.png">
       <CopyToOutputDirectory>Never</CopyToOutputDirectory>
     </Resource>
     <Resource Include="Assets\Menu\test.png">

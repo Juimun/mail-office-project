@@ -23,11 +23,11 @@ public static class Utils
     public static byte[] GetBytes(string arr) =>
     Encoding.UTF8.GetBytes(arr);
 
-    public static void JsonSerialize(List<UserJson> dataList, string fileName) =>
+    public static void JsonSerialize(UserJson dataList, string fileName) =>
         File.WriteAllText(fileName, JsonConvert.SerializeObject(dataList, Formatting.Indented), Encoding.UTF8);
 
-    public static List<UserJson> JsonDeserialize(string fileName) =>
-        JsonConvert.DeserializeObject<List<UserJson>>(File.ReadAllText(fileName, Encoding.UTF8))!;
+    public static UserJson JsonDeserialize(string fileName) =>
+        JsonConvert.DeserializeObject<UserJson>(File.ReadAllText(fileName, Encoding.UTF8))!;
 
     // Создание файла .pdf
     // Нужен NuGet пакет iTextSharp 

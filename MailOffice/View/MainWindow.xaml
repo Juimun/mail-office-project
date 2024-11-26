@@ -39,6 +39,15 @@
                     </MenuItem.Icon>
                 </MenuItem>
                 <MenuItem
+                     Header="Войти в сохраненный аккаунт..."
+                     Foreground="White"
+                     Name="ChangeAccount2Item"
+                     Command="{Binding ChangeAccountCommand}" >
+                    <MenuItem.Icon>
+                        <Image Source="/Assets/Account/change.png"/>
+                    </MenuItem.Icon>
+                </MenuItem>
+                <MenuItem
                      Header="Выйти из аккаунта..."
                      Foreground="White"
                      Name="CloseAccount2Item" 
@@ -53,11 +62,10 @@
                     Header="Специальные возможности"
                     Foreground="White"
                     Visibility="Hidden"
-                    IsEnabled="False"
-                    Command="{Binding GenerateTextEntitiesCommand}">
+                    Command="{Binding SpecialMenuCommand}">
 
                     <MenuItem.Icon>
-                        <Image Source="/Assets/Menu/test.png"/>
+                        <Image Source="/Assets/Menu/staffOnly.png"/>
                     </MenuItem.Icon>
                 </MenuItem>
                 <Separator />
@@ -209,7 +217,7 @@
                     </MenuItem.Icon>
                 </MenuItem>
                 <MenuItem
-                    Header="Войти в другой аккаунт..."
+                    Header="Войти в сохраненный аккаунт..."
                     Foreground="White"
                     Name="ChangeAccountItem"
                     Command="{Binding ChangeAccountCommand}" >

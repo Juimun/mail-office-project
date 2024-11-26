@@ -49,8 +49,6 @@ public class AuthorizationViewModel(AuthorizationWindow hostWindow) : INotifyPro
         regWindow.ShowDialog();
     } //ShowRegistration
 
-    private List<UserJson> _savedUsers = new();
-
     public void EntryAuthorization() {
         var data = new DatabaseQueries();
 
@@ -65,36 +63,37 @@ public class AuthorizationViewModel(AuthorizationWindow hostWindow) : INotifyPro
             return;
         }
 
-        if (RememberMe) 
-            SaveUser(savedUser);
+        if (RememberMe)
+        {
+            Utils.JsonSerialize(savedUser, App.AccountsJsonPath);
+        }
+            
         
         HostWindow.DialogResult = true;
         HostWindow.Close();
     } //EntryAuthorization
 
     private void SaveUser(UserJson savedUser) {
-        // Перезапись в JSON для добавления нескольких аккаунтов
-        if (File.Exists(App.AccountsJsonPath))
-        {
-            _savedUsers = Utils.JsonDeserialize(App.AccountsJsonPath);
-        }
+        //// Перезапись в JSON для добавления нескольких аккаунтов
+        //if (File.Exists(App.AccountsJsonPath))
+        //{
+        //    _savedUser = Utils.JsonDeserialize(App.AccountsJsonPath);
+        //}
+        //
+        //// Проверка на дубликаты
+        //if (_savedUser.Any(u => u.Login == savedUser.Login))
+        //{
+        //    MessageBox.Show("Данный аккаунт уже сохранен!", "Подсказка", MessageBoxButton.OK, MessageBoxImage.Warning);
+        //    return;
+        //}
+        //
+        //// Проверка на ограничение количества 
+        //if (_savedUsers.Count >= 4)
+        //{
+        //    MessageBox.Show("Вы сохранили максимальное количество аккаунтов!", "Подсказка", MessageBoxButton.OK, MessageBoxImage.Warning);
+        //    return;
+        //}
 
-        // Проверка на дубликаты
-        if (_savedUsers.Any(u => u.Login == savedUser.Login))
-        {
-            MessageBox.Show("Данный аккаунт уже сохранен!", "Подсказка", MessageBoxButton.OK, MessageBoxImage.Warning);
-            return;
-        }
-
-        // Проверка на ограничение количества 
-        if (_savedUsers.Count >= 4)
-        {
-            MessageBox.Show("Вы сохранили максимальное количество аккаунтов!", "Подсказка", MessageBoxButton.OK, MessageBoxImage.Warning);
-            return;
-        }
-
-        _savedUsers.Add(savedUser);
-        Utils.JsonSerialize(_savedUsers, App.AccountsJsonPath);
     } //SaveUser
 
     #region INotifyPropertyChanged
