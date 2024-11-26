@@ -334,10 +334,6 @@ public class MainWindowViewModel : INotifyPropertyChanged {
             _dataQueries.IsAuthenticate(auth.LoginTextBox.Text, Utils.GetBytes(auth.PasswordTextBox.Text))) 
         {
 
-            // Включаем кнопку выхода и выключаем кнопку входа
-            HostWindow.CloseAccountItem.Visibility = Visibility.Visible;
-            HostWindow.SignAccountItem.Visibility = Visibility.Hidden;
-
             // Смена хедера на актуальный логин
             HostWindow.ProfileItem.Header = $"{auth.LoginTextBox.Text} ∨";
 
@@ -363,12 +359,12 @@ public class MainWindowViewModel : INotifyPropertyChanged {
                     // Отобразить отчеты/справки и запросы
                     if (CurrentAccount.StaffRole >= MailOfficeEntities.Category.StaffRole.Director) {
                         HostWindow.QueriesTabItem.Visibility = HostWindow.MainToolBarTray.Visibility 
-                            = HostWindow.QueriesMenuItem.Visibility = HostWindow.GenerationMenuItem.Visibility 
-                            = HostWindow.DocumentationMenuItem.Visibility = Visibility.Visible;
+                            = HostWindow.QueriesMenuItem.Visibility = HostWindow.DocumentationMenuItem.Visibility
+                            = Visibility.Visible;
 
                         // Отобразить кнопку перегенерацию данных БД
                         if (CurrentAccount.StaffRole == MailOfficeEntities.Category.StaffRole.Administrator) { 
-                            HostWindow.GenerationMenuItem.Visibility = Visibility.Visible;
+                            
                         } //if 
                     } //if
                 } //if
@@ -390,10 +386,6 @@ public class MainWindowViewModel : INotifyPropertyChanged {
         IsLoggedIn = false;
         CurrentAccount = null;
 
-        // Отключаем кнопку выхода и включаем кнопку входа
-        HostWindow.CloseAccountItem.Visibility = Visibility.Hidden;
-        HostWindow.SignAccountItem.Visibility = Visibility.Visible;
-
         // Смена хедера на актуальный логин
         HostWindow.ProfileItem.Header = $"Guest ∨";
 
@@ -401,8 +393,11 @@ public class MainWindowViewModel : INotifyPropertyChanged {
         HostWindow.TbcMain.SelectedIndex = 1;
 
         // При выходе с аккаунта убирать элементы с правами доступа
-        HostWindow.AccountTabItem.Visibility = HostWindow.QueriesTabItem.Visibility = HostWindow.MainToolBarTray.Visibility = Visibility.Collapsed;
-        HostWindow.QueriesMenuItem.Visibility = HostWindow.GenerationMenuItem.Visibility = HostWindow.DocumentationMenuItem.Visibility = Visibility.Hidden;
+        HostWindow.MainToolBarTray.Visibility = Visibility.Collapsed;
+        HostWindow.AccountTabItem.Visibility = HostWindow.QueriesTabItem.Visibility 
+            = HostWindow.MainToolBarTray.Visibility = HostWindow.QueriesMenuItem.Visibility 
+            = HostWindow.DocumentationMenuItem.Visibility = Visibility.Hidden;
+
         HostWindow.TblProfile.Text = string.Empty;
     } //CloseAccount
 

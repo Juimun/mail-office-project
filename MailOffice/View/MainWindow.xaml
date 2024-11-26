@@ -19,25 +19,48 @@
         <Menu Grid.Column="0"
               Style="{StaticResource MenuStyle}"
               Foreground="#999999"
-              FontSize="14">
-            <MenuItem Header="Файл" 
+              FontSize="14" >
+            <Image Height="32" 
+                     Source="/Assets/Menu/mailBlue.png" 
+                     Stretch="Fill" 
+                     Width="32"
+                     IsEnabled="False"
+                     />
+            <MenuItem Header="Почтовое отделение №1" 
                       Height="25"
-                     >
+                      >
                 <MenuItem
-                      Name="GenerationMenuItem"
-                      Header="Генерация тестовых данных"
-                      Foreground="White"
-                      Visibility="Hidden"
-                      IsEnabled="False"
-                      Command="{Binding GenerateTextEntitiesCommand}">
+                     Header="Войти в аккаунт"
+                     Foreground="White"
+                     Name="SignAccount2Item" 
+                     Command="{Binding SignAccountCommand}" >
+                    <MenuItem.Icon>
+                        <Image Source="/Assets/Account/signIn.png"/>
+                    </MenuItem.Icon>
+                </MenuItem>
+                <MenuItem
+                     Header="Выйти из аккаунта..."
+                     Foreground="White"
+                     Name="CloseAccount2Item" 
+                     Command="{Binding CloseAccountCommand}" >
+                    <MenuItem.Icon>
+                        <Image Source="/Assets/Account/signOut.png"/>
+                    </MenuItem.Icon>
+                </MenuItem>
+                <Separator />
+                <MenuItem
+                    Name="SpecialMenuItem"
+                    Header="Специальные возможности"
+                    Foreground="White"
+                    Visibility="Hidden"
+                    IsEnabled="False"
+                    Command="{Binding GenerateTextEntitiesCommand}">
 
                     <MenuItem.Icon>
                         <Image Source="/Assets/Menu/test.png"/>
                     </MenuItem.Icon>
                 </MenuItem>
-                <Separator 
-                    Name="Separator1MenuItem"
-                    Visibility="Hidden"/>
+                <Separator />
                 <MenuItem
                     Header="Выход"
                     Foreground="White"
@@ -198,7 +221,6 @@
                     Header="Выйти из аккаунта..."
                     Foreground="White"
                     Name="CloseAccountItem" 
-                    Visibility="Hidden"
                     Command="{Binding CloseAccountCommand}" >
                     <MenuItem.Icon>
                         <Image Source="/Assets/Account/signOut.png"/>
@@ -409,7 +431,7 @@
                 </ScrollViewer>
             </TabItem>
             <TabItem BorderThickness="1" 
-                     Visibility="Collapsed"
+                     Visibility="Hidden"
                      Name="QueriesTabItem">
                 <TabItem.Header>
                     <TextBlock Name="TblQueriesHeader"
@@ -427,7 +449,7 @@
                 </ScrollViewer>
             </TabItem>
             <TabItem BorderThickness="1"
-                     Visibility="Collapsed"
+                     Visibility="Hidden"
                      Name="AccountTabItem">
                 <TabItem.Header>
                     <TextBlock Name="TblProfileHeader"  
