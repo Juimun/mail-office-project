@@ -1,0 +1,32 @@
+﻿<Window x:Class="MailOffice.View.SpecialMenuWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:MailOffice.View"
+        mc:Ignorable="d"
+        
+        Title="Специальные возможности"
+        WindowStartupLocation="CenterScreen"
+        Style="{StaticResource AuthenticationWindowStyle}"
+        
+        Width="500"
+        Height="480"
+        BorderBrush="Black"
+        BorderThickness="0 0 2 2"
+        Icon="/Assets/Menu/staffOnly.png">
+    <StackPanel>
+        <Button Content="✖" 
+        Name="ExitBtn"
+        HorizontalAlignment="Right" 
+        Margin="0,5,10,0" 
+        Padding="10" 
+        FontSize="6" 
+        BorderThickness="0"
+        Background="Transparent" 
+        Foreground="White"
+        Command="{Binding Path=ExitCommand}"
+        MouseEnter="UIElement_OnMouseEnter"
+        MouseLeave="UIElement_OnMouseLeave"/>
+    </StackPanel>
+</Window>
