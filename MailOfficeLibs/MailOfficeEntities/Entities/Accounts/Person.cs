@@ -22,7 +22,7 @@ public class Person {
     public PersonCategory Role { get; set; }
 
     // Сохранение прошлой роли
-    public PersonCategory? PreviousRole { get; set; }
+    public PersonCategory PreviousRole { get; set; }
 
     // Внешняя связь с User  1:1
     public int UserId { get; set; }

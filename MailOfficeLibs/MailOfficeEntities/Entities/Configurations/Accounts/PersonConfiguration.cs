@@ -33,6 +33,9 @@ public class PersonConfiguration : IEntityTypeConfiguration<Person>
         builder.Property(p => p.Role)
             .HasDefaultValue(PersonCategory.Guest);
 
+        builder.Property(p => p.PreviousRole)
+           .HasDefaultValue(PersonCategory.Guest);
+
         builder
             .HasOne(p => p.User)
             .WithOne(u => u.Person)

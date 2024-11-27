@@ -14,6 +14,7 @@ public static partial class Factory {
             SecondName = GetRandomSurname(),
             Patronymic = GetRandomPatronymic(),
             Role = GetRandomRole(),
+            PreviousRole = PersonCategory.Guest,
             UserId = userId,
         }; 
    
