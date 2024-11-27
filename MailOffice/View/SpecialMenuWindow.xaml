@@ -80,10 +80,16 @@
                                     <ColumnDefinition Width="Auto"/>
                                 </Grid.ColumnDefinitions>
                                 <TextBlock FontFamily="Segoe UI"
-                                       Text="ДОБАВИТЬ ПОЧТАЛЬЕНА:"
+                                       Text="ПРИНЯТЬ ПОЧТАЛЬЕНА:"
                                        Grid.Row="0"
                                        Grid.ColumnSpan="2"
+                                       Padding="15"
                                        Style="{StaticResource TextBlockStyle}"/>
+                                <TextBlock Text="*"
+                                           FontSize="20"
+                                           Foreground="#235ecf"
+                                           ToolTip="Для добавления пользователя на роль почтальена НЕОБХОДИМО ввести его идентификатор пользователя." 
+                                           Margin="190 13 46 5"/>
                                 <TextBox TabIndex="1"
                                          Grid.Row="1"
                                          Grid.Column="0"
@@ -107,6 +113,8 @@
                                     Name="AddStaff"
                                     TabIndex="3"
                                     Width="150"
+                                    MouseEnter="UIElement_OnMouseEnter"
+                                    MouseLeave="UIElement_OnMouseLeave"
                                     Command="{Binding AddCommand}" />
                             </Grid> 
                         </Border>
@@ -125,10 +133,16 @@
                                     <ColumnDefinition Width="Auto"/>
                                 </Grid.ColumnDefinitions>
                                 <TextBlock FontFamily="Segoe UI"
-                                           Text="УДАЛИТЬ ПОЧТАЛЬЕНА:"
+                                           Text="УВОЛИТЬ ПОЧТАЛЬЕНА:"
                                            Grid.Row="0"
                                            Grid.ColumnSpan="2"
+                                           Padding="15"
                                            Style="{StaticResource TextBlockStyle}"/>
+                                <TextBlock Text="*"
+                                           FontSize="20"
+                                           Foreground="#235ecf"
+                                           ToolTip="Для увольнения почтальена НЕОБХОДИМО ввести его идентификатор персонала." 
+                                           Margin="190 13 46 5"/>
                                 <TextBox TabIndex="1"
                                          Grid.Row="1"
                                          Grid.Column="0"
@@ -152,6 +166,8 @@
                                         Name="FirstPage"
                                         TabIndex="3"
                                         Width="150"
+                                        MouseEnter="UIElement_OnMouseEnter"
+                                        MouseLeave="UIElement_OnMouseLeave"
                                         Command="{Binding RemoveCommand}" />
                             </Grid>
                         </Border>
