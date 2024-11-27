@@ -15,18 +15,152 @@
         BorderBrush="Black"
         BorderThickness="0 0 2 2"
         Icon="/Assets/Menu/staffOnly.png">
-    <StackPanel>
-        <Button Content="✖" 
-        Name="ExitBtn"
-        HorizontalAlignment="Right" 
-        Margin="0,5,10,0" 
-        Padding="10" 
-        FontSize="6" 
-        BorderThickness="0"
-        Background="Transparent" 
-        Foreground="White"
-        Command="{Binding Path=ExitCommand}"
-        MouseEnter="UIElement_OnMouseEnter"
-        MouseLeave="UIElement_OnMouseLeave"/>
-    </StackPanel>
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="*"/>
+        </Grid.RowDefinitions>
+
+        <Button 
+            Content="✖" 
+            Grid.Row="0"    
+            Name="ExitBtn"
+            HorizontalAlignment="Right" 
+            Margin="0 5 10 0" 
+            Padding="10" 
+            FontSize="6" 
+            BorderThickness="0"
+            Background="Transparent" 
+            Foreground="White"
+            Command="{Binding Path=ExitCommand}"
+            MouseEnter="UIElement_OnMouseEnter"
+            MouseLeave="UIElement_OnMouseLeave"/>
+
+        <Border BorderBrush="Black" 
+                BorderThickness="3"
+                Margin="10"
+                CornerRadius="10" 
+                Grid.Row="2">
+            <TabControl Margin="7"
+                        Background="#434953">
+                <TabItem Header="Почтальен">
+
+                </TabItem>
+                <TabItem Header="Оператор">
+
+                </TabItem>
+                <TabItem BorderThickness="1" 
+                         Name="QueriesTabItem">
+                    <TabItem.Header>
+                        <TextBlock Name="TblQueriesHeader"
+                                   FontFamily="Verdana"
+                                   FontSize="14"
+                                   Text="Директор"
+                                   >
+                        </TextBlock>
+                    </TabItem.Header>
+                    <Grid>
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="*"/>
+                            <RowDefinition Height="*"/>
+                            <RowDefinition Height="*"/>
+                        </Grid.RowDefinitions>
+                        <Border BorderBrush="Black" 
+                                BorderThickness="3"
+                                Margin="10"
+                                CornerRadius="10" 
+                                Grid.Row="0">
+                            <Grid>
+                                <Grid.RowDefinitions>
+                                    <RowDefinition Height="*"/>
+                                    <RowDefinition Height="*"/>
+                                </Grid.RowDefinitions>
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="*"/>
+                                    <ColumnDefinition Width="Auto"/>
+                                </Grid.ColumnDefinitions>
+                                <TextBlock FontFamily="Segoe UI"
+                                       Text="ДОБАВИТЬ ПОЧТАЛЬЕНА:"
+                                       Grid.Row="0"
+                                       Grid.ColumnSpan="2"
+                                       Style="{StaticResource TextBlockStyle}"/>
+                                <TextBox TabIndex="1"
+                                         Grid.Row="1"
+                                         Grid.Column="0"
+                                         Name="PersonIdTextBox" 
+                                         Text="Введите Id пользователя"
+                                         Margin="10 5"
+                                         Padding="10"
+                                         Style="{StaticResource TextBoxStyle}"
+                                         
+                                         GotFocus="TextBox_OnGotFocus"
+                                         LostFocus="TextBox_OnLostFocus" />
+                                <Button Grid.Row="1"
+                                    Grid.Column="1"
+                                    Margin="5"
+                                    Padding="10"
+                                    Background="#235ecf"
+                                    Foreground="White"
+                                    BorderBrush="Black"
+                                    BorderThickness="0 0 2 2"
+                                    Content="Добавить"
+                                    Name="AddStaff"
+                                    TabIndex="3"
+                                    Width="150"
+                                    Command="{Binding AddCommand}" />
+                            </Grid> 
+                        </Border>
+                        <Border BorderBrush="Black" 
+                                BorderThickness="3"
+                                Margin="10"
+                                CornerRadius="10" 
+                                Grid.Row="1">
+                            <Grid>
+                                <Grid.RowDefinitions>
+                                    <RowDefinition Height="*"/>
+                                    <RowDefinition Height="*"/>
+                                </Grid.RowDefinitions>
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="*"/>
+                                    <ColumnDefinition Width="Auto"/>
+                                </Grid.ColumnDefinitions>
+                                <TextBlock FontFamily="Segoe UI"
+                                           Text="УДАЛИТЬ ПОЧТАЛЬЕНА:"
+                                           Grid.Row="0"
+                                           Grid.ColumnSpan="2"
+                                           Style="{StaticResource TextBlockStyle}"/>
+                                <TextBox TabIndex="1"
+                                         Grid.Row="1"
+                                         Grid.Column="0"
+                                         Name="PostmanIdTextBox" 
+                                         Text="Введите Id почтальена"
+                                         Margin="10 5"
+                                         Padding="10"
+                                         Style="{StaticResource TextBoxStyle}"
+                                         
+                                         GotFocus="TextBox_OnGotFocus"
+                                         LostFocus="TextBox_OnLostFocus" />
+                                <Button Grid.Row="1"
+                                        Grid.Column="1"
+                                        Margin="5"
+                                        Padding="10"
+                                        Background="#235ecf"
+                                        Foreground="White"
+                                        BorderBrush="Black"
+                                        BorderThickness="0 0 2 2"
+                                        Content="Удалить"
+                                        Name="FirstPage"
+                                        TabIndex="3"
+                                        Width="150"
+                                        Command="{Binding RemoveCommand}" />
+                            </Grid>
+                        </Border>
+                    </Grid>
+                </TabItem>
+                <TabItem Header="Администратор">
+
+                </TabItem>
+            </TabControl>
+        </Border>
+    </Grid>
 </Window>

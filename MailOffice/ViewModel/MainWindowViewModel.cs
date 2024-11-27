@@ -451,6 +451,10 @@ public class MainWindowViewModel : INotifyPropertyChanged {
         Utils.SaveAsTxt(_dataQueries.GetAllAccountAuthorization(), App.AccountsTxtPath,
             "   Логин аккаунта   |   Пароль аккаунта   |   Роль персонала\n");
 
+        // Удаляем файл для смены аккаунта
+        if(File.Exists(App.AccountsJsonPath))
+            File.Delete(App.AccountsJsonPath);
+
         LoadPublicationPage(1);
 
         // Вывод выбранной страницы

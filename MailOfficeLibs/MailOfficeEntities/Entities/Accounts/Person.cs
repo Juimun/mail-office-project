@@ -19,7 +19,10 @@ public class Person {
     public string Patronymic { get; set; }
 
     // Категория (по умолчанию - Guest)
-    public PersonCategory Role { get; set; } 
+    public PersonCategory Role { get; set; }
+
+    // Сохранение прошлой роли
+    public PersonCategory? PreviousRole { get; set; }
 
     // Внешняя связь с User  1:1
     public int UserId { get; set; }

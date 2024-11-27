@@ -218,24 +218,26 @@ public partial class DatabaseQueries {
         .Where(u => u.Login == newLogin && u.Password == newPassword)
         .Any(u => u.Person.Staff!.Role == StaffRole.Postman);
 
-    // Удалить почтальена
-    public void FirePostman(int staffId) {
-        var selectedPerson = db
-            .People
-            .Include(s => s.Staff)
-            .FirstOrDefault(p => p.Staff!.Id == staffId);
+    // Уволить почтальена
+    public bool RemovePostman(int staffId) {
+        var selectedPostman = db 
+            .Staff
+            .FirstOrDefault(s => s.Id == staffId);
 
-        if (selectedPerson == null) return;
+        if (selectedPostman == null || selectedPostman.Person.Role != PersonCategory.Staff) 
+            return false;
 
-        selectedPerson.Role = PersonCategory.Registered;
-        db.Update(selectedPerson);
-        db.Staff.Remove(selectedPerson.Staff!);
+        (selectedPostman.Person.Role, selectedPostman.Person.PreviousRole) =
+            ((PersonCategory)selectedPostman.Person.PreviousRole!, null);
+        db.Update(selectedPostman.Person);
+        db.Remove(selectedPostman);
 
         db.SaveChanges();
-    } //FirePostman
+        return true;
+    } //RemovePostman
 
     // Добавить почтальена
-    public void AddPostman(int personId) { 
+    public bool AddPostman(int personId) { 
         // Находим пользователя
         var selectedPerson = db
             .People
@@ -246,17 +248,19 @@ public partial class DatabaseQueries {
             .Sections
             .FirstOrDefault(s => s.Staff.SectionId == null);
 
-        if (selectedPerson == null || freeSection == null) 
-            return;
+        if (selectedPerson == null || freeSection == null || selectedPerson.Role == PersonCategory.Staff) 
+            return false;
 
         // Меняем роль персоны
-        selectedPerson.Role = PersonCategory.Staff;
+        (selectedPerson.PreviousRole, selectedPerson.Role) = 
+            (selectedPerson.Role, PersonCategory.Staff);
         db.Update(selectedPerson);
 
         // Добавляем новую запись Staff
         db.Staff.Add(new Staff() { PersonId = selectedPerson.Id, Role = StaffRole.Postman, SectionId = freeSection.Id });
 
         db.SaveChanges();
+        return true;
     } //AddPostman
      
     // Для удобства тестов
