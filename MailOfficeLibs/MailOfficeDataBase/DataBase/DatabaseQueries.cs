@@ -222,13 +222,15 @@ public partial class DatabaseQueries {
     public bool RemovePostman(int staffId) {
         var selectedPostman = db 
             .Staff
+            .Where(s => s.Role == StaffRole.Postman)
             .FirstOrDefault(s => s.Id == staffId);
 
-        if (selectedPostman == null || selectedPostman.Person.Role != PersonCategory.Staff) 
+        if (selectedPostman == null) 
             return false;
 
-        (selectedPostman.Person.Role, selectedPostman.Person.PreviousRole) =
-            ((PersonCategory)selectedPostman.Person.PreviousRole!, null);
+        // Восстанавливаем старую роль
+        selectedPostman.Person.Role = selectedPostman.Person.PreviousRole;
+
         db.Update(selectedPostman.Person);
         db.Remove(selectedPostman);
 
@@ -241,6 +243,7 @@ public partial class DatabaseQueries {
         // Находим пользователя
         var selectedPerson = db
             .People
+            .Where(s => s.Role != PersonCategory.Staff)
             .FirstOrDefault(p => p.Id == personId);
 
         // Находим свободный участок
@@ -248,12 +251,13 @@ public partial class DatabaseQueries {
             .Sections
             .FirstOrDefault(s => s.Staff.SectionId == null);
 
-        if (selectedPerson == null || freeSection == null || selectedPerson.Role == PersonCategory.Staff) 
+        if (selectedPerson == null || freeSection == null) 
             return false;
 
-        // Меняем роль персоны
-        (selectedPerson.PreviousRole, selectedPerson.Role) = 
-            (selectedPerson.Role, PersonCategory.Staff);
+        // Меняем роль персоны и сохраняем старую
+        selectedPerson.PreviousRole = selectedPerson.Role; 
+        selectedPerson.Role = PersonCategory.Staff;
+        
         db.Update(selectedPerson);
 
         // Добавляем новую запись Staff

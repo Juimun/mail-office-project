@@ -8,10 +8,11 @@ using System.Windows;
 
 namespace MailOffice.ViewModel;
 
-public class SpecialMenuWindowViewModel(SpecialMenuWindow hostWindow, DatabaseQueries databaseQueries) {
+public class SpecialMenuWindowViewModel(SpecialMenuWindow hostWindow, DatabaseQueries databaseQueries, MainWindowViewModel mainWindowViewModel) {
 
     private SpecialMenuWindow HostWindow { get; set; } = hostWindow;
-    private DatabaseQueries DatabaseQueries { get; set; } = databaseQueries; 
+    private DatabaseQueries DatabaseQueries { get; set; } = databaseQueries;
+    private MainWindowViewModel MainWindowViewModel { get; set; } = mainWindowViewModel; 
 
     public RelayCommand ExitCommand => new(
        obj => HostWindow.Close(),
@@ -25,6 +26,11 @@ public class SpecialMenuWindowViewModel(SpecialMenuWindow hostWindow, DatabaseQu
 
     public RelayCommand RemoveCommand => new(
        obj => RemovePostman(),
+       obj => true
+    );
+
+    public RelayCommand RegenerateDbCommand => new(
+       obj => RegenerateDadabase(),
        obj => true
     );
 
@@ -58,7 +64,7 @@ public class SpecialMenuWindowViewModel(SpecialMenuWindow hostWindow, DatabaseQu
                     "Удачно", MessageBoxButton.OK, MessageBoxImage.Exclamation);
             }
             else {
-                MessageBox.Show("Пользователь не является почтальеном!",
+                MessageBox.Show($"Почтальен с Id {postmanId}, не был уволен!",
                     "Подсказка", MessageBoxButton.OK, MessageBoxImage.Warning);
                 HostWindow.PostmanIdTextBox.Focus();
             } //if
@@ -69,6 +75,16 @@ public class SpecialMenuWindowViewModel(SpecialMenuWindow hostWindow, DatabaseQu
             HostWindow.PostmanIdTextBox.Focus();
         } //if
     } //RemovePostman
+
+    private void RegenerateDadabase() { 
+        var messageBoxResult = MessageBox.Show("Вы уверены, что действительно хотите перегенерировать тестовые данные?",
+                "Предупреждение", MessageBoxButton.OKCancel, MessageBoxImage.Warning); 
+
+        // При подтверждении - перегенерация
+        if (messageBoxResult == MessageBoxResult.OK) {
+            MainWindowViewModel.GenerateTextEntities();
+        } //if
+    } //RegenerateDbCommand
 
 } //SpecialMenuWindowViewModel
 

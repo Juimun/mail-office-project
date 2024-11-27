@@ -87,11 +87,6 @@ public class MainWindowViewModel : INotifyPropertyChanged {
         obj => true
     ); 
 
-    public RelayCommand GenerateTextEntitiesCommand => new(
-        obj => GenerateTextEntities(),
-        obj => true
-    );
-
     public RelayCommand LeftTabCommand => new(
         obj => LeftTab(),
         obj => true
@@ -318,8 +313,20 @@ public class MainWindowViewModel : INotifyPropertyChanged {
 
     // Меню для работой со специальными правами для ролей
     private void SpecialMenu() {
-        var specialMenu = new SpecialMenuWindow();
-        specialMenu.ShowDialog();
+        if (CurrentAccount!.StaffRole != null) {
+            var specialMenu = new SpecialMenuWindow(this);
+
+            if (CurrentAccount.StaffRole >= MailOfficeEntities.Category.StaffRole.Operator) {
+                specialMenu.OperatorTabItem.Visibility = Visibility.Visible;
+                if (CurrentAccount.StaffRole >= MailOfficeEntities.Category.StaffRole.Director) {
+                specialMenu.DirectorTabItem.Visibility = Visibility.Visible;
+                    if (CurrentAccount.StaffRole == MailOfficeEntities.Category.StaffRole.Administrator)
+                        specialMenu.AdminTabItem.Visibility = Visibility.Visible; 
+                } //if
+            } //if
+
+            specialMenu.ShowDialog();
+        } //if
     } //SpecialMenu
 
     // Разделение и привязка в DataGrid
@@ -366,31 +373,20 @@ public class MainWindowViewModel : INotifyPropertyChanged {
     } //SignAccount
 
     private void RoleValidation() {
-        // TODO: Временно тут
-        // 
+
+        // Отобразить Меню специальных прав
         if (CurrentAccount!.StaffRole != null &&
             CurrentAccount.StaffRole >= MailOfficeEntities.Category.StaffRole.Postman)
         {
             HostWindow.SpecialMenuItem.Visibility = Visibility.Visible;
 
-            //
-            if (CurrentAccount.StaffRole >= MailOfficeEntities.Category.StaffRole.Operator)
-            {
-
-                // Отобразить отчеты/справки и запросы
-                if (CurrentAccount.StaffRole >= MailOfficeEntities.Category.StaffRole.Director)
-                {
-                    HostWindow.QueriesTabItem.Visibility = HostWindow.MainToolBarTray.Visibility
-                        = HostWindow.QueriesMenuItem.Visibility = HostWindow.DocumentationMenuItem.Visibility
-                        = Visibility.Visible;
-
-                    // Отобразить кнопку перегенерацию данных БД
-                    if (CurrentAccount.StaffRole == MailOfficeEntities.Category.StaffRole.Administrator)
-                    {
-
-                    } //if 
-                } //if
-            } //if
+             // Отобразить отчеты/справки и запросы
+             if (CurrentAccount.StaffRole >= MailOfficeEntities.Category.StaffRole.Director)
+             {
+                 HostWindow.QueriesTabItem.Visibility = HostWindow.MainToolBarTray.Visibility
+                     = HostWindow.QueriesMenuItem.Visibility = HostWindow.DocumentationMenuItem.Visibility
+                     = Visibility.Visible;
+             } //if   
         } //if 
     }
 
@@ -399,7 +395,7 @@ public class MainWindowViewModel : INotifyPropertyChanged {
         if (File.Exists(App.AccountsJsonPath)) {
             var savedUser = Utils.JsonDeserialize(App.AccountsJsonPath);
 
-            if (savedUser != null) {
+            if (savedUser != null && _dataQueries.IsSavedUser(savedUser.Login, savedUser.Password)) {
 
                 // Смена хедера на актуальный логин
                 HostWindow.ProfileItem.Header = $"{savedUser.Login} ∨";
@@ -443,7 +439,7 @@ public class MainWindowViewModel : INotifyPropertyChanged {
     } //CloseAccount
 
     // Генерация случайных тестовых значений
-    private void GenerateTextEntities() {
+    public void GenerateTextEntities() {
         // Генерация данных в MailOfficeDataSeeder (Консольное приложение в проекте)
         Process.Start(App.DataSeederPath).WaitForExit();
 
@@ -459,6 +455,9 @@ public class MainWindowViewModel : INotifyPropertyChanged {
 
         // Вывод выбранной страницы
         UpdateDataGridSources();
+
+        // Выход из аккаунта
+        CloseAccount();
     } //GenerateTextEntities
 
     // Отобразить профиль

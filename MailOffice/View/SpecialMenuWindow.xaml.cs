@@ -15,10 +15,10 @@ public partial class SpecialMenuWindow : Window {
     private SolidColorBrush _originalBackgroundBrush;
     private SolidColorBrush _originalForegroundBrush;
 
-    public SpecialMenuWindow() {
+    public SpecialMenuWindow(MainWindowViewModel mainWindowViewModel) {
         InitializeComponent();
 
-        DataContext = new SpecialMenuWindowViewModel(this, new DatabaseQueries());
+        DataContext = new SpecialMenuWindowViewModel(this, new DatabaseQueries(), mainWindowViewModel);
     }
 
     private void TextBox_OnGotFocus(object sender, RoutedEventArgs e)

@@ -43,16 +43,67 @@
                 Grid.Row="2">
             <TabControl Margin="7"
                         Background="#434953">
-                <TabItem Header="Почтальен">
-
-                </TabItem>
-                <TabItem Header="Оператор">
-
+                <TabItem BorderThickness="1" 
+                         Name="OperatorTabItem">
+                    <TabItem.Header>
+                        <TextBlock Name="TblOperatorHeader"
+                                   FontFamily="Verdana"
+                                   FontSize="14"
+                                   Text="Оператор"
+                                   >
+                        </TextBlock>
+                    </TabItem.Header>
+                    <Grid>
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="*"/>
+                            <RowDefinition Height="*"/>
+                            <RowDefinition Height="*"/>
+                        </Grid.RowDefinitions>
+                        <Border BorderBrush="Black" 
+                                BorderThickness="3"
+                                Margin="10"
+                                CornerRadius="10" 
+                                Grid.Row="0">
+                            <Grid>
+                                <Grid.RowDefinitions>
+                                    <RowDefinition Height="*"/>
+                                    <RowDefinition Height="*"/>
+                                </Grid.RowDefinitions>
+                                <TextBlock FontFamily="Segoe UI"
+                                           Text="Текст:"
+                                           Grid.Row="0"
+                                           Padding="15"
+                                           Margin="50 0 0 0"
+                                           Style="{StaticResource TextBlockStyle}"/>
+                                <TextBlock Text="?"
+                                           FontSize="20"
+                                           Foreground="#235ecf"
+                                           ToolTip="Текст" 
+                                           Margin="340 7 0 0" 
+                                           />
+                                <Button Grid.Row="1"
+                                        Margin="138,5,138,5"
+                                        Padding="10"
+                                        Background="#235ecf"
+                                        Foreground="White"
+                                        BorderBrush="Black"
+                                        BorderThickness="0 0 2 2"
+                                        Content="Текст"
+                                        Name="Operator"
+                                        TabIndex="3"
+                                        Width="150"
+                                        MouseEnter="UIElement_OnMouseEnter"
+                                        MouseLeave="UIElement_OnMouseLeave"
+                                        />
+                            </Grid>
+                        </Border>
+                    </Grid>
                 </TabItem>
                 <TabItem BorderThickness="1" 
-                         Name="QueriesTabItem">
+                         Name="DirectorTabItem"
+                         Visibility="Collapsed">
                     <TabItem.Header>
-                        <TextBlock Name="TblQueriesHeader"
+                        <TextBlock Name="TblDirectorHeader"
                                    FontFamily="Verdana"
                                    FontSize="14"
                                    Text="Директор"
@@ -85,7 +136,7 @@
                                        Grid.ColumnSpan="2"
                                        Padding="15"
                                        Style="{StaticResource TextBlockStyle}"/>
-                                <TextBlock Text="*"
+                                <TextBlock Text="?"
                                            FontSize="20"
                                            Foreground="#235ecf"
                                            ToolTip="Для добавления пользователя на роль почтальена НЕОБХОДИМО ввести его идентификатор пользователя." 
@@ -116,7 +167,7 @@
                                     MouseEnter="UIElement_OnMouseEnter"
                                     MouseLeave="UIElement_OnMouseLeave"
                                     Command="{Binding AddCommand}" />
-                            </Grid> 
+                            </Grid>
                         </Border>
                         <Border BorderBrush="Black" 
                                 BorderThickness="3"
@@ -138,7 +189,7 @@
                                            Grid.ColumnSpan="2"
                                            Padding="15"
                                            Style="{StaticResource TextBlockStyle}"/>
-                                <TextBlock Text="*"
+                                <TextBlock Text="?"
                                            FontSize="20"
                                            Foreground="#235ecf"
                                            ToolTip="Для увольнения почтальена НЕОБХОДИМО ввести его идентификатор персонала." 
@@ -173,8 +224,63 @@
                         </Border>
                     </Grid>
                 </TabItem>
-                <TabItem Header="Администратор">
-
+                <TabItem BorderThickness="1" 
+                         Name="AdminTabItem"
+                         Visibility="Collapsed">
+                    <TabItem.Header>
+                        <TextBlock Name="TblAdminHeader"
+                                   FontFamily="Verdana"
+                                   FontSize="14"
+                                   Text="Администратор"
+                                   >
+                        </TextBlock>
+                    </TabItem.Header>
+                    <Grid>
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="*"/>
+                            <RowDefinition Height="*"/>
+                            <RowDefinition Height="*"/>
+                        </Grid.RowDefinitions>
+                        <Border BorderBrush="Black" 
+                                BorderThickness="3"
+                                Margin="10"
+                                CornerRadius="10" 
+                                Grid.Row="0">
+                            <Grid>
+                                <Grid.RowDefinitions>
+                                    <RowDefinition Height="*"/>
+                                    <RowDefinition Height="*"/>
+                                </Grid.RowDefinitions>
+                                <TextBlock FontFamily="Segoe UI"
+                                           Text="ПЕРЕГЕНЕРАЦИЯ ТАБЛИЦ БАЗЫ ДАННЫХ:"
+                                           Grid.Row="0"
+                                           Padding="15"
+                                           Margin="50 0 0 0"
+                                           Style="{StaticResource TextBlockStyle}"/>
+                                <TextBlock Text="?"
+                                           FontSize="20"
+                                           Foreground="#235ecf"
+                                           ToolTip="ИСПОЛЬЗОВАТЬ ТОЛЬКО НА ТЕСТОВОЙ БАЗЕ ДАННЫХ!" 
+                                           Margin="340 7 0 0" 
+                                           />
+                                <Button 
+                                    Grid.Row="1"
+                                    Margin="138,5,138,5"
+                                    Padding="10"
+                                    Background="OrangeRed"
+                                    Foreground="White"
+                                    BorderBrush="Black"
+                                    BorderThickness="0 0 2 2"
+                                    Content="Пересоздать"
+                                    Name="GenerationEntities"
+                                    TabIndex="3"
+                                    Width="150"
+                                    MouseEnter="UIElement_OnMouseEnter"
+                                    MouseLeave="UIElement_OnMouseLeave"
+                                    Command="{Binding RegenerateDbCommand}"/>
+                            </Grid>
+                        </Border>
+                    </Grid>
                 </TabItem>
             </TabControl>
         </Border>

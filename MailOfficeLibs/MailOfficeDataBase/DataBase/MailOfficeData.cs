@@ -87,4 +87,9 @@ public partial class DatabaseQueries(MailOfficeContext db) {
         .Where(u => u.Login == login && u.Password == password && u.Person.Staff != null)
         .Select(u => u.Person.Staff!.Role)
         .FirstOrDefault();
+
+    public bool IsSavedUser(string login, byte[] password) => db
+        .Users
+        .Any(u => u.Login == login && u.Password == password);
+        
 } //DatabaseQueries
