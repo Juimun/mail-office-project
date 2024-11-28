@@ -91,5 +91,18 @@ public partial class DatabaseQueries(MailOfficeContext db) {
     public bool IsSavedUser(string login, byte[] password) => db
         .Users
         .Any(u => u.Login == login && u.Password == password);
+
+    // Список подписных изданий со статусом "В ожидании"
+    public List<Subscription> GetAllAwaitingSubscription() => db 
+        .Subscriptions
+        .Where(s => s.SubscriptionStatus == SubscriptionStatus.Awaiting)
+        .ToList();
+
+    // Изменить статус подписного издания
+    public async Task UpdateSubscriptionStatusAsync(Subscription subscription, SubscriptionStatus status, MailOfficeContext database) {
+        subscription.SubscriptionStatus = status; 
+        database.Update(subscription);
         
+        await database.SaveChangesAsync();
+    } //UpdateSubscriptionStatus
 } //DatabaseQueries

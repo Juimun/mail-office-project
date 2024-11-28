@@ -68,35 +68,78 @@
                                 <Grid.RowDefinitions>
                                     <RowDefinition Height="*"/>
                                     <RowDefinition Height="*"/>
-                                </Grid.RowDefinitions>
+                                </Grid.RowDefinitions> 
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="*"/>
+                                    <ColumnDefinition Width="*"/>
+                                </Grid.ColumnDefinitions>
                                 <TextBlock FontFamily="Segoe UI"
-                                           Text="Текст:"
+                                           Text="Оформление подписного издания:"
                                            Grid.Row="0"
+                                           Grid.Column="0"
+                                           Grid.ColumnSpan="2"
                                            Padding="15"
-                                           Margin="50 0 0 0"
+                                           Margin="70 0 0 0"
                                            Style="{StaticResource TextBlockStyle}"/>
                                 <TextBlock Text="?"
+                                           Grid.Column="1"
                                            FontSize="20"
                                            Foreground="#235ecf"
-                                           ToolTip="Текст" 
-                                           Margin="340 7 0 0" 
+                                           ToolTip="Выделите подписные издания, а затем нажмите соответствующую кнопку." 
+                                           Margin="95 7 0 0" 
                                            />
                                 <Button Grid.Row="1"
-                                        Margin="138,5,138,5"
+                                        Grid.Column="0"
+                                        Margin="5"
                                         Padding="10"
                                         Background="#235ecf"
                                         Foreground="White"
                                         BorderBrush="Black"
                                         BorderThickness="0 0 2 2"
-                                        Content="Текст"
-                                        Name="Operator"
-                                        TabIndex="3"
+                                        Content="Подтвердить"
+                                        Name="ConfirmSubscription"
+                                        TabIndex="1"
                                         Width="150"
                                         MouseEnter="UIElement_OnMouseEnter"
                                         MouseLeave="UIElement_OnMouseLeave"
-                                        />
-                            </Grid>
+                                        Command="{Binding ConfirmSubscriptionCommand}"/>
+                                <Button Grid.Row="1"
+                                        Grid.Column="1"
+                                        Margin="5"
+                                        Padding="10"
+                                        Background="#235ecf"
+                                        Foreground="White"
+                                        BorderBrush="Black"
+                                        BorderThickness="0 0 2 2"
+                                        Content="Отклонить"
+                                        Name="RejectSubscription"
+                                        TabIndex="2"
+                                        Width="150"
+                                        MouseEnter="UIElement_OnMouseEnter"
+                                        MouseLeave="UIElement_OnMouseLeave"
+                                        Command="{Binding RejectSubscriptionCommand}"/>
+                            </Grid> 
                         </Border>
+                        <DataGrid Grid.Row="1"
+                                  Grid.RowSpan="2"
+                                  Name="SelectedAwaitingDataGrid" 
+                                  FontFamily="Courier New"
+                                  FontSize="14" 
+                                  AutoGenerateColumns="False"
+                                  CanUserAddRows="False"
+                                  IsReadOnly="True">
+                            <DataGrid.Columns>
+                                <DataGridTextColumn Header="Id подписчика" 
+                                                    Binding="{Binding SubscriberId}" 
+                                                    Width="*"/>
+                                <DataGridTextColumn Header="Дата подписки" 
+                                                    Binding="{Binding StartDate}" 
+                                                    Width="*"/>
+                                <DataGridTextColumn Header="Срок подписки"
+                                                    Binding="{Binding Duration}" 
+                                                    Width="*"/>
+                            </DataGrid.Columns>
+                        </DataGrid>
                     </Grid>
                 </TabItem>
                 <TabItem BorderThickness="1" 
@@ -140,7 +183,7 @@
                                            FontSize="20"
                                            Foreground="#235ecf"
                                            ToolTip="Для добавления пользователя на роль почтальена НЕОБХОДИМО ввести его идентификатор пользователя." 
-                                           Margin="190 13 46 5"/>
+                                           Margin="190 13 0 0"/>
                                 <TextBox TabIndex="1"
                                          Grid.Row="1"
                                          Grid.Column="0"
@@ -162,7 +205,7 @@
                                     BorderThickness="0 0 2 2"
                                     Content="Добавить"
                                     Name="AddStaff"
-                                    TabIndex="3"
+                                    TabIndex="2"
                                     Width="150"
                                     MouseEnter="UIElement_OnMouseEnter"
                                     MouseLeave="UIElement_OnMouseLeave"
@@ -193,14 +236,14 @@
                                            FontSize="20"
                                            Foreground="#235ecf"
                                            ToolTip="Для увольнения почтальена НЕОБХОДИМО ввести его идентификатор персонала." 
-                                           Margin="190 13 46 5"/>
-                                <TextBox TabIndex="1"
+                                           Margin="190 13 0 0"/>
+                                <TextBox TabIndex="3"
                                          Grid.Row="1"
                                          Grid.Column="0"
                                          Name="PostmanIdTextBox" 
                                          Text="Введите Id почтальена"
                                          Margin="10 5"
-                                         Padding="10"
+                                         Padding="10" 
                                          Style="{StaticResource TextBoxStyle}"
                                          
                                          GotFocus="TextBox_OnGotFocus"
@@ -215,7 +258,7 @@
                                         BorderThickness="0 0 2 2"
                                         Content="Удалить"
                                         Name="FirstPage"
-                                        TabIndex="3"
+                                        TabIndex="4"
                                         Width="150"
                                         MouseEnter="UIElement_OnMouseEnter"
                                         MouseLeave="UIElement_OnMouseLeave"
@@ -265,7 +308,7 @@
                                            />
                                 <Button 
                                     Grid.Row="1"
-                                    Margin="138,5,138,5"
+                                    Margin="138 5"
                                     Padding="10"
                                     Background="OrangeRed"
                                     Foreground="White"
@@ -273,7 +316,7 @@
                                     BorderThickness="0 0 2 2"
                                     Content="Пересоздать"
                                     Name="GenerationEntities"
-                                    TabIndex="3"
+                                    TabIndex="1"
                                     Width="150"
                                     MouseEnter="UIElement_OnMouseEnter"
                                     MouseLeave="UIElement_OnMouseLeave"
