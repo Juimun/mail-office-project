@@ -12,6 +12,7 @@ public static partial class Factory {
     {  
         StartDate = GetRandomDate(),
         Duration = GetRandomDuration(),
+        SubscriptionStatus = GetRandomStatus(), 
         SubscriberId = subscriberId,
         PublicationId = publicationId
     };
@@ -30,6 +31,14 @@ public static partial class Factory {
             3 => SubscriptionPeriod.Month,
             4 => SubscriptionPeriod.HalfYear,
             _ => SubscriptionPeriod.Year,
+        };
+
+    private static SubscriptionStatus GetRandomStatus() =>
+        Utils.GetRandom(1, 3) switch
+        {
+            1 => SubscriptionStatus.Rejected,
+            2 => SubscriptionStatus.Сonfirmed,
+            _ => SubscriptionStatus.Awaiting,
         };
 
     // Генератор "случайного" начала подписки

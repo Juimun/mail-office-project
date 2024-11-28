@@ -15,7 +15,10 @@ public class Subscription {
     public DateTime StartDate { get; set; } 
 
     // Срок подписки (в днях)
-    public SubscriptionPeriod Duration { get; set; } 
+    public SubscriptionPeriod Duration { get; set; }
+
+    // Статус подписки
+    public SubscriptionStatus SubscriptionStatus { get; set; } 
 
     #region Внешний ключ и связное свойстов для Publication
     public int PublicationId { get; set; }
