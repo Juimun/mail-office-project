@@ -14,7 +14,7 @@ public static partial class Factory {
             SecondName = GetRandomSurname(),
             Patronymic = GetRandomPatronymic(),
             Role = GetRandomRole(),
-            PreviousRole = PersonCategory.Guest,
+            PreviousRole = PersonCategory.Registered,
             UserId = userId,
         }; 
    
@@ -28,7 +28,7 @@ public static partial class Factory {
     private static int _countStaff = 0, _countSubscriber = 0;
     private static PersonCategory GetRandomRole() {
        while (true) {
-           switch (Utils.GetRandom(1, 4)) {
+           switch (Utils.GetRandom(1, 3)) {
                case 1:
                    if (_countStaff < 50) {
                         _countStaff++;
@@ -41,10 +41,8 @@ public static partial class Factory {
                        return PersonCategory.Subscriber;
                    }
                    continue;
-               case 3:
-                   return PersonCategory.Registered;
                 default:
-                   return PersonCategory.Guest;
+                   return PersonCategory.Registered;
            } //switch
        } //while
     }

@@ -18,7 +18,7 @@ public class Person {
     // Отчество 
     public string Patronymic { get; set; }
 
-    // Категория (по умолчанию - Guest)
+    // Категория (по умолчанию - Registered)
     public PersonCategory Role { get; set; }
 
     // Сохранение прошлой роли

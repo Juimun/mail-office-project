@@ -31,10 +31,10 @@ public class PersonConfiguration : IEntityTypeConfiguration<Person>
             .IsRequired(false);
 
         builder.Property(p => p.Role)
-            .HasDefaultValue(PersonCategory.Guest);
+            .HasDefaultValue(PersonCategory.Registered); 
 
         builder.Property(p => p.PreviousRole)
-           .HasDefaultValue(PersonCategory.Guest);
+           .HasDefaultValue(PersonCategory.Registered); 
 
         builder
             .HasOne(p => p.User)
