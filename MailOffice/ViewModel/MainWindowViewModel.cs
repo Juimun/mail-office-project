@@ -1,4 +1,5 @@
-﻿using System.ComponentModel;
+﻿using System.Collections.ObjectModel;
+using System.ComponentModel;
 using System.Diagnostics;
 using System.IO;
 using System.Runtime.CompilerServices;
@@ -232,8 +233,8 @@ public class MainWindowViewModel : INotifyPropertyChanged {
     private int _totalRecords;
 
     // Список публикаций
-    private List<Publication> _entities;
-    public List<Publication> Entities
+    private ObservableCollection<Publication> _entities;
+    public ObservableCollection<Publication> Entities
     {
         get => _entities;
         set => SetField(ref _entities, value);
@@ -289,7 +290,7 @@ public class MainWindowViewModel : INotifyPropertyChanged {
         int offset = (pageNumber - 1) * _pageSize;
 
         // Список сужностей на "странице"
-        Entities = new List<Publication>(_dataQueries.GetSelectPagePublication(offset, _pageSize));
+        Entities = new ObservableCollection<Publication>(_dataQueries.GetSelectPagePublication(offset, _pageSize));
 
         // Вычисляем общее количество страниц
         _totalRecords = _dataQueries.GetTotalPublicationRecords();
