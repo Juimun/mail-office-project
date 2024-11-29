@@ -501,8 +501,8 @@ public class MainWindowViewModel : INotifyPropertyChanged {
     // Отобразить список подписок
     private void ShowSubscribers() {
         if (IsLoggedIn) {
-            HostWindow.TbcMain.SelectedIndex = 2;
-            HostWindow.TblProfile.Text = _dataController.ShowSubscriptionsCurrentUser(CurrentAccount!.Login, CurrentAccount.Password);
+            var receiptWindow = new ReceiptWindow(this);
+            receiptWindow.Show();
         } //if
     } //ShowProfile
 

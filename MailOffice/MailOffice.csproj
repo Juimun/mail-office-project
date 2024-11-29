@@ -27,6 +27,7 @@
     <None Remove="Assets\Menu\mailBlue.png" />
     <None Remove="Assets\Menu\pdf.png" />
     <None Remove="Assets\Menu\queries.png" />
+    <None Remove="Assets\Menu\receipt.png" />
     <None Remove="Assets\Menu\report.png" />
     <None Remove="Assets\Menu\staffOnly.png" />
     <None Remove="Assets\Menu\test.png" />
@@ -100,6 +101,9 @@
       <CopyToOutputDirectory>Never</CopyToOutputDirectory>
     </Resource>
     <Resource Include="Assets\Menu\queries.png">
+      <CopyToOutputDirectory>Never</CopyToOutputDirectory>
+    </Resource>
+    <Resource Include="Assets\Menu\receipt.png">
       <CopyToOutputDirectory>Never</CopyToOutputDirectory>
     </Resource>
     <Resource Include="Assets\Menu\report.png">

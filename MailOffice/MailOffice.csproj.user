@@ -19,6 +19,9 @@
     <Compile Update="View\Authentication\RegistrationWindow.xaml.cs">
       <SubType>Code</SubType>
     </Compile>
+    <Compile Update="View\ReceiptWindow.xaml.cs">
+      <SubType>Code</SubType>
+    </Compile>
     <Compile Update="View\SpecialMenuWindow.xaml.cs">
       <SubType>Code</SubType>
     </Compile>
@@ -37,6 +40,9 @@
       <SubType>Designer</SubType>
     </Page>
     <Page Update="View\Authentication\RegistrationWindow.xaml">
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Update="View\ReceiptWindow.xaml">
       <SubType>Designer</SubType>
     </Page>
     <Page Update="View\SpecialMenuWindow.xaml">

@@ -5,6 +5,8 @@ using MailOfficeEntities.Category;
 using System.Collections.Generic;
 using System.Collections;
 using Microsoft.EntityFrameworkCore;
+using MailOfficeFactory.Factories;
+using MailOfficeTool.Entities;
 
 namespace MailOfficeDataBase.DataBase;
 
@@ -107,8 +109,37 @@ public partial class DatabaseQueries(MailOfficeContext db) {
     } //UpdateSubscriptionStatus
 
     // Список пользователей, которые не являются персоналом
-    public List<Person> GetAllPersonWithStaff() => db
+    public List<Person> GetAllPersonWithoutStaff() => db 
         .People
         .Where(p => p.Role != PersonCategory.Staff)
         .ToList();
+
+    // Список активных подписных изданий пользователя
+    public List<Subscription> GetAllActiveSubscription(string login, byte[] password) => db
+            .Subscriptions
+            .Where(s => s.Subscriber.Person.User.Login == login
+                && s.Subscriber.Person.User.Password == password
+                && s.SubscriptionStatus == SubscriptionStatus.Сonfirmed)
+            .ToList()
+
+            // Должно выполняться на клиенте
+            .Where(s => s.EndDate >= DateTime.Now)
+            .ToList();
+
+    // Создание квитанции
+    public Receipt GetReceipt(string login, byte[] password) { 
+        var confirmedSubscriptions = db  
+            .Subscriptions
+            .Where(s => s.Subscriber.Person.User.Login == login
+                && s.Subscriber.Person.User.Password == password
+                && s.SubscriptionStatus >= SubscriptionStatus.Сonfirmed)
+            .ToList();
+
+        return new Receipt(
+                confirmedSubscriptions.Sum(s => s.Publication.Price),
+                confirmedSubscriptions.Select(s => s.Publication.Name).ToList(),
+                DateTime.Now,
+                confirmedSubscriptions.Select(s => (int)s.Duration).ToList()
+                );
+    } //GetAllСonfirmedSubscription
 } //DatabaseQueries
