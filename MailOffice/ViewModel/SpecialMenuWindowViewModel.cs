@@ -19,12 +19,13 @@ public class SpecialMenuWindowViewModel : INotifyPropertyChanged {
     private MainWindowViewModel MainWindowViewModel { get; set; } 
 
     public SpecialMenuWindowViewModel(
-    SpecialMenuWindow hostWindow, DatabaseQueries databaseQueries, MainWindowViewModel mainWindowViewModel) {
+        SpecialMenuWindow hostWindow, DatabaseQueries databaseQueries, MainWindowViewModel mainWindowViewModel) 
+    {
         (HostWindow, DatabaseQueries, MainWindowViewModel) =
             (hostWindow, databaseQueries, mainWindowViewModel);
 
         // Список подписных изданий на ожидании 
-        Entities = new ObservableCollection<Subscription> (DatabaseQueries.GetAllAwaitingSubscription());
+        Entities = new ObservableCollection<Subscription>(DatabaseQueries.GetAllAwaitingSubscription());
         HostWindow.SelectedAwaitingDataGrid.ItemsSource = Entities;
 
         // Список почтальенов
@@ -32,7 +33,7 @@ public class SpecialMenuWindowViewModel : INotifyPropertyChanged {
         HostWindow.PostmansDataGrid.ItemsSource = Postmans;
 
         // Список пользователей, которых можно повысить до Postman
-        People = new ObservableCollection<Person>(DatabaseQueries.GetAllPersonWithStaff());
+        People = new ObservableCollection<Person>(DatabaseQueries.GetAllPersonWithoutStaff());
         HostWindow.PeopleDataGrid.ItemsSource = People;
     } //SpecialMenuWindowViewModel
 
