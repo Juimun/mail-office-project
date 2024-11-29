@@ -1,16 +1,14 @@
 ﻿using MailOffice.Infrastructure;
 using MailOffice.View;
-using MailOfficeControllers.Controllers;
 using MailOfficeDataBase.DataBase;
 using MailOfficeEntities.Category;
 using MailOfficeEntities.Entities;
+using MailOfficeEntities.Entities.Accounts;
 using System.Collections.ObjectModel;
 using System.ComponentModel;
-using System.Drawing;
 using System.Runtime.CompilerServices;
 using System.Windows;
 using System.Windows.Threading;
-using static iTextSharp.text.pdf.events.IndexEvents;
 
 namespace MailOffice.ViewModel;
 
@@ -25,9 +23,18 @@ public class SpecialMenuWindowViewModel : INotifyPropertyChanged {
         (HostWindow, DatabaseQueries, MainWindowViewModel) =
             (hostWindow, databaseQueries, mainWindowViewModel);
 
+        // Список подписных изданий на ожидании 
         Entities = new ObservableCollection<Subscription> (DatabaseQueries.GetAllAwaitingSubscription());
         HostWindow.SelectedAwaitingDataGrid.ItemsSource = Entities;
-    }
+
+        // Список почтальенов
+        Postmans = new ObservableCollection<Staff>(DatabaseQueries.GetAllPostmans());
+        HostWindow.PostmansDataGrid.ItemsSource = Postmans;
+
+        // Список пользователей, которых можно повысить до Postman
+        People = new ObservableCollection<Person>(DatabaseQueries.GetAllPersonWithStaff());
+        HostWindow.PeopleDataGrid.ItemsSource = People;
+    } //SpecialMenuWindowViewModel
 
     #region Команды
     public RelayCommand ExitCommand => new(
@@ -62,6 +69,20 @@ public class SpecialMenuWindowViewModel : INotifyPropertyChanged {
     #endregion 
 
     #region Director
+    // Список пользователей, которых можно повысить до Postman
+    private ObservableCollection<Person> _people;
+    public ObservableCollection<Person> People { 
+        get => _people;
+        set => SetField(ref _people, value);
+    }
+
+    // Список почтальенов
+    private ObservableCollection<Staff> _postmans; 
+    public ObservableCollection<Staff> Postmans {  
+        get => _postmans;
+        set => SetField(ref _postmans, value);
+    }
+
     // Принять на работу Почтальена
     // TODO: Переделать хардкод!
     private void AddPostman() {

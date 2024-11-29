@@ -2,6 +2,7 @@
 using System.Windows.Controls;
 using System.Windows.Input;
 using System.Windows.Media;
+using System.Windows.Media.Imaging;
 using MailOffice.ViewModel;
 using MailOfficeDataBase.DataBase;
 
@@ -17,6 +18,9 @@ public partial class SpecialMenuWindow : Window {
 
     public SpecialMenuWindow(MainWindowViewModel mainWindowViewModel) {
         InitializeComponent();
+
+        // Инициализация словаря - связь Button с DataGrid
+        InitializeDictionary();
 
         DataContext = new SpecialMenuWindowViewModel(this, new DatabaseQueries(), mainWindowViewModel);
     }
@@ -58,5 +62,34 @@ public partial class SpecialMenuWindow : Window {
         button.Background = _originalBackgroundBrush;
         button.Foreground = _originalForegroundBrush;
     }
-}
+
+    // Инициализация словаря - связь Button с DataGrid
+    //  для отображения нужного DataGrid по кнопке
+    private Dictionary<Button, DataGrid> dictionary = new(); 
+    private void InitializeDictionary() {
+        dictionary.Add(EyeVisionSubscriptions, SelectedAwaitingDataGrid);
+        dictionary.Add(EyeVisionPeople, PeopleDataGrid);
+        dictionary.Add(EyeVisionPostmans, PostmansDataGrid);
+    } //InitializeDictionary
+
+    private void EyeVisionButton_Click(object sender, RoutedEventArgs e) {
+        var button = (Button)sender;
+
+        if (dictionary.TryGetValue(button, out DataGrid? dataGrid)) {
+            if (dataGrid != null) { 
+                dataGrid.Visibility = dataGrid.Visibility == Visibility.Visible 
+                    ? Visibility.Collapsed : Visibility.Visible;
+
+                foreach (var kvp in dictionary) {
+                    if (kvp.Key.Content is Image image){
+                        kvp.Value.Visibility = kvp.Key == button ? dataGrid.Visibility : Visibility.Collapsed; 
+                        image.Source = kvp.Value.Visibility == Visibility.Visible ?
+                                       new BitmapImage(new Uri("/Assets/Menu/eye.png", UriKind.Relative)) :
+                                       new BitmapImage(new Uri("/Assets/Menu/closedEye.png", UriKind.Relative));
+                    }
+                }  
+            } //if
+        } //if
+    } //EyeVisionButton_Click
+} //SpecialMenuWindow
 

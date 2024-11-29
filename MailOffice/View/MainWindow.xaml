@@ -318,64 +318,71 @@
                                Text="Доступные публикации">
                     </TextBlock>
                 </TabItem.Header>
-                <ScrollViewer 
-                              VerticalScrollBarVisibility="Visible">
-                    <Grid>
-                        <Grid.RowDefinitions>
-                            <RowDefinition Height="150*"/>
-                            <RowDefinition Height="*"/>
-                        </Grid.RowDefinitions>
-                        <Grid.ColumnDefinitions>
-                            <ColumnDefinition Width="*"/>
-                            <ColumnDefinition Width="Auto"/>
-                            <ColumnDefinition Width="Auto"/>
-                            <ColumnDefinition Width="Auto"/>
-                            <ColumnDefinition Width="*"/>
-                        </Grid.ColumnDefinitions>
-                        <DataGrid Grid.Row="0"
+                <Grid>
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="150*"/>
+                        <RowDefinition Height="75"/>
+                    </Grid.RowDefinitions>
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="*"/>
+                        <ColumnDefinition Width="Auto"/>
+                        <ColumnDefinition Width="Auto"/>
+                        <ColumnDefinition Width="Auto"/>
+                        <ColumnDefinition Width="*"/>
+                    </Grid.ColumnDefinitions>
+                    <DataGrid Grid.Row="0"
+                                  Grid.Column="0"
                                   Grid.ColumnSpan="3"
                                   Name="SelectedFirstPartDataGrid" 
-                                  Margin="0 0 82 0"  
+                                  Margin="0 0 87 0"  
                                   FontFamily="Courier New"
                                   FontSize="16" 
                                   AutoGenerateColumns="False"
+                                  VirtualizingPanel.IsVirtualizing="True"
                                   CanUserAddRows="False"
                                   IsReadOnly="True">
-                            <DataGrid.Columns>
-                                <DataGridTextColumn Header="Идентификатор" 
+                        <DataGrid.Columns>
+                            <DataGridTextColumn Header="Идентификатор" 
                                                     Binding="{Binding Id}" 
                                                     Width="150"/>
-                                <DataGridTextColumn Header="Наименование" 
+                            <DataGridTextColumn Header="Наименование" 
                                                     Binding="{Binding Name}" 
                                                     Width="*"/>
-                                <DataGridTextColumn Header="Цена (руб.)"
-                                                    Binding="{Binding Price}" 
+                            <DataGridTextColumn Header="Тип публикации" 
+                                                    Binding="{Binding Type}" 
                                                     Width="Auto"/>
-                            </DataGrid.Columns>
-                        </DataGrid>
-                        <DataGrid Grid.Row="0"
+                            <DataGridTextColumn Header="Цена (руб.)"
+                                                    Binding="{Binding Price}" 
+                                                    Width="150"/>
+                        </DataGrid.Columns>
+                    </DataGrid>
+                    <DataGrid Grid.Row="0"
                                   Grid.Column="2"
                                   Grid.ColumnSpan="3"
                                   Name="SelectedSecondPartDataGrid" 
-                                  Margin="82 0 0 0"  
+                                  Margin="91 0 0 0"  
                                   FontFamily="Courier New"
                                   FontSize="16" 
                                   AutoGenerateColumns="False"
+                                  VirtualizingPanel.IsVirtualizing="True"
                                   CanUserAddRows="False"
                                   IsReadOnly="True">
-                            <DataGrid.Columns>
-                                <DataGridTextColumn Header="Идентификатор" 
+                        <DataGrid.Columns>
+                            <DataGridTextColumn Header="Идентификатор" 
                                                     Binding="{Binding Id}" 
                                                     Width="150"/>
-                                <DataGridTextColumn Header="Наименование" 
+                            <DataGridTextColumn Header="Наименование" 
                                                     Binding="{Binding Name}" 
                                                     Width="*"/>
-                                <DataGridTextColumn Header="Цена (руб.)"
-                                                    Binding="{Binding Price}" 
+                            <DataGridTextColumn Header="Тип публикации" 
+                                                    Binding="{Binding Type}" 
                                                     Width="Auto"/>
-                            </DataGrid.Columns>
-                        </DataGrid>
-                        <Button Grid.Row="1"
+                            <DataGridTextColumn Header="Цена (руб.)"
+                                                    Binding="{Binding Price}" 
+                                                    Width="150"/>
+                        </DataGrid.Columns>
+                    </DataGrid>
+                    <Button Grid.Row="1"
                             Grid.Column="0"
                             Margin="0 10"
                             Padding="10"
@@ -389,7 +396,7 @@
                             Width="70"
                             HorizontalAlignment="Right"
                             Command="{Binding FirstPageCommand}"/>
-                        <Button Grid.Row="1"
+                    <Button Grid.Row="1"
                             Grid.Column="1"
                             Margin="10"
                             Padding="10"
@@ -402,13 +409,19 @@
                             TabIndex="3"
                             Width="50"
                             Command="{Binding BackPageCommand}" />
-                        <TextBox Grid.Row="1"
-                            Grid.Column="2"
+                    <TextBox Grid.Row="1"
+                                 Grid.Column="2"
                                  TabIndex="1"
-                                 x:Name="SelectedPageTextBox"
-                                 Text="Введите страницу"
-                                 Style="{StaticResource TextBoxStyle}" />
-                        <Button Grid.Row="1"
+                                 Name="SelectedPageTextBox"
+                                 Padding="70 15"
+                                 Foreground="White"
+                                 Background="#3d4450"
+                                 IsEnabled="False"
+                                 HorizontalAlignment="Center"
+                                 VerticalAlignment="Center"
+                                 Text="1"
+                                 Style="{StaticResource TextBoxStyle}"  />
+                    <Button Grid.Row="1"
                             Grid.Column="3"
                             Margin="10"
                             Padding="10"
@@ -421,7 +434,7 @@
                             TabIndex="3"
                             Width="50"
                             Command="{Binding NextPageCommand}" />
-                        <Button Grid.Row="1"
+                    <Button Grid.Row="1"
                             Grid.Column="4"
                             Margin="0 10"
                             Padding="10"
@@ -435,8 +448,7 @@
                             Width="70"
                             HorizontalAlignment="Left"
                             Command="{Binding LastPageCommand}"/>
-                    </Grid>
-                </ScrollViewer>
+                </Grid>
             </TabItem>
             <TabItem BorderThickness="1" 
                      Visibility="Hidden"

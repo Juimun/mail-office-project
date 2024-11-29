@@ -105,4 +105,10 @@ public partial class DatabaseQueries(MailOfficeContext db) {
         
         await database.SaveChangesAsync();
     } //UpdateSubscriptionStatus
+
+    // Список пользователей, которые не являются персоналом
+    public List<Person> GetAllPersonWithStaff() => db
+        .People
+        .Where(p => p.Role != PersonCategory.Staff)
+        .ToList();
 } //DatabaseQueries

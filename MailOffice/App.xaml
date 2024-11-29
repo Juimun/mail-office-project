@@ -10,8 +10,8 @@
             <Setter Property="Foreground" Value="White"/>
             <Setter Property="Background" Value="#171d25"/>
             <Setter Property="ResizeMode" Value="CanResize"/>
-            <Setter Property="Height"     Value="800"/>
-            <Setter Property="Width"      Value="1500"/>
+            <Setter Property="Height"     Value="1000"/>
+            <Setter Property="Width"      Value="1800"/>
         </Style>
 
         <!-- 

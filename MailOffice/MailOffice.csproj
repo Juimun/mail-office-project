@@ -20,7 +20,9 @@
     <None Remove="Assets\Menu\arrowLeft.png" />
     <None Remove="Assets\Menu\arrowRight.png" />
     <None Remove="Assets\Menu\clear.png" />
+    <None Remove="Assets\Menu\closedEye.png" />
     <None Remove="Assets\Menu\exit.png" />
+    <None Remove="Assets\Menu\eye.png" />
     <None Remove="Assets\Menu\mail.png" />
     <None Remove="Assets\Menu\mailBlue.png" />
     <None Remove="Assets\Menu\pdf.png" />
@@ -79,7 +81,13 @@
     <Resource Include="Assets\Menu\clear.png">
       <CopyToOutputDirectory>Never</CopyToOutputDirectory>
     </Resource>
+    <Resource Include="Assets\Menu\closedEye.png">
+      <CopyToOutputDirectory>Never</CopyToOutputDirectory>
+    </Resource>
     <Resource Include="Assets\Menu\exit.png">
+      <CopyToOutputDirectory>Never</CopyToOutputDirectory>
+    </Resource>
+    <Resource Include="Assets\Menu\eye.png">
       <CopyToOutputDirectory>Never</CopyToOutputDirectory>
     </Resource>
     <Resource Include="Assets\Menu\mail.png">

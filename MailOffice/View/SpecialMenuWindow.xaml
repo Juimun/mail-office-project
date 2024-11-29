@@ -8,39 +8,27 @@
         
         Title="Специальные возможности"
         WindowStartupLocation="CenterScreen"
-        Style="{StaticResource AuthenticationWindowStyle}"
-        
-        Width="500"
-        Height="480"
+        WindowStyle="SingleBorderWindow"
+        Foreground="White"
+        Background="#171d25"
         BorderBrush="Black"
         BorderThickness="0 0 2 2"
+        Height="500"
+        MaxWidth="1000"
+        
+        ResizeMode="NoResize"
         Icon="/Assets/Menu/staffOnly.png">
     <Grid>
-        <Grid.RowDefinitions>
-            <RowDefinition Height="Auto"/>
-            <RowDefinition Height="*"/>
-        </Grid.RowDefinitions>
-
-        <Button 
-            Content="✖" 
-            Grid.Row="0"    
-            Name="ExitBtn"
-            HorizontalAlignment="Right" 
-            Margin="0 5 10 0" 
-            Padding="10" 
-            FontSize="6" 
-            BorderThickness="0"
-            Background="Transparent" 
-            Foreground="White"
-            Command="{Binding Path=ExitCommand}"
-            MouseEnter="UIElement_OnMouseEnter"
-            MouseLeave="UIElement_OnMouseLeave"/>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="Auto"/>
+            <ColumnDefinition Width="*"/>
+        </Grid.ColumnDefinitions>
 
         <Border BorderBrush="Black" 
                 BorderThickness="3"
                 Margin="10"
                 CornerRadius="10" 
-                Grid.Row="2">
+                Grid.Row="1">
             <TabControl Margin="7"
                         Background="#434953">
                 <TabItem BorderThickness="1" 
@@ -53,44 +41,44 @@
                                    >
                         </TextBlock>
                     </TabItem.Header>
-                    <Grid>
-                        <Grid.RowDefinitions>
-                            <RowDefinition Height="*"/>
-                            <RowDefinition Height="*"/>
-                            <RowDefinition Height="*"/>
-                        </Grid.RowDefinitions>
+                    <StackPanel>
                         <Border BorderBrush="Black" 
                                 BorderThickness="3"
                                 Margin="10"
                                 CornerRadius="10" 
-                                Grid.Row="0">
-                            <Grid>
-                                <Grid.RowDefinitions>
-                                    <RowDefinition Height="*"/>
-                                    <RowDefinition Height="*"/>
-                                </Grid.RowDefinitions> 
-                                <Grid.ColumnDefinitions>
-                                    <ColumnDefinition Width="*"/>
-                                    <ColumnDefinition Width="*"/>
-                                </Grid.ColumnDefinitions>
-                                <TextBlock FontFamily="Segoe UI"
+                                Grid.Row="0"
+                                >
+                            <StackPanel>
+                                <StackPanel Orientation="Horizontal">
+                                    <TextBlock FontFamily="Segoe UI"
                                            Text="Оформление подписного издания:"
-                                           Grid.Row="0"
-                                           Grid.Column="0"
-                                           Grid.ColumnSpan="2"
                                            Padding="15"
-                                           Margin="70 0 0 0"
+                                           Margin="40 0 0 0"
                                            Style="{StaticResource TextBlockStyle}"/>
-                                <TextBlock Text="?"
+                                    <TextBlock Text="?"
                                            Grid.Column="1"
                                            FontSize="20"
                                            Foreground="#235ecf"
-                                           ToolTip="Выделите подписные издания, а затем нажмите соответствующую кнопку." 
-                                           Margin="95 7 0 0" 
-                                           />
-                                <Button Grid.Row="1"
-                                        Grid.Column="0"
-                                        Margin="5"
+                                           ToolTip="Выделите подписные издания, а затем нажмите соответствующую кнопку." />
+                                    <Button Click="EyeVisionButton_Click" 
+                                            Foreground="Transparent" 
+                                            Background="Transparent" 
+                                            BorderBrush="Transparent"
+                                            Name="EyeVisionSubscriptions"
+                                            Margin="70 0 0 0"
+                                            Height="32" 
+                                            Width="32">
+                                        <Button.Content>
+                                            <Image Source="/Assets/Menu/closedEye.png" 
+                                                   Stretch="UniformToFill" 
+                                                   Height="28" 
+                                                   Width="28"/>
+                                        </Button.Content>
+                                    </Button>
+                                </StackPanel>
+                                <StackPanel Orientation="Horizontal">
+                                    <Button 
+                                        Margin="20 5"
                                         Padding="10"
                                         Background="#235ecf"
                                         Foreground="White"
@@ -99,12 +87,11 @@
                                         Content="Подтвердить"
                                         Name="ConfirmSubscription"
                                         TabIndex="1"
-                                        Width="150"
+                                        Width="200"
                                         MouseEnter="UIElement_OnMouseEnter"
                                         MouseLeave="UIElement_OnMouseLeave"
                                         Command="{Binding ConfirmSubscriptionCommand}"/>
-                                <Button Grid.Row="1"
-                                        Grid.Column="1"
+                                    <Button 
                                         Margin="5"
                                         Padding="10"
                                         Background="#235ecf"
@@ -118,29 +105,10 @@
                                         MouseEnter="UIElement_OnMouseEnter"
                                         MouseLeave="UIElement_OnMouseLeave"
                                         Command="{Binding RejectSubscriptionCommand}"/>
-                            </Grid> 
+                                </StackPanel>
+                            </StackPanel>
                         </Border>
-                        <DataGrid Grid.Row="1"
-                                  Grid.RowSpan="2"
-                                  Name="SelectedAwaitingDataGrid" 
-                                  FontFamily="Courier New"
-                                  FontSize="14" 
-                                  AutoGenerateColumns="False"
-                                  CanUserAddRows="False"
-                                  IsReadOnly="True">
-                            <DataGrid.Columns>
-                                <DataGridTextColumn Header="Id подписчика" 
-                                                    Binding="{Binding SubscriberId}" 
-                                                    Width="*"/>
-                                <DataGridTextColumn Header="Дата подписки" 
-                                                    Binding="{Binding StartDate}" 
-                                                    Width="*"/>
-                                <DataGridTextColumn Header="Срок подписки"
-                                                    Binding="{Binding Duration}" 
-                                                    Width="*"/>
-                            </DataGrid.Columns>
-                        </DataGrid>
-                    </Grid>
+                    </StackPanel>
                 </TabItem>
                 <TabItem BorderThickness="1" 
                          Name="DirectorTabItem"
@@ -153,119 +121,131 @@
                                    >
                         </TextBlock>
                     </TabItem.Header>
-                    <Grid>
-                        <Grid.RowDefinitions>
-                            <RowDefinition Height="*"/>
-                            <RowDefinition Height="*"/>
-                            <RowDefinition Height="*"/>
-                        </Grid.RowDefinitions>
+                    <StackPanel>
                         <Border BorderBrush="Black" 
                                 BorderThickness="3"
                                 Margin="10"
                                 CornerRadius="10" 
                                 Grid.Row="0">
-                            <Grid>
-                                <Grid.RowDefinitions>
-                                    <RowDefinition Height="*"/>
-                                    <RowDefinition Height="*"/>
-                                </Grid.RowDefinitions>
-                                <Grid.ColumnDefinitions>
-                                    <ColumnDefinition Width="*"/>
-                                    <ColumnDefinition Width="Auto"/>
-                                </Grid.ColumnDefinitions>
-                                <TextBlock FontFamily="Segoe UI"
-                                       Text="ПРИНЯТЬ ПОЧТАЛЬЕНА:"
-                                       Grid.Row="0"
-                                       Grid.ColumnSpan="2"
-                                       Padding="15"
-                                       Style="{StaticResource TextBlockStyle}"/>
-                                <TextBlock Text="?"
+                            <StackPanel>
+                                <StackPanel Orientation="Horizontal">
+                                    <TextBlock FontFamily="Segoe UI"
+                                           Text="ДОБАВИТЬ ПОЧТАЛЬЕНА:"
+                                           Padding="15"
+                                           Margin="50 0 0 0"
+                                           Style="{StaticResource TextBlockStyle}"/>
+                                    <TextBlock Text="?"
+                                           Grid.Column="1"
                                            FontSize="20"
                                            Foreground="#235ecf"
-                                           ToolTip="Для добавления пользователя на роль почтальена НЕОБХОДИМО ввести его идентификатор пользователя." 
-                                           Margin="190 13 0 0"/>
-                                <TextBox TabIndex="1"
-                                         Grid.Row="1"
-                                         Grid.Column="0"
-                                         Name="PersonIdTextBox" 
-                                         Text="Введите Id пользователя"
-                                         Margin="10 5"
+                                           ToolTip="Введите ИДЕНТИФИКАТОР ПОЛЬЗОВАТЕЛЯ, а затем нажмите кнопку ДОБАВИТЬ." />
+                                    <Button Click="EyeVisionButton_Click" 
+                                        Foreground="Transparent" 
+                                        Background="Transparent" 
+                                        BorderBrush="Transparent"
+                                        Name="EyeVisionPeople"
+                                        Margin="120 0 0 0"
+                                        Height="32" 
+                                        Width="32">
+                                        <Button.Content>
+                                            <Image Source="/Assets/Menu/closedEye.png" 
+                                               Stretch="UniformToFill" 
+                                               Height="28" 
+                                               Width="28"/>
+                                        </Button.Content>
+                                    </Button>
+                                </StackPanel>
+                                <StackPanel Orientation="Horizontal">
+                                    <TextBox TabIndex="1"
+                                             Name="PersonIdTextBox" 
+                                             Text="Введите Id пользователя"
+                                             Margin="20 5"
+                                             Padding="10"
+                                             Width="200"
+                                             Style="{StaticResource TextBoxStyle}"
+                                             
+                                             GotFocus="TextBox_OnGotFocus"
+                                             LostFocus="TextBox_OnLostFocus" />
+
+                                    <Button 
+                                         Margin="5"
                                          Padding="10"
-                                         Style="{StaticResource TextBoxStyle}"
-                                         
-                                         GotFocus="TextBox_OnGotFocus"
-                                         LostFocus="TextBox_OnLostFocus" />
-                                <Button Grid.Row="1"
-                                    Grid.Column="1"
-                                    Margin="5"
-                                    Padding="10"
-                                    Background="#235ecf"
-                                    Foreground="White"
-                                    BorderBrush="Black"
-                                    BorderThickness="0 0 2 2"
-                                    Content="Добавить"
-                                    Name="AddStaff"
-                                    TabIndex="2"
-                                    Width="150"
-                                    MouseEnter="UIElement_OnMouseEnter"
-                                    MouseLeave="UIElement_OnMouseLeave"
-                                    Command="{Binding AddCommand}" />
-                            </Grid>
+                                         Background="#235ecf"
+                                         Foreground="White"
+                                         BorderBrush="Black"
+                                         BorderThickness="0 0 2 2"
+                                         Content="Добавить"
+                                         Name="AddStaff"
+                                         TabIndex="2"
+                                         Width="150"
+                                         MouseEnter="UIElement_OnMouseEnter"
+                                         MouseLeave="UIElement_OnMouseLeave"
+                                         Command="{Binding AddCommand}" />
+                                </StackPanel>
+                            </StackPanel>
                         </Border>
                         <Border BorderBrush="Black" 
                                 BorderThickness="3"
                                 Margin="10"
                                 CornerRadius="10" 
-                                Grid.Row="1">
-                            <Grid>
-                                <Grid.RowDefinitions>
-                                    <RowDefinition Height="*"/>
-                                    <RowDefinition Height="*"/>
-                                </Grid.RowDefinitions>
-                                <Grid.ColumnDefinitions>
-                                    <ColumnDefinition Width="*"/>
-                                    <ColumnDefinition Width="Auto"/>
-                                </Grid.ColumnDefinitions>
-                                <TextBlock FontFamily="Segoe UI"
-                                           Text="УВОЛИТЬ ПОЧТАЛЬЕНА:"
-                                           Grid.Row="0"
-                                           Grid.ColumnSpan="2"
-                                           Padding="15"
-                                           Style="{StaticResource TextBlockStyle}"/>
-                                <TextBlock Text="?"
-                                           FontSize="20"
-                                           Foreground="#235ecf"
-                                           ToolTip="Для увольнения почтальена НЕОБХОДИМО ввести его идентификатор персонала." 
-                                           Margin="190 13 0 0"/>
-                                <TextBox TabIndex="3"
-                                         Grid.Row="1"
-                                         Grid.Column="0"
+                                Grid.Row="0">
+                            <StackPanel>
+                                <StackPanel Orientation="Horizontal">
+                                    <TextBlock FontFamily="Segoe UI"
+                                               Text="УВОЛИТЬ ПОЧТАЛЬЕНА:"
+                                               Padding="15"
+                                               Margin="50 0 0 0"
+                                               Style="{StaticResource TextBlockStyle}"/>
+                                    <TextBlock Text="?"
+                                               Grid.Column="1"
+                                               FontSize="20"
+                                               Foreground="#235ecf"
+                                               ToolTip="Введите ИДЕНТИФИКАТОР ПОЧТАЛЬЕНА, а затем нажмите кнопку УВОЛИТЬ." />
+                                    <Button Click="EyeVisionButton_Click" 
+                                            Foreground="Transparent" 
+                                            Background="Transparent" 
+                                            BorderBrush="Transparent"
+                                            Name="EyeVisionPostmans"
+                                            Margin="131 0 0 0"
+                                            Height="32" 
+                                            Width="32">
+                                        <Button.Content>
+                                            <Image Source="/Assets/Menu/closedEye.png" 
+                                                   Stretch="UniformToFill" 
+                                                   Height="28" 
+                                                   Width="28"/>
+                                        </Button.Content>
+                                    </Button>
+                                </StackPanel>
+                                <StackPanel Orientation="Horizontal">
+                                    <TextBox TabIndex="1"
                                          Name="PostmanIdTextBox" 
                                          Text="Введите Id почтальена"
-                                         Margin="10 5"
-                                         Padding="10" 
+                                         Margin="20 5"
+                                         Padding="10"
+                                         Width="200"
                                          Style="{StaticResource TextBoxStyle}"
                                          
                                          GotFocus="TextBox_OnGotFocus"
                                          LostFocus="TextBox_OnLostFocus" />
-                                <Button Grid.Row="1"
-                                        Grid.Column="1"
+                                    <Button 
                                         Margin="5"
                                         Padding="10"
                                         Background="#235ecf"
                                         Foreground="White"
                                         BorderBrush="Black"
                                         BorderThickness="0 0 2 2"
-                                        Content="Удалить"
-                                        Name="FirstPage"
-                                        TabIndex="4"
+                                        Content="Уволить"
+                                        Name="RemoveStaff"
+                                        TabIndex="2"
                                         Width="150"
                                         MouseEnter="UIElement_OnMouseEnter"
                                         MouseLeave="UIElement_OnMouseLeave"
-                                        Command="{Binding RemoveCommand}" />
-                            </Grid>
+                                        Command="{Binding AddCommand}" />
+                                </StackPanel>
+                            </StackPanel>
                         </Border>
-                    </Grid>
+                    </StackPanel>
                 </TabItem>
                 <TabItem BorderThickness="1" 
                          Name="AdminTabItem"
@@ -278,39 +258,31 @@
                                    >
                         </TextBlock>
                     </TabItem.Header>
-                    <Grid>
-                        <Grid.RowDefinitions>
-                            <RowDefinition Height="*"/>
-                            <RowDefinition Height="*"/>
-                            <RowDefinition Height="*"/>
-                        </Grid.RowDefinitions>
+                    <StackPanel>
                         <Border BorderBrush="Black" 
                                 BorderThickness="3"
                                 Margin="10"
                                 CornerRadius="10" 
                                 Grid.Row="0">
-                            <Grid>
-                                <Grid.RowDefinitions>
-                                    <RowDefinition Height="*"/>
-                                    <RowDefinition Height="*"/>
-                                </Grid.RowDefinitions>
-                                <TextBlock FontFamily="Segoe UI"
-                                           Text="ПЕРЕГЕНЕРАЦИЯ ТАБЛИЦ БАЗЫ ДАННЫХ:"
-                                           Grid.Row="0"
-                                           Padding="15"
-                                           Margin="50 0 0 0"
-                                           Style="{StaticResource TextBlockStyle}"/>
-                                <TextBlock Text="?"
-                                           FontSize="20"
-                                           Foreground="#235ecf"
-                                           ToolTip="Пересоздается ТОЛЬКО тестовая база данных!" 
-                                           Margin="340 7 0 0" 
-                                           />
+                            <StackPanel>
+                                <StackPanel Orientation="Horizontal">
+                                    <TextBlock FontFamily="Segoe UI"
+                                               Text="ПЕРЕСОЗДАТЬ ТЕСТОВУЮ БАЗУ ДАННЫХ:"
+                                               Padding="15"
+                                               Margin="50 0 0 0"
+                                               Style="{StaticResource TextBlockStyle}"/>
+                                    <TextBlock Text="?"
+                                               Grid.Column="1"
+                                               FontSize="20"
+                                               Foreground="#235ecf"
+                                               ToolTip="Чтобы пересоздать ТЕСТОВУЮ БАЗУ ДАННЫХ, необходимо нажать кнопку ПЕРЕСОЗДАТЬ." />
+
+                                </StackPanel>
                                 <Button 
                                     Grid.Row="1"
                                     Margin="138 5"
                                     Padding="10"
-                                    Background="OrangeRed"
+                                    Background="#235ecf"
                                     Foreground="White"
                                     BorderBrush="Black"
                                     BorderThickness="0 0 2 2"
@@ -321,11 +293,37 @@
                                     MouseEnter="UIElement_OnMouseEnter"
                                     MouseLeave="UIElement_OnMouseLeave"
                                     Command="{Binding RegenerateDbCommand}"/>
-                            </Grid>
+                            </StackPanel>
                         </Border>
-                    </Grid>
+                    </StackPanel>
                 </TabItem>
             </TabControl>
         </Border>
+
+        <StackPanel Grid.Column="1" Orientation="Horizontal">
+            <DataGrid Visibility="Collapsed" Name="SelectedAwaitingDataGrid" FontFamily="Courier New" FontSize="14"
+                      Margin="0 10 5 10" Width="500" AutoGenerateColumns="False" CanUserAddRows="False" IsReadOnly="True">
+                <DataGrid.Columns>
+                    <DataGridTextColumn Header="Id подписчика" Binding="{Binding SubscriberId}" Width="*"/>
+                    <DataGridTextColumn Header="Дата подписки" Binding="{Binding StartDate}" Width="*"/>
+                    <DataGridTextColumn Header="Срок подписки" Binding="{Binding Duration}" Width="*"/>
+                </DataGrid.Columns>
+            </DataGrid>
+            <DataGrid Visibility="Collapsed" Name="PeopleDataGrid" FontFamily="Courier New" FontSize="14"
+                      Margin="0 10 5 10" Width="500" AutoGenerateColumns="False" CanUserAddRows="False" IsReadOnly="True">
+                <DataGrid.Columns>
+                    <DataGridTextColumn Header="Id" Binding="{Binding Id}" Width="*"/>
+                    <DataGridTextColumn Header="ФИО" Binding="{Binding FullName}" Width="*"/>
+                    <DataGridTextColumn Header="Текущая роль" Binding="{Binding Role}" Width="*"/>
+                </DataGrid.Columns>
+            </DataGrid>
+            <DataGrid Visibility="Collapsed" Name="PostmansDataGrid" FontFamily="Courier New" FontSize="14"
+                      Margin="0 10 5 10" Width="500" AutoGenerateColumns="False" CanUserAddRows="False" IsReadOnly="True">
+                <DataGrid.Columns>
+                    <DataGridTextColumn Header="Id" Binding="{Binding Id}" Width="*"/>
+                    <DataGridTextColumn Header="Текущая роль" Binding="{Binding Role}" Width="*"/>
+                </DataGrid.Columns>
+            </DataGrid>
+        </StackPanel>
     </Grid>
 </Window>

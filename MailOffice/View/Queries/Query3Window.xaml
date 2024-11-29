@@ -10,7 +10,7 @@
         Style="{StaticResource AuthenticationWindowStyle}"
         
         Width="500"
-        Height="440"
+        Height="400"
         BorderBrush="Black"
         BorderThickness="0 0 2 2"
         Icon="/Assets/Menu/mail.png">

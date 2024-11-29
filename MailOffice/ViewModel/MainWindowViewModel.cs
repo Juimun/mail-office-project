@@ -156,6 +156,11 @@ public class MainWindowViewModel : INotifyPropertyChanged {
     public RelayCommand SpecialMenuCommand => new( 
         obj => SpecialMenu(), 
         obj => true
+    ); 
+
+    public RelayCommand OrderPublicationCommand => new(
+        obj => OrderPublications(), 
+        obj => true
     );
     #endregion
 
@@ -227,7 +232,7 @@ public class MainWindowViewModel : INotifyPropertyChanged {
 
     #region Постраничный вывод
     // Размер страницы
-    private int _pageSize = 100;
+    private int _pageSize = 80;
 
     // Всего записей в таблице
     private int _totalRecords;
@@ -245,7 +250,7 @@ public class MainWindowViewModel : INotifyPropertyChanged {
     public int CurrentPage
     {
         get => _currentPage;
-        set => SetField(ref _currentPage, value);
+        set => SetField(ref _currentPage, value); 
     }
 
     // Всего страниц
@@ -285,6 +290,7 @@ public class MainWindowViewModel : INotifyPropertyChanged {
 
         // Выбранная страница
         CurrentPage = pageNumber;
+        HostWindow.SelectedPageTextBox.Text = CurrentPage.ToString();
 
         // Вычисление сдвига
         int offset = (pageNumber - 1) * _pageSize;
@@ -312,6 +318,29 @@ public class MainWindowViewModel : INotifyPropertyChanged {
             HostWindow.TbcMain.SelectedIndex = 0;
     } //RightTab
 
+    // Создание заказа
+    private void OrderPublications() {
+
+        // Список выделенных сущностей
+        var selectedFirstPartPublication = HostWindow 
+            .SelectedFirstPartDataGrid
+            .SelectedItems
+            .OfType<Publication>()
+            .ToList();
+
+        // Список выделенных сущностей
+        var selectedSecondPartPublication = HostWindow 
+            .SelectedSecondPartDataGrid
+            .SelectedItems
+            .OfType<Publication>()
+            .ToList();
+
+        if (selectedFirstPartPublication != null || selectedSecondPartPublication != null) {
+            
+
+        }
+    } //OrderPublications
+
     // Меню для работой со специальными правами для ролей
     private void SpecialMenu() {
         if (CurrentAccount!.StaffRole != null) {
@@ -320,7 +349,7 @@ public class MainWindowViewModel : INotifyPropertyChanged {
             if (CurrentAccount.StaffRole >= MailOfficeEntities.Category.StaffRole.Operator) {
                 specialMenu.OperatorTabItem.Visibility = Visibility.Visible;
                 if (CurrentAccount.StaffRole >= MailOfficeEntities.Category.StaffRole.Director) {
-                specialMenu.DirectorTabItem.Visibility = Visibility.Visible;
+                    specialMenu.DirectorTabItem.Visibility = Visibility.Visible;
                     if (CurrentAccount.StaffRole == MailOfficeEntities.Category.StaffRole.Administrator)
                         specialMenu.AdminTabItem.Visibility = Visibility.Visible; 
                 } //if
@@ -332,7 +361,7 @@ public class MainWindowViewModel : INotifyPropertyChanged {
 
     // Разделение и привязка в DataGrid
     private void UpdateDataGridSources() {
-        int halfCount = Entities.Count / 2; 
+        int halfCount = _pageSize / 2; 
 
         HostWindow.SelectedFirstPartDataGrid.ItemsSource = Entities
             .Take(halfCount)
