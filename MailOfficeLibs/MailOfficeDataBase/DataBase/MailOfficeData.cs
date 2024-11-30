@@ -7,6 +7,7 @@ using System.Collections;
 using Microsoft.EntityFrameworkCore;
 using MailOfficeFactory.Factories;
 using MailOfficeTool.Entities;
+using MailOfficeEntities.Entities.Receipts;
 
 namespace MailOfficeDataBase.DataBase;
 
@@ -127,19 +128,57 @@ public partial class DatabaseQueries(MailOfficeContext db) {
             .ToList();
 
     // Создание квитанции
-    public Receipt GetReceipt(string login, byte[] password) { 
-        var confirmedSubscriptions = db  
+    public void CreateReceipt(string login, byte[] password) {
+        var user = db.Users.FirstOrDefault(u => u.Login == login && u.Password == password);
+
+        var confirmedSubscriptions = db
             .Subscriptions
-            .Where(s => s.Subscriber.Person.User.Login == login
-                && s.Subscriber.Person.User.Password == password
-                && s.SubscriptionStatus >= SubscriptionStatus.Сonfirmed)
+            .Where(s => s.Subscriber.Person.User == user
+                && s.SubscriptionStatus == SubscriptionStatus.Сonfirmed)
             .ToList();
 
-        return new Receipt(
-                confirmedSubscriptions.Sum(s => s.Publication.Price),
-                confirmedSubscriptions.Select(s => s.Publication.Name).ToList(),
-                DateTime.Now,
-                confirmedSubscriptions.Select(s => (int)s.Duration).ToList()
-                );
-    } //GetAllСonfirmedSubscription
+        // Временно
+        if(confirmedSubscriptions.Count == 0) return;
+
+        // Создание новой квитанции
+        var receipt = new Receipt {
+            Price = confirmedSubscriptions.Sum(s => s.Publication.Price),
+            Issuance = DateTime.Now,  
+            ReceiptDetails = new(),
+            PersonId = user!.Person.Id
+        };
+
+        // Заполнение деталей - Выписанные наименования и сроки подписок
+        confirmedSubscriptions.ForEach(s => receipt.ReceiptDetails.Add(
+                new ReceiptDetail() {
+                    Name = s.Publication.Name,
+                    Duration = s.Duration
+                })
+        );
+
+        //  Добавление в БД
+        db.Receipts.Add(receipt);
+        db.SaveChanges();
+    } //CreateReceipt
+
+    // Получение всех квитанций пользователя
+    public List<Receipt> GetAllReceipts(string login, byte[] password) => db
+        .Receipts
+        .Where(r => r.Person.User.Login == login 
+            && r.Person.User.Password == password)
+        .ToList();
+
+    // Создание списка для вывода в DataGrid
+    public List<ReceiptWithDetail> GetAllReceiptsWithDetails(string login, byte[] password) => db
+        .Receipts
+        .Where(r => r.Person.User.Login == login
+            && r.Person.User.Password == password)
+        .Select(r => new ReceiptWithDetail(
+            r.Price,
+            r.Issuance,
+            r.ReceiptDetails.ToList()
+            ))
+        .ToList();
+
+
 } //DatabaseQueries

@@ -41,6 +41,11 @@ public class PersonConfiguration : IEntityTypeConfiguration<Person>
             .WithOne(u => u.Person)
             .HasForeignKey<Person>(u => u.UserId);
 
+        builder
+           .HasMany(p => p.Receipts)
+           .WithOne(r => r.Person)
+           .HasForeignKey(r => r.PersonId);
+
     } //Configure
 
 } //PersonConfiguration

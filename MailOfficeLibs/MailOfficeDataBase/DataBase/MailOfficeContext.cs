@@ -1,5 +1,6 @@
 ﻿using MailOfficeEntities.Entities;
 using MailOfficeEntities.Entities.Accounts;
+using MailOfficeEntities.Entities.Receipts;
 using MailOfficeEntities.Entities.Residence;
 using Microsoft.EntityFrameworkCore;
 
@@ -16,6 +17,7 @@ public sealed class MailOfficeContext : DbContext {
     public DbSet<Publication> Publications => Set<Publication>();
     public DbSet<Section> Sections => Set<Section>();
     public DbSet<House> Houses => Set<House>();
+    public DbSet<Receipt> Receipts => Set<Receipt>(); 
 
     public MailOfficeContext(bool recreateDatabase = false) {
         if (recreateDatabase) 

@@ -3,6 +3,7 @@ using MailOfficeDataBase.DataBase;
 using MailOfficeEntities.Category;
 using MailOfficeEntities.Entities;
 using MailOfficeEntities.Entities.Accounts;
+using MailOfficeEntities.Entities.Receipts;
 using MailOfficeTool.Entities;
 using System.Collections.ObjectModel;
 using System.ComponentModel;
@@ -29,11 +30,9 @@ class ReceiptWindowViewModel : INotifyPropertyChanged {
             MainWindowViewModel.CurrentAccount!.Login, MainWindowViewModel.CurrentAccount.Password));
         HostWindow.AllActiveSubscription.ItemsSource = Subscriptions;
 
-        // Список квитанций пользователя 
-        // TODO: Для тестов
-        Receipts = [
-            DatabaseQueries.GetReceipt(MainWindowViewModel.CurrentAccount!.Login, MainWindowViewModel.CurrentAccount.Password)
-        ];
+        // Список квитанций пользователя
+        Receipts = new ObservableCollection<ReceiptWithDetail>(DatabaseQueries.GetAllReceiptsWithDetails(
+            MainWindowViewModel.CurrentAccount!.Login, MainWindowViewModel.CurrentAccount.Password));
         HostWindow.AllСonfirmedSubscription.ItemsSource = Receipts;
     } //SpecialMenuWindowViewModel
 
@@ -45,8 +44,8 @@ class ReceiptWindowViewModel : INotifyPropertyChanged {
     }
 
     // Список квитанций пользователя
-    private ObservableCollection<Receipt> _receipts; 
-    public ObservableCollection<Receipt> Receipts {
+    private ObservableCollection<ReceiptWithDetail> _receipts; 
+    public ObservableCollection<ReceiptWithDetail> Receipts {
         get => _receipts;
         set => SetField(ref _receipts, value);
     }

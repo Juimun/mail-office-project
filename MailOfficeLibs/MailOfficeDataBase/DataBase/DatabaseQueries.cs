@@ -1,14 +1,11 @@
-﻿using iTextSharp.xmp.impl;
-using MailOfficeDataBase.Reports;
+﻿using MailOfficeDataBase.Reports;
 using MailOfficeEntities.Category;
 using MailOfficeEntities.Entities;
 using MailOfficeEntities.Entities.Accounts;
 using MailOfficeFactory.Factories;
 using MailOfficeTool.Entities;
-using MailOfficeTool.Infrastructure;
 using Microsoft.EntityFrameworkCore;
 using System.Data;
-using System.Linq;
 using Utils = MailOfficeTool.Infrastructure.Utils;
 
 namespace MailOfficeDataBase.DataBase;
@@ -351,5 +348,5 @@ public partial class DatabaseQueries {
     // Количество подписчиков в БД
     public int SubscribersCount() => db
          .Subscribers
-         .Count();
+         .Count(); 
 } //DatabaseQueries

@@ -1,5 +1,6 @@
 ﻿using MailOfficeEntities.Category;
 using MailOfficeEntities.Entities.Configurations.Accounts;
+using MailOfficeEntities.Entities.Receipts;
 using Microsoft.EntityFrameworkCore;
 
 namespace MailOfficeEntities.Entities.Accounts;
@@ -31,8 +32,11 @@ public class Person {
     // Внешняя связь с Staff 1:1
     public virtual Staff? Staff { get; set; }
 
-    //// Внешняя связь с Subscribers 1:1
-    public virtual Subscriber? Subscriber { get; set; }   
+    // Внешняя связь с Subscribers 1:1
+    public virtual Subscriber? Subscriber { get; set; }
+
+    // Внешняя связь с Receipts 1:M
+    public virtual List<Receipt>? Receipts { get; set; } = new(); 
 
     public string FullName => $"{SecondName} {FirstName[0]}.{Patronymic[0]}.";
 
