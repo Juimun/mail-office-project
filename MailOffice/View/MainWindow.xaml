@@ -159,7 +159,7 @@
                      Foreground="White" >
 
                     <MenuItem.Icon>
-                        <Image Source="/Assets/Menu/report.png"/>
+                        <Image Source="/Assets/Menu/reportPdf.png"/>
                     </MenuItem.Icon>
                     <MenuItem
                          Header="PDF (.pdf)"
@@ -167,7 +167,7 @@
                          Command="{Binding ReportCommand}">
 
                         <MenuItem.Icon>
-                            <Image Source="/Assets/Menu/pdf.png"/>
+                            <Image Source="/Assets/Menu/report.png"/>
                         </MenuItem.Icon>
                     </MenuItem>
                 </MenuItem>
@@ -257,7 +257,14 @@
                 <Separator />
                 <Button Command="{Binding Path=ReportCommand}">
                     <Image Height="32" 
-                           Source="/Assets/Menu/pdf.png" 
+                           Source="/Assets/Menu/reportPdf.png" 
+                           Stretch="Fill" 
+                           Width="32"
+                           />
+                </Button>
+                <Button Command="{Binding Path=StatementCommand}">
+                    <Image Height="32" 
+                           Source="/Assets/Menu/statementPdf.png" 
                            Stretch="Fill" 
                            Width="32"
                            />

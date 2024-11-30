@@ -161,7 +161,12 @@ public class MainWindowViewModel : INotifyPropertyChanged {
     public RelayCommand OrderPublicationCommand => new(
         obj => OrderPublications(), 
         obj => true
-    );
+    ); 
+
+    public RelayCommand StatementCommand => new(
+        obj => ShowStatement(),
+        obj => true
+    ); 
     #endregion
 
     #region Запросы
@@ -506,13 +511,22 @@ public class MainWindowViewModel : INotifyPropertyChanged {
         } //if
     } //ShowProfile
 
-    // Отобразить отчет
+    // Сохранить отчет
     private void ShowReport() {
 
         // Доступ к отчетам ТОЛЬКО у Director и Administrator
         if (IsLoggedIn && CurrentAccount!.StaffRole != null 
             && CurrentAccount.StaffRole >= MailOfficeEntities.Category.StaffRole.Director)
-            Utils.SaveAsPdf(_dataController.ShowReport(CurrentAccount!.Login, CurrentAccount.Password), GetSaveFileDialogPath());        
+            Utils.SaveAsPdf(_dataController.ShowReport(CurrentAccount!.Login, CurrentAccount.Password), GetSaveFileDialogPath());
+    } //ShowReport 
+
+    // Сохранить справку
+    private void ShowStatement() {
+
+        // Доступ к отчетам ТОЛЬКО у Director и Administrator
+        if (IsLoggedIn && CurrentAccount!.StaffRole != null
+            && CurrentAccount.StaffRole >= MailOfficeEntities.Category.StaffRole.Director)
+            Utils.SaveAsPdf(_dataController.ShowSubscribersStatement(CurrentAccount!.Login, CurrentAccount.Password), GetSaveFileDialogPath());
     } //ShowReport
 
     // Получение пути для сохранения pdf файла

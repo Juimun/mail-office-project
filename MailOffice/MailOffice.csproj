@@ -29,7 +29,9 @@
     <None Remove="Assets\Menu\queries.png" />
     <None Remove="Assets\Menu\receipt.png" />
     <None Remove="Assets\Menu\report.png" />
+    <None Remove="Assets\Menu\reportPdf.png" />
     <None Remove="Assets\Menu\staffOnly.png" />
+    <None Remove="Assets\Menu\statementPdf.png" />
     <None Remove="Assets\Menu\test.png" />
     <None Remove="Assets\Menu\warning.png" />
     <None Remove="Assets\Queries\queries %281%29.png" />
@@ -97,19 +99,19 @@
     <Resource Include="Assets\Menu\mailBlue.png">
       <CopyToOutputDirectory>Never</CopyToOutputDirectory>
     </Resource>
-    <Resource Include="Assets\Menu\pdf.png">
-      <CopyToOutputDirectory>Never</CopyToOutputDirectory>
-    </Resource>
-    <Resource Include="Assets\Menu\queries.png">
-      <CopyToOutputDirectory>Never</CopyToOutputDirectory>
-    </Resource>
     <Resource Include="Assets\Menu\receipt.png">
       <CopyToOutputDirectory>Never</CopyToOutputDirectory>
     </Resource>
     <Resource Include="Assets\Menu\report.png">
       <CopyToOutputDirectory>Never</CopyToOutputDirectory>
     </Resource>
+    <Resource Include="Assets\Menu\reportPdf.png">
+      <CopyToOutputDirectory>Never</CopyToOutputDirectory>
+    </Resource>
     <Resource Include="Assets\Menu\staffOnly.png">
+      <CopyToOutputDirectory>Never</CopyToOutputDirectory>
+    </Resource>
+    <Resource Include="Assets\Menu\statementPdf.png">
       <CopyToOutputDirectory>Never</CopyToOutputDirectory>
     </Resource>
     <Resource Include="Assets\Menu\test.png">

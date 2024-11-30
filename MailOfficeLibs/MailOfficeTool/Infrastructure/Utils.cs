@@ -32,6 +32,8 @@ public static class Utils
     // Создание файла .pdf
     // Нужен NuGet пакет iTextSharp 
     public static void SaveAsPdf(List<Paragraph> text, string filePath) {
+        if (string.IsNullOrEmpty(filePath)) return;
+
         using (var document = new Document()) {
             using (var writer = PdfWriter.GetInstance(document, new FileStream(filePath, FileMode.Create))) {
                 writer.SetPdfVersion(PdfWriter.PDF_VERSION_1_7);

@@ -305,7 +305,7 @@ public partial class DatabaseDisplayController(DatabaseQueries data) {
      * Нужна справка о количестве подписчиков, 
      *  количестве газет и количестве журналов, выписанных на текущий момент подписчиками.
      */
-    public string ShowSubscribersStatement() {
+    public List<Paragraph> ShowSubscribersStatement(string currentLogin, byte[] currentPassword) {
         var sb = new StringBuilder();
 
         sb.AppendLine(
@@ -316,8 +316,8 @@ public partial class DatabaseDisplayController(DatabaseQueries data) {
            $"\tколичестве книг:        { data.DeliveredPublicationCount(PublicationType.Book)}\n\n" +
            $"\tCправка выписана в {DateTime.Now:f}."
            );
-    
-        return sb.ToString();
+
+        return new List<Paragraph>();
     } //ShowSubscribersStatement
 
     // Строковое представление "страницы" списка
