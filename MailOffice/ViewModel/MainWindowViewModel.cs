@@ -326,7 +326,7 @@ public class MainWindowViewModel : INotifyPropertyChanged {
     // Создание заказа подписных изданий
     private void BuySubscriptions() {
         if (IsLoggedIn) {
-            var cart = new BuySubscriptionWindow();
+            var cart = new BuySubscriptionWindow(this);
             cart.Show();
         } //if
     } //BuySubscriptions

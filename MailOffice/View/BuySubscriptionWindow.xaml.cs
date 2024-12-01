@@ -3,6 +3,7 @@ using MailOfficeControllers.Controllers;
 using MailOfficeDataBase.DataBase;
 using MailOfficeEntities.Category;
 using MailOfficeEntities.Entities;
+using MailOfficeEntities.Entities.Accounts;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Input;
@@ -21,17 +22,18 @@ public partial class BuySubscriptionWindow : Window {
 
     private DatabaseDisplayController _dataController;  
 
-    public BuySubscriptionWindow() {
+    public BuySubscriptionWindow(MainWindowViewModel mainWindowViewModel) {
         InitializeComponent();
 
         _dataController = new DatabaseDisplayController();
-        DataContext = new BuySubscriptionWindowViewModel(this, new DatabaseQueries());
+        DataContext = new BuySubscriptionWindowViewModel(this, new DatabaseQueries(), mainWindowViewModel);
 
         // Заполняем комбо бокс вариантами Срока подписки
         foreach (var period in Enum.GetNames(typeof(SubscriptionPeriod))) 
             SubscriptionPeriodComboBox.Items.Add(period);
     }
 
+    // TODO: Пофиксить случайное пересоздание
     private void PublicationDataGrid_SelectionChanged(object sender, SelectionChangedEventArgs e) {
         SelectedPublicationsTextBlock.Text = string.Empty;
 

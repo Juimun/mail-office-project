@@ -63,7 +63,7 @@
                             Foreground="White"
                             BorderBrush="Black"
                             BorderThickness="0 0 2 2"
-                            Content="Приобрести"
+                            Content="Оформить подписку"
                             Name="ConfirmSubscription"
                             TabIndex="1"
                             Width="200"

@@ -128,7 +128,7 @@ public partial class DatabaseQueries(MailOfficeContext db) {
             .ToList();
 
     // Создание квитанции
-    public void CreateReceipt(string login, byte[] password) {
+    public void CreateReceipt(string login, byte[] password, List<Publication> publications, SubscriptionPeriod duration) {
         var user = db.Users.FirstOrDefault(u => u.Login == login && u.Password == password);
 
         var confirmedSubscriptions = db
@@ -137,7 +137,6 @@ public partial class DatabaseQueries(MailOfficeContext db) {
                 && s.SubscriptionStatus == SubscriptionStatus.Сonfirmed)
             .ToList();
 
-        // Временно
         if(confirmedSubscriptions.Count == 0) return;
 
         // Создание новой квитанции
