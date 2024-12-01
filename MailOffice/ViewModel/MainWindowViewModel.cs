@@ -526,7 +526,7 @@ public class MainWindowViewModel : INotifyPropertyChanged {
         // Доступ к отчетам ТОЛЬКО у Director и Administrator
         if (IsLoggedIn && CurrentAccount!.StaffRole != null
             && CurrentAccount.StaffRole >= MailOfficeEntities.Category.StaffRole.Director)
-            Utils.SaveAsPdf(_dataController.ShowSubscribersStatement(CurrentAccount!.Login, CurrentAccount.Password), GetSaveFileDialogPath());
+            Utils.SaveAsPdf(_dataController.ShowSubscribersStatement(), GetSaveFileDialogPath());
     } //ShowReport
 
     // Получение пути для сохранения pdf файла

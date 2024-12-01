@@ -190,16 +190,10 @@ public partial class DatabaseDisplayController(DatabaseQueries data) {
      *  сколько всего участков оно обслуживает, сколько различных изданий доставляет подписчикам.
     */
     public List<Paragraph> ShowReport(string currentLogin, byte[] currentPassword) {
-        string fontPath = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.Fonts), "arial.ttf");
-        BaseFont bf = BaseFont.CreateFont(fontPath, BaseFont.IDENTITY_H, BaseFont.EMBEDDED);
-        var font = new Font(bf, 12);
-        var boldFont = new Font(bf, 12, Font.BOLD);
-        var boldHeaderFont = new Font(bf, 18, Font.BOLD); 
-
         var paragraphs = new List<Paragraph> {
              
-            // Параграф заголовка
-            new("Отчет о доставке почтой газет и журналов:\n\n", new Font(bf, 20, Font.BOLD)) {
+            // Заголовок отчета
+            new("Отчет о доставке почтой газет и журналов:\n\n", Utils.GetArialFont(20, Font.BOLD)) {
                 IndentationLeft = 80
             } 
         }; //paragraphs
@@ -209,14 +203,14 @@ public partial class DatabaseDisplayController(DatabaseQueries data) {
 
             // Отчет должен быть упорядочен по участкам
             paragraphs.Add(new Paragraph([
-                new Chunk($"{cnt++}. ", new Font(bf, 15)),
-                new Chunk(p.Section!.Name, new Font(bf, 15, Font.ITALIC)),
-                new Chunk(", ID участка: ", new Font(bf, Font.DEFAULTSIZE)),
-                new Chunk($"{p.Section.Id}", new Font(bf, 15, Font.ITALIC)),
-                new Chunk($", ФИО почтальена: ", new Font(bf, Font.DEFAULTSIZE)),
-                new Chunk($"{p.Person.FullName}\n", new Font(bf, 15, Font.ITALIC)),
+                new Chunk($"{cnt++}. ", Utils.GetArialFont()),
+                new Chunk(p.Section!.Name, Utils.GetArialFont(style: Font.ITALIC)),
+                new Chunk(", ID участка: ", Utils.GetArialFont(Font.DEFAULTSIZE)),
+                new Chunk($"{p.Section.Id}", Utils.GetArialFont(style: Font.ITALIC)),
+                new Chunk($", ФИО почтальена: ", Utils.GetArialFont(Font.DEFAULTSIZE)),
+                new Chunk($"{p.Person.FullName}\n", Utils.GetArialFont(style: Font.ITALIC)),
 
-                new Chunk("Перечень доставленных изданий:", new Font(bf, 15))
+                new Chunk("Перечень доставленных изданий:", Utils.GetArialFont(style: Font.ITALIC))
             ]) {
                 IndentationLeft = 24,
             }); 
@@ -226,74 +220,74 @@ public partial class DatabaseDisplayController(DatabaseQueries data) {
 
                 // Перечень доставляемых изданий
                 paragraphs.Add(new Paragraph([
-                    new Chunk("Индекс: ", new Font(bf, 12)),
-                    new Chunk($"{ s.Publication.Id }\n", new Font(bf, 15, Font.ITALIC)),
+                    new Chunk("Индекс: ", Utils.GetArialFont(Font.DEFAULTSIZE)),
+                    new Chunk($"{ s.Publication.Id }\n", Utils.GetArialFont(style: Font.ITALIC)),
 
-                    new Chunk("Название: ", new Font(bf, 12)),
-                    new Chunk($"{s.Publication.Name}\n", new Font(bf, 15, Font.ITALIC)),
+                    new Chunk("Название: ",Utils.GetArialFont(Font.DEFAULTSIZE)),
+                    new Chunk($"{s.Publication.Name}\n", Utils.GetArialFont(style: Font.ITALIC)),
 
-                    new Chunk("Адрес доставки: ", new Font(bf, 12)),
-                    new Chunk($"{s.Subscriber.House.Address}\n", new Font(bf, 15, Font.ITALIC)),
+                    new Chunk("Адрес доставки: ", Utils.GetArialFont(Font.DEFAULTSIZE)),
+                    new Chunk($"{s.Subscriber.House.Address}\n", Utils.GetArialFont(style: Font.ITALIC)),
 
-                    new Chunk("Срок подписки:\n", new Font(bf, 12)),
-                    new Chunk($"{s.StartDate}", new Font(bf, 15, Font.ITALIC)),
-                    new Chunk("   =>  ", new Font(bf, Font.DEFAULTSIZE)),
-                    new Chunk($"{s.EndDate}\n", new Font(bf, 15, Font.ITALIC)),
+                    new Chunk("Срок подписки:\n", Utils.GetArialFont(Font.DEFAULTSIZE)),
+                    new Chunk($"{s.StartDate}", Utils.GetArialFont(style: Font.ITALIC)),
+                    new Chunk("   =>  ", Utils.GetArialFont(Font.DEFAULTSIZE)),
+                    new Chunk($"{s.EndDate}\n", Utils.GetArialFont(style: Font.ITALIC)),
 
-                    new Chunk("Количество дней: ", new Font(bf, 12)),
-                    new Chunk($"{s.Duration}\n\n", new Font(bf, 15, Font.ITALIC))
+                    new Chunk("Количество дней: ", Utils.GetArialFont(Font.DEFAULTSIZE)),
+                    new Chunk($"{s.Duration}\n\n", Utils.GetArialFont(style: Font.ITALIC))
                 ]) {
                     IndentationLeft = 12 
                 }); 
             }); //ForEach
 
             paragraphs.Add(new Paragraph([
-                new Chunk("Средний срок подписки: ", new Font(bf, 12)),
-                new Chunk($"{data.GetAverageSubscription(subscriptionsForPostman):F0}\n", new Font(bf, 15, Font.ITALIC)),
+                new Chunk("Средний срок подписки: ", Utils.GetArialFont(Font.DEFAULTSIZE)),
+                new Chunk($"{data.GetAverageSubscription(subscriptionsForPostman):F0}\n", Utils.GetArialFont(style: Font.ITALIC)),
 
-                new Chunk("Количество экземпляров: ", new Font(bf, 12)),
-                new Chunk($"{subscriptionsForPostman.Count}\n", new Font(bf, 15, Font.ITALIC)),
+                new Chunk("Количество экземпляров: ", Utils.GetArialFont(Font.DEFAULTSIZE)),
+                new Chunk($"{subscriptionsForPostman.Count}\n", Utils.GetArialFont(style: Font.ITALIC)),
 
-                new Chunk("Количество различных подписных изданий: ", new Font(bf, 12)),
-                new Chunk($"{data.GetPublicationCountsForSection(subscriptionsForPostman)}\n\n", new Font(bf, 15, Font.ITALIC)),
+                new Chunk("Количество различных подписных изданий: ",Utils.GetArialFont(Font.DEFAULTSIZE)),
+                new Chunk($"{data.GetPublicationCountsForSection(subscriptionsForPostman)}\n\n", Utils.GetArialFont(style: Font.ITALIC)),
             ]) {
                 IndentationLeft = 12
             });
         }); //ForEach
 
         cnt = 1;
-        paragraphs.Add(new Paragraph("Общая информация:", new Font(bf, 20)) {
+        paragraphs.Add(new Paragraph("Общая информация:", Utils.GetArialFont(20, Font.BOLD)) {
             IndentationLeft = 24
         });
         paragraphs.Add(new Paragraph([
-             new Chunk("Количество почтальонов: ", new Font(bf, 15)),
-             new Chunk($"{data.PostmansCount()}\n", new Font(bf, 20, Font.ITALIC)),
+             new Chunk("Количество почтальонов: ", Utils.GetArialFont()),
+             new Chunk($"{data.PostmansCount()}\n", Utils.GetArialFont(18, Font.ITALIC)),
 
-             new Chunk("Обслуживаемых участков: ", new Font(bf, 15)),
-             new Chunk($"{data.ServesSectionCount()}", new Font(bf, 18, Font.ITALIC)),
-             new Chunk(" / ", new Font(bf, Font.DEFAULTSIZE)),
-             new Chunk($"{data.GetAllSections().Count}\n", new Font(bf, 18, Font.ITALIC)),
+             new Chunk("Обслуживаемых участков: ", Utils.GetArialFont()),
+             new Chunk($"{data.ServesSectionCount()}", Utils.GetArialFont(18, Font.ITALIC)),
+             new Chunk(" / ", Utils.GetArialFont(Font.DEFAULTSIZE)),
+             new Chunk($"{data.GetAllSections().Count}\n", Utils.GetArialFont(18, Font.ITALIC)),
 
-             new Chunk("Количество доставляемых изданий:\n", new Font(bf, 15)),
-             new Chunk($"{cnt++}. ", new Font(bf, 15)),
-             new Chunk("Журналов", new Font(bf, 15)),
-             new Chunk("  =>   ", new Font(bf, Font.DEFAULTSIZE)),
-             new Chunk($"{data.DeliveredPublicationCount(PublicationType.Journal)}", new Font(bf, 18, Font.ITALIC)),
-             new Chunk(" шт.\n", new Font(bf, 15)),
+             new Chunk("Количество доставляемых изданий:\n", Utils.GetArialFont()),
+             new Chunk($"{cnt++}. ", Utils.GetArialFont()),
+             new Chunk("Журналов", Utils.GetArialFont()),
+             new Chunk("  =>   ", Utils.GetArialFont(Font.DEFAULTSIZE)),
+             new Chunk($"{data.DeliveredPublicationCount(PublicationType.Journal)}", Utils.GetArialFont(18, Font.ITALIC)),
+             new Chunk(" шт.\n", Utils.GetArialFont()),
 
-             new Chunk($"{cnt++}. ", new Font(bf, 15)),
-             new Chunk("Газет   ", new Font(bf, 15)),
-             new Chunk("  =>   ", new Font(bf, Font.DEFAULTSIZE)),
-             new Chunk($"{data.DeliveredPublicationCount(PublicationType.Newspaper)}", new Font(bf, 18, Font.ITALIC)),
-             new Chunk(" шт.\n", new Font(bf, 15)),
+             new Chunk($"{cnt++}. ", Utils.GetArialFont()),
+             new Chunk("Газет   ", Utils.GetArialFont()),
+             new Chunk("  =>   ", Utils.GetArialFont(Font.DEFAULTSIZE)),
+             new Chunk($"{data.DeliveredPublicationCount(PublicationType.Newspaper)}", Utils.GetArialFont(18, Font.ITALIC)),
+             new Chunk(" шт.\n", Utils.GetArialFont()),
 
-             new Chunk($"{cnt++}. ", new Font(bf, 15)),
-             new Chunk("Книг    ", new Font(bf, 15)),
-             new Chunk("  =>   ", new Font(bf, Font.DEFAULTSIZE)),
-             new Chunk($"{data.DeliveredPublicationCount(PublicationType.Book)}", new Font(bf, 18, Font.ITALIC)),
-             new Chunk(" шт.\n\n\n", new Font(bf, 15)),
+             new Chunk($"{cnt++}. ", Utils.GetArialFont()),
+             new Chunk("Книг    ", Utils.GetArialFont()),
+             new Chunk("  =>   ", Utils.GetArialFont(size: Font.DEFAULTSIZE)),
+             new Chunk($"{data.DeliveredPublicationCount(PublicationType.Book)}", Utils.GetArialFont(18, Font.ITALIC)),
+             new Chunk(" шт.\n\n\n", Utils.GetArialFont()),
 
-             new Chunk($"{data.GetCurrentAccountFullName(currentLogin, currentPassword)}             {DateTime.Now:f}", new Font(bf, 15, Font.BOLD)),
+             new Chunk($"{data.GetCurrentAccountFullName(currentLogin, currentPassword)}             {DateTime.Now:f}", Utils.GetArialFont(style: Font.BOLD)),
         ]) { 
             IndentationLeft = 12
         });
@@ -305,19 +299,30 @@ public partial class DatabaseDisplayController(DatabaseQueries data) {
      * Нужна справка о количестве подписчиков, 
      *  количестве газет и количестве журналов, выписанных на текущий момент подписчиками.
      */
-    public List<Paragraph> ShowSubscribersStatement(string currentLogin, byte[] currentPassword) {
-        var sb = new StringBuilder();
-
-        sb.AppendLine(
-           $"\n\n\t\tCправка о\n" +
-           $"\tколичестве подписчиков: {data.SubscribersCount()}\n" +
-           $"\tколичестве газет:       {data.DeliveredPublicationCount(PublicationType.Newspaper)}\n" +
-           $"\tколичестве журналов:    {data.DeliveredPublicationCount(PublicationType.Journal)}\n" +
-           $"\tколичестве книг:        { data.DeliveredPublicationCount(PublicationType.Book)}\n\n" +
-           $"\tCправка выписана в {DateTime.Now:f}."
-           );
-
-        return new List<Paragraph>();
+    public List<Paragraph> ShowSubscribersStatement() {
+        return [
+            
+            // Заголовок справки
+            new($"Справка на {DateTime.Now:f}:\n\n", Utils.GetArialFont(20, Font.BOLD))
+            {
+                IndentationLeft = 80
+            },
+            
+            // Данные справки
+            new([
+            new Chunk("Количестве подписчиков: ", Utils.GetArialFont()),
+            new Chunk($"{data.SubscribersCount()}\n", Utils.GetArialFont(18, Font.ITALIC)),
+            new Chunk("Количестве газет: ", Utils.GetArialFont()),
+            new Chunk($"{data.DeliveredPublicationCount(PublicationType.Newspaper)}\n", Utils.GetArialFont(18, Font.ITALIC)),
+            new Chunk("количестве журналов: ", Utils.GetArialFont()),
+            new Chunk($"{data.DeliveredPublicationCount(PublicationType.Journal)}\n", Utils.GetArialFont(18, Font.ITALIC)),
+            new Chunk("количестве книг: ", Utils.GetArialFont()),
+            new Chunk($"{data.DeliveredPublicationCount(PublicationType.Book)}\n", Utils.GetArialFont(18, Font.ITALIC)),
+        ])
+            {
+                IndentationLeft = 12
+            }
+        ];
     } //ShowSubscribersStatement
 
     // Строковое представление "страницы" списка

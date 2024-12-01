@@ -29,10 +29,12 @@ public static class Utils
     public static UserJson JsonDeserialize(string fileName) =>
         JsonConvert.DeserializeObject<UserJson>(File.ReadAllText(fileName, Encoding.UTF8))!;
 
+
+
     // Создание файла .pdf
     // Нужен NuGet пакет iTextSharp 
     public static void SaveAsPdf(List<Paragraph> text, string filePath) {
-        if (string.IsNullOrEmpty(filePath)) return;
+        if (string.IsNullOrEmpty(filePath) && text.Count == 0) return;
 
         using (var document = new Document()) {
             using (var writer = PdfWriter.GetInstance(document, new FileStream(filePath, FileMode.Create))) {
@@ -52,4 +54,8 @@ public static class Utils
             text.ForEach(writer.Write);
         }
     } //SaveAsTxt
+
+    private static string ArialFontPath = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.Fonts), "arial.ttf");
+    private static BaseFont BaseFont = BaseFont.CreateFont(ArialFontPath, BaseFont.IDENTITY_H, BaseFont.EMBEDDED);
+    public static Font GetArialFont(float size = 15, int style = Font.NORMAL) => new(BaseFont, size, style);
 } //Utils

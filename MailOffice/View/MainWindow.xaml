@@ -155,20 +155,47 @@
                 Height="25" 
                 Visibility="Collapsed">
                 <MenuItem
-                     Header="Сохранить как..."
+                     Header="Отчет"
                      Foreground="White" >
 
                     <MenuItem.Icon>
                         <Image Source="/Assets/Menu/reportPdf.png"/>
                     </MenuItem.Icon>
                     <MenuItem
-                         Header="PDF (.pdf)"
-                         Foreground="#171d25"
-                         Command="{Binding ReportCommand}">
+                         Header="Сохранить как..."
+                         Foreground="#171d25" >
+                        
+                        <MenuItem
+                             Header="PDF (.pdf)"
+                             Foreground="#171d25"
+                             Command="{Binding ReportCommand}">
 
-                        <MenuItem.Icon>
-                            <Image Source="/Assets/Menu/report.png"/>
-                        </MenuItem.Icon>
+                            <MenuItem.Icon>
+                                <Image Source="/Assets/Menu/reportPdf.png"/>
+                            </MenuItem.Icon>
+                        </MenuItem>
+                    </MenuItem>
+                </MenuItem>
+                <MenuItem
+                     Header="Справка"
+                     Foreground="White" >
+
+                    <MenuItem.Icon>
+                        <Image Source="/Assets/Menu/statementPdf.png"/>
+                    </MenuItem.Icon>
+                    <MenuItem
+                         Header="Сохранить как..."
+                         Foreground="#171d25" >
+
+                        <MenuItem
+                             Header="PDF (.pdf)"
+                             Foreground="#171d25"
+                             Command="{Binding StatementCommand}">
+
+                            <MenuItem.Icon>
+                                <Image Source="/Assets/Menu/statementPdf.png"/>
+                            </MenuItem.Icon>
+                        </MenuItem>
                     </MenuItem>
                 </MenuItem>
             </MenuItem>
@@ -241,28 +268,28 @@
                      Name="MainToolBarTray"
                      Visibility="Collapsed">
             <ToolBar Background="#303b4a">
-                <Button Command="{Binding Path=LeftTabCommand}">
+                <Button Command="{Binding LeftTabCommand}">
                     <Image Height="32" 
                            Source="/Assets/Menu/arrowLeft.png" 
                            Stretch="Fill" 
                            Width="32"/>
 
                 </Button>
-                <Button Command="{Binding Path=RightTabCommand}">
+                <Button Command="{Binding RightTabCommand}">
                     <Image Height="32" 
                            Source="/Assets/Menu/arrowRight.png" 
                            Stretch="Fill" 
                            Width="32"/>
                 </Button>
                 <Separator />
-                <Button Command="{Binding Path=ReportCommand}">
+                <Button Command="{Binding ReportCommand}">
                     <Image Height="32" 
                            Source="/Assets/Menu/reportPdf.png" 
                            Stretch="Fill" 
                            Width="32"
                            />
                 </Button>
-                <Button Command="{Binding Path=StatementCommand}">
+                <Button Command="{Binding StatementCommand}">
                     <Image Height="32" 
                            Source="/Assets/Menu/statementPdf.png" 
                            Stretch="Fill" 
@@ -270,42 +297,42 @@
                            />
                 </Button>
                 <Separator />
-                <Button Command="{Binding Path=Query1Command}">
+                <Button Command="{Binding Query1Command}">
                     <Image Height="32" 
                            Source="/Assets/Queries/queries (1).png" 
                            Stretch="Fill" 
                            Width="32"
                            />
                 </Button>
-                <Button Command="{Binding Path=Query2Command}">
+                <Button Command="{Binding Query2Command}">
                     <Image Height="32" 
                            Source="/Assets/Queries/queries (2).png" 
                            Stretch="Fill" 
                            Width="32"
                            />
                 </Button>
-                <Button Command="{Binding Path=Query3Command}">
+                <Button Command="{Binding Query3Command}">
                     <Image Height="32" 
                            Source="/Assets/Queries/queries (3).png" 
                            Stretch="Fill" 
                            Width="32"
                            />
                 </Button>
-                <Button Command="{Binding Path=Query4Command}">
+                <Button Command="{Binding Query4Command}">
                     <Image Height="32" 
                            Source="/Assets/Queries/queries (4).png" 
                            Stretch="Fill" 
                            Width="32"
                            />
                 </Button>
-                <Button Command="{Binding Path=Query5Command}">
+                <Button Command="{Binding Query5Command}">
                     <Image Height="32" 
                            Source="/Assets/Queries/queries (5).png" 
                            Stretch="Fill" 
                            Width="32"
                            />
                 </Button>
-                <Button Command="{Binding Path=Query6Command}">
+                <Button Command="{Binding Query6Command}">
                     <Image Height="32" 
                            Source="/Assets/Queries/queries (6).png" 
                            Stretch="Fill" 
