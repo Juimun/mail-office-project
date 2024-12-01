@@ -14,7 +14,9 @@ public partial class App : Application {
     public static string SavesFolderPath = Path.Combine(SourceFilePath, "Saves");
     public static string AccountsJsonPath = Path.Combine(SavesFolderPath, "accounts.json");
     public static string AccountsTxtPath = Path.Combine(SavesFolderPath, "accounts.txt"); 
-    public static string ReportsFolderPath = Path.Combine(SavesFolderPath, "Reports");   
+    public static string DocumentsFolderPath = Path.Combine(SavesFolderPath, "Documents");
+    public static string ReportsFolderPath = Path.Combine(DocumentsFolderPath, "Reports");
+    public static string StatementsFolderPath = Path.Combine(DocumentsFolderPath, "Statements");
     public static string DataSeederPath = GetDataSeederPath();
 
     protected override void OnStartup(StartupEventArgs e) {
@@ -24,9 +26,17 @@ public partial class App : Application {
         if (!Directory.Exists(SavesFolderPath)) 
             Directory.CreateDirectory(SavesFolderPath);
 
-        // Создание подпапки для отчетов и справок
+        // Создание подпапки для документов
+        if (!Directory.Exists(DocumentsFolderPath))
+            Directory.CreateDirectory(DocumentsFolderPath);
+
+        // Создание подпапки для отчетов  
         if (!Directory.Exists(ReportsFolderPath))
             Directory.CreateDirectory(ReportsFolderPath);
+
+        // Создание подпапки для справок
+        if (!Directory.Exists(StatementsFolderPath))
+            Directory.CreateDirectory(StatementsFolderPath);
 
         // !!! Исключительно для тестов приложения !!!
         Utils.SaveAsTxt(new DatabaseQueries().GetAllAccountAuthorization(), AccountsTxtPath,

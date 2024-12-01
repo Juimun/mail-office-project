@@ -29,12 +29,10 @@ public static class Utils
     public static UserJson JsonDeserialize(string fileName) =>
         JsonConvert.DeserializeObject<UserJson>(File.ReadAllText(fileName, Encoding.UTF8))!;
 
-
-
     // Создание файла .pdf
     // Нужен NuGet пакет iTextSharp 
     public static void SaveAsPdf(List<Paragraph> text, string filePath) {
-        if (string.IsNullOrEmpty(filePath) && text.Count == 0) return;
+        if (string.IsNullOrEmpty(filePath) || text.Count == 0) return;
 
         using (var document = new Document()) {
             using (var writer = PdfWriter.GetInstance(document, new FileStream(filePath, FileMode.Create))) {

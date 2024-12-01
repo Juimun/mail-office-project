@@ -517,7 +517,7 @@ public class MainWindowViewModel : INotifyPropertyChanged {
         // Доступ к отчетам ТОЛЬКО у Director и Administrator
         if (IsLoggedIn && CurrentAccount!.StaffRole != null 
             && CurrentAccount.StaffRole >= MailOfficeEntities.Category.StaffRole.Director)
-            Utils.SaveAsPdf(_dataController.ShowReport(CurrentAccount!.Login, CurrentAccount.Password), GetSaveFileDialogPath());
+            Utils.SaveAsPdf(_dataController.ShowReport(CurrentAccount!.Login, CurrentAccount.Password), GetSaveFileDialogPath("report.pdf", App.ReportsFolderPath));
     } //ShowReport 
 
     // Сохранить справку
@@ -526,22 +526,22 @@ public class MainWindowViewModel : INotifyPropertyChanged {
         // Доступ к отчетам ТОЛЬКО у Director и Administrator
         if (IsLoggedIn && CurrentAccount!.StaffRole != null
             && CurrentAccount.StaffRole >= MailOfficeEntities.Category.StaffRole.Director)
-            Utils.SaveAsPdf(_dataController.ShowSubscribersStatement(), GetSaveFileDialogPath());
+            Utils.SaveAsPdf(_dataController.ShowSubscribersStatement(), GetSaveFileDialogPath("statement.pdf", App.StatementsFolderPath));
     } //ShowReport
 
     // Получение пути для сохранения pdf файла
-    private string GetSaveFileDialogPath() {
-        SaveFileDialog saveFileDialog = new SaveFileDialog() {
+    private string GetSaveFileDialogPath(string fileName, string defaultPath) { 
+        var saveFileDialog = new SaveFileDialog() {
             Filter = "PDF files (*.pdf)|*.pdf|All files (*.*)|*.*",
-            Title = "Сохранить отчет как...",
-            FileName = "report.pdf",
+            Title = "Сохранить файл как...",
+            FileName = fileName,
             DefaultExt = ".pdf",
             AddExtension = true,
             OverwritePrompt = true
         };
 
         if (saveFileDialog.ShowDialog() == true)
-            return Path.Combine(App.ReportsFolderPath, saveFileDialog.FileName); 
+            return Path.Combine(defaultPath, saveFileDialog.FileName); 
         else
             return string.Empty;
     } //GetSaveFileDialogPath
