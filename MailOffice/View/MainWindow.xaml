@@ -224,11 +224,21 @@
                         <Image Source="/Assets/User/defaultUser.png"/>
                     </MenuItem.Icon>
                 </MenuItem>
+                <Separator Margin="6"/>
                 <MenuItem
-                    Header="Подписки"
+                    Header="Мои подписки"
                     Foreground="White"
                     Name="SubscriptionsItem" 
                     Command="{Binding ShowSubscribersCommand}" >
+                    <MenuItem.Icon>
+                        <Image Source="/Assets/Account/subscribe.png"/>
+                    </MenuItem.Icon>
+                </MenuItem>
+                <MenuItem
+                    Header="Приобрести подписку"
+                    Foreground="White"
+                    Name="BuySubscriptionItem" 
+                    Command="{Binding BuySubscriptionCommand}" >
                     <MenuItem.Icon>
                         <Image Source="/Assets/Account/subscribe.png"/>
                     </MenuItem.Icon>

@@ -1,10 +1,7 @@
 ﻿using MailOffice.View;
 using MailOfficeDataBase.DataBase;
-using MailOfficeEntities.Category;
 using MailOfficeEntities.Entities;
-using MailOfficeEntities.Entities.Accounts;
 using MailOfficeEntities.Entities.Receipts;
-using MailOfficeTool.Entities;
 using System.Collections.ObjectModel;
 using System.ComponentModel;
 using System.Runtime.CompilerServices;
@@ -15,9 +12,9 @@ namespace MailOffice.ViewModel;
 //  в которой указывается общая стоимость подписки, что выписано, и на какой срок
 class ReceiptWindowViewModel : INotifyPropertyChanged {
 
-    private ReceiptWindow HostWindow { get; set; }
-    private DatabaseQueries DatabaseQueries { get; set; } 
-    private MainWindowViewModel MainWindowViewModel { get; set; }
+    private ReceiptWindow HostWindow;
+    private DatabaseQueries DatabaseQueries;
+    private MainWindowViewModel MainWindowViewModel;
 
     public ReceiptWindowViewModel(
         ReceiptWindow hostWindow, DatabaseQueries databaseQueries, MainWindowViewModel mainWindowViewModel) 

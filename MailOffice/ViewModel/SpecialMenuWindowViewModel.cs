@@ -14,9 +14,9 @@ namespace MailOffice.ViewModel;
 
 public class SpecialMenuWindowViewModel : INotifyPropertyChanged {
 
-    private SpecialMenuWindow HostWindow { get; set; } 
-    private DatabaseQueries DatabaseQueries { get; set; } 
-    private MainWindowViewModel MainWindowViewModel { get; set; } 
+    private SpecialMenuWindow HostWindow;
+    private DatabaseQueries DatabaseQueries;
+    private MainWindowViewModel MainWindowViewModel;
 
     public SpecialMenuWindowViewModel(
         SpecialMenuWindow hostWindow, DatabaseQueries databaseQueries, MainWindowViewModel mainWindowViewModel) 

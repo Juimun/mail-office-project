@@ -118,6 +118,18 @@ public partial class DatabaseDisplayController(DatabaseQueries data) {
         return sb.ToString();
     } //ShowPublications
 
+    // Создание строкового представления изданий с ограничением
+    public string ShowPublications(List<Publication> publications) {
+        var sb = new StringBuilder();
+
+        int сnt = 0, maxLength = 40; 
+        publications.ForEach(s => sb.AppendLine(
+            $"{сnt++}.   {(s.Name.Length > maxLength ? s.Name[..(maxLength - 3)] + "..." : s.Name)}   {s.Type}   {s.Price:N0}р.\n"
+            ));
+
+        return sb.ToString();
+    } //ShowPublications
+
     // Создание профиля введенного аккаунта
     public string ShowCurrentProfile(string currentLogin, byte[] currentPassword) {  
         var sb = new StringBuilder();

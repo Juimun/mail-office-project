@@ -19,7 +19,7 @@ namespace MailOffice.ViewModel;
 
 public class MainWindowViewModel : INotifyPropertyChanged {
 
-    // Контроллеры для таблиц БД
+    // Контроллеры для взаимодействия с таблицами БД
     private DatabaseDisplayController _dataController;
     private DatabaseQueries _dataQueries; 
 
@@ -158,8 +158,8 @@ public class MainWindowViewModel : INotifyPropertyChanged {
         obj => true
     ); 
 
-    public RelayCommand OrderPublicationCommand => new(
-        obj => OrderPublications(), 
+    public RelayCommand BuySubscriptionCommand => new( 
+        obj => BuySubscriptions(),  
         obj => true
     ); 
 
@@ -323,28 +323,13 @@ public class MainWindowViewModel : INotifyPropertyChanged {
             HostWindow.TbcMain.SelectedIndex = 0;
     } //RightTab
 
-    // Создание заказа
-    private void OrderPublications() {
-
-        // Список выделенных сущностей
-        var selectedFirstPartPublication = HostWindow 
-            .SelectedFirstPartDataGrid
-            .SelectedItems
-            .OfType<Publication>()
-            .ToList();
-
-        // Список выделенных сущностей
-        var selectedSecondPartPublication = HostWindow 
-            .SelectedSecondPartDataGrid
-            .SelectedItems
-            .OfType<Publication>()
-            .ToList();
-
-        if (selectedFirstPartPublication != null || selectedSecondPartPublication != null) {
-            
-
-        }
-    } //OrderPublications
+    // Создание заказа подписных изданий
+    private void BuySubscriptions() {
+        if (IsLoggedIn) {
+            var cart = new BuySubscriptionWindow();
+            cart.Show();
+        } //if
+    } //BuySubscriptions
 
     // Меню для работой со специальными правами для ролей
     private void SpecialMenu() {
@@ -416,8 +401,7 @@ public class MainWindowViewModel : INotifyPropertyChanged {
             HostWindow.SpecialMenuItem.Visibility = Visibility.Visible;
 
              // Отобразить отчеты/справки и запросы
-             if (CurrentAccount.StaffRole >= MailOfficeEntities.Category.StaffRole.Director)
-             {
+             if (CurrentAccount.StaffRole >= MailOfficeEntities.Category.StaffRole.Director) {
                  HostWindow.QueriesTabItem.Visibility = HostWindow.MainToolBarTray.Visibility
                      = HostWindow.QueriesMenuItem.Visibility = HostWindow.DocumentationMenuItem.Visibility
                      = Visibility.Visible;
@@ -464,11 +448,10 @@ public class MainWindowViewModel : INotifyPropertyChanged {
         HostWindow.TbcMain.SelectedIndex = 0;
 
         // При выходе с аккаунта убирать элементы с правами доступа
-        HostWindow.MainToolBarTray.Visibility = Visibility.Collapsed;
         HostWindow.AccountTabItem.Visibility = HostWindow.QueriesTabItem.Visibility 
             = HostWindow.MainToolBarTray.Visibility = HostWindow.QueriesMenuItem.Visibility 
             = HostWindow.DocumentationMenuItem.Visibility = HostWindow.SpecialMenuItem.Visibility 
-            = Visibility.Hidden;
+            = HostWindow.MainToolBarTray.Visibility = Visibility.Hidden;
 
         HostWindow.TblProfile.Text = string.Empty;
     } //CloseAccount
