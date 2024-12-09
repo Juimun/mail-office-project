@@ -221,5 +221,4 @@ public partial class DatabaseQueries(MailOfficeContext db) {
             ))
         .ToList();
 
-
 } //DatabaseQueries
