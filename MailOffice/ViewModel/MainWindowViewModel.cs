@@ -333,16 +333,15 @@ public class MainWindowViewModel : INotifyPropertyChanged {
 
     // Меню для работой со специальными правами для ролей
     private void SpecialMenu() {
-        if (CurrentAccount!.StaffRole != null) {
+        if (IsLoggedIn && CurrentAccount!.StaffRole != null && 
+            CurrentAccount.StaffRole >= MailOfficeEntities.Category.StaffRole.Operator) {
             var specialMenu = new SpecialMenuWindow(this);
 
-            if (CurrentAccount.StaffRole >= MailOfficeEntities.Category.StaffRole.Operator) {
-                specialMenu.OperatorTabItem.Visibility = Visibility.Visible;
-                if (CurrentAccount.StaffRole >= MailOfficeEntities.Category.StaffRole.Director) {
-                    specialMenu.DirectorTabItem.Visibility = Visibility.Visible;
-                    if (CurrentAccount.StaffRole == MailOfficeEntities.Category.StaffRole.Administrator)
-                        specialMenu.AdminTabItem.Visibility = Visibility.Visible; 
-                } //if
+            specialMenu.OperatorTabItem.Visibility = Visibility.Visible;
+            if (CurrentAccount.StaffRole >= MailOfficeEntities.Category.StaffRole.Director) {
+                specialMenu.DirectorTabItem.Visibility = Visibility.Visible;
+                if (CurrentAccount.StaffRole == MailOfficeEntities.Category.StaffRole.Administrator)
+                    specialMenu.AdminTabItem.Visibility = Visibility.Visible; 
             } //if
 
             specialMenu.ShowDialog();
@@ -384,7 +383,7 @@ public class MainWindowViewModel : INotifyPropertyChanged {
                 Utils.GetBytes(auth.PasswordTextBox.Text), 
                 _dataQueries.GetRoleCurrentAccount(auth.LoginTextBox.Text, Utils.GetBytes(auth.PasswordTextBox.Text))
                 );
-
+            
             RoleValidation();
 
             // Отображение профиля
@@ -396,17 +395,19 @@ public class MainWindowViewModel : INotifyPropertyChanged {
 
         // Отобразить Меню специальных прав
         if (CurrentAccount!.StaffRole != null &&
-            CurrentAccount.StaffRole >= MailOfficeEntities.Category.StaffRole.Postman)
+            CurrentAccount.StaffRole >= MailOfficeEntities.Category.StaffRole.Operator)
         {
             HostWindow.SpecialMenuItem.Visibility = Visibility.Visible;
 
-             // Отобразить отчеты/справки и запросы
-             if (CurrentAccount.StaffRole >= MailOfficeEntities.Category.StaffRole.Director) {
-                 HostWindow.QueriesTabItem.Visibility = HostWindow.MainToolBarTray.Visibility
-                     = HostWindow.QueriesMenuItem.Visibility = HostWindow.DocumentationMenuItem.Visibility
-                     = Visibility.Visible;
-             } //if   
-        } //if 
+            // Отобразить отчеты/справки и запросы
+            if (CurrentAccount.StaffRole >= MailOfficeEntities.Category.StaffRole.Director)
+            {
+                HostWindow.QueriesTabItem.Visibility = HostWindow.MainToolBarTray.Visibility
+                    = HostWindow.QueriesMenuItem.Visibility = HostWindow.DocumentationMenuItem.Visibility
+                    = Visibility.Visible;
+            } //if   
+        }
+        
     }
 
     // Смена аккаунта
@@ -426,7 +427,7 @@ public class MainWindowViewModel : INotifyPropertyChanged {
                 IsLoggedIn = true;
                 CurrentAccount = new CurrentAccount(savedUser.Login, savedUser.Password, 
                     _dataQueries.GetRoleCurrentAccount(savedUser.Login, savedUser.Password));
-
+                
                 RoleValidation();
 
                 // Отображение профиля

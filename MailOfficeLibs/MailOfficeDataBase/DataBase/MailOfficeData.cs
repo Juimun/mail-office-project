@@ -148,7 +148,6 @@ public partial class DatabaseQueries(MailOfficeContext db) {
         if (user == null) return;
 
         var startTime = DateTime.Now;
-
         if (user.Person.Role < PersonCategory.Subscriber) {
 
             // Сменить роль на подписчика
