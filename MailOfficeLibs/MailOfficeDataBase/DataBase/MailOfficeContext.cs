@@ -17,7 +17,8 @@ public sealed class MailOfficeContext : DbContext {
     public DbSet<Publication> Publications => Set<Publication>();
     public DbSet<Section> Sections => Set<Section>();
     public DbSet<House> Houses => Set<House>();
-    public DbSet<Receipt> Receipts => Set<Receipt>(); 
+    public DbSet<Receipt> Receipts => Set<Receipt>();
+    public DbSet<ReceiptDetail> ReceiptDetail => Set<ReceiptDetail>();    
 
     public MailOfficeContext(bool recreateDatabase = false) {
         if (recreateDatabase) 

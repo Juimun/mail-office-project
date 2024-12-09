@@ -55,9 +55,14 @@ public class BuySubscriptionWindowViewModel : INotifyPropertyChanged {
             .ToList();
 
         // Создаем квитанцию
-        _databaseQueries.CreateReceipt(
-            _mainWindowViewModel.CurrentAccount!.Login, _mainWindowViewModel.CurrentAccount.Password,
-            selectedPublication, (SubscriptionPeriod)HostWindow.SubscriptionPeriodComboBox.SelectedItem);
+        _databaseQueries.GetNewReceipt(
+            _mainWindowViewModel.CurrentAccount!.Login, 
+            _mainWindowViewModel.CurrentAccount.Password,
+            selectedPublication,
+            Enum.Parse<SubscriptionPeriod>((string)HostWindow.SubscriptionPeriodComboBox.SelectedItem),
+
+            // переделать
+            Random.Shared.Next(1, 50));
 
         // Закрываем 
         HostWindow.Close();

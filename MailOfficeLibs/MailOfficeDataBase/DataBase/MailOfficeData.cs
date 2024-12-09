@@ -105,8 +105,19 @@ public partial class DatabaseQueries(MailOfficeContext db) {
     public async Task UpdateSubscriptionStatusAsync(Subscription subscription, SubscriptionStatus status, MailOfficeContext database) {
         subscription.SubscriptionStatus = status; 
         database.Update(subscription);
-        
+
         await database.SaveChangesAsync();
+    } //UpdateSubscriptionStatus
+
+    // Изменить статус подписного издания
+    public void RejectSubscriptionStatusAsync(Subscription subscription,  MailOfficeContext database) { 
+        subscription.SubscriptionStatus = SubscriptionStatus.Rejected; 
+        database.Update(subscription);
+
+        // ТУТ удалить - если отклолить
+
+        
+        db.SaveChanges();
     } //UpdateSubscriptionStatus
 
     // Список пользователей, которые не являются персоналом
@@ -128,35 +139,67 @@ public partial class DatabaseQueries(MailOfficeContext db) {
             .ToList();
 
     // Создание квитанции
-    public void CreateReceipt(string login, byte[] password, List<Publication> publications, SubscriptionPeriod duration) {
+    public void GetNewReceipt(string login, byte[] password, List<Publication> publications, SubscriptionPeriod selectedDuration, int sectionId) { 
+
+        // Поиск пользователя
         var user = db.Users.FirstOrDefault(u => u.Login == login && u.Password == password);
 
-        var confirmedSubscriptions = db
-            .Subscriptions
-            .Where(s => s.Subscriber.Person.User == user
-                && s.SubscriptionStatus == SubscriptionStatus.Сonfirmed)
-            .ToList();
+        // Если найден - создать новую квитанцию
+        if (user == null) return;
 
-        if(confirmedSubscriptions.Count == 0) return;
+        var startTime = DateTime.Now;
 
-        // Создание новой квитанции
-        var receipt = new Receipt {
-            Price = confirmedSubscriptions.Sum(s => s.Publication.Price),
-            Issuance = DateTime.Now,  
-            ReceiptDetails = new(),
-            PersonId = user!.Person.Id
+        if (user.Person.Role < PersonCategory.Subscriber) {
+
+            // Сменить роль на подписчика
+            var person = db.People.Where(p => p.User == user).FirstOrDefault()!;
+
+            person.PreviousRole = person.Role;
+            person.Role = PersonCategory.Subscriber;
+
+            db.People.Update(person);
+            db.SaveChanges();
+
+            // Создание нового дома
+            db.Houses.Add(new House() { SectionId = sectionId, Street = "Тест", HouseNumber = "Тест" });
+            db.SaveChanges();
+
+            db.Subscribers.Add(new Subscriber() { PersonId = person.Id, HouseId = db.Houses.Max(h => h.Id) });
+            db.SaveChanges();
+
+            var subscriberMaxId = db.Subscribers.Max(s => s.Id);
+
+            // Создать подписное издание с выбранными публикациями
+            publications.ForEach(p => {
+                db.Subscriptions.Add(new Subscription()
+                {
+                    Duration = selectedDuration,
+                    StartDate = startTime,
+                    SubscriberId = subscriberMaxId,
+                    PublicationId = p.Id,
+                    SubscriptionStatus = SubscriptionStatus.Awaiting
+                });
+            });
+        }
+
+        var receipt = new Receipt() {
+            Issuance = startTime,
+            PersonId = user.Person.Id,
+            Price = publications.Sum(p => p.Price)
         };
 
-        // Заполнение деталей - Выписанные наименования и сроки подписок
-        confirmedSubscriptions.ForEach(s => receipt.ReceiptDetails.Add(
-                new ReceiptDetail() {
-                    Name = s.Publication.Name,
-                    Duration = s.Duration
-                })
-        );
-
-        //  Добавление в БД
         db.Receipts.Add(receipt);
+        db.SaveChanges();
+
+        var receiptMaxId = db.Receipts.Max(r => r.Id); 
+        publications.ForEach(p => db.ReceiptDetail.Add(
+            new ReceiptDetail() {
+                ReceiptId = receiptMaxId,
+                Duration = selectedDuration,
+                Name = p.Name
+            }
+            ));
+
         db.SaveChanges();
     } //CreateReceipt
 
