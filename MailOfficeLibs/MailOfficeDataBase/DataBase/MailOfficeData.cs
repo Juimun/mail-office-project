@@ -137,11 +137,11 @@ public partial class DatabaseQueries(MailOfficeContext db) {
             // Должно выполняться на клиенте
             .Where(s => s.EndDate >= DateTime.Now)
             .ToList();
-
+     
     // Создание квитанции
-    public void GetNewReceipt(string login, byte[] password, List<Publication> publications, SubscriptionPeriod selectedDuration, int sectionId) { 
+    public void GetNewReceipt(string login, byte[] password, List<Publication> publications, SubscriptionPeriod selectedDuration, string firstName, string secondName, string patronymic, string sectionName, string street, string houseNumber) {  
 
-        // Поиск пользователя
+        // Поиск пользователя 
         var user = db.Users.FirstOrDefault(u => u.Login == login && u.Password == password);
 
         // Если найден - создать новую квитанцию
@@ -155,12 +155,15 @@ public partial class DatabaseQueries(MailOfficeContext db) {
 
             person.PreviousRole = person.Role;
             person.Role = PersonCategory.Subscriber;
+            person.FirstName = firstName;
+            person.SecondName = secondName;
+            person.Patronymic = patronymic;
 
             db.People.Update(person);
             db.SaveChanges();
 
             // Создание нового дома
-            db.Houses.Add(new House() { SectionId = sectionId, Street = "Тест", HouseNumber = "Тест" });
+            db.Houses.Add(new House() { SectionId = db.Sections.Where(s => s.Name == sectionName).Select(s => s.Id).FirstOrDefault(), Street = street, HouseNumber = houseNumber });
             db.SaveChanges();
 
             db.Subscribers.Add(new Subscriber() { PersonId = person.Id, HouseId = db.Houses.Max(h => h.Id) });
@@ -221,4 +224,10 @@ public partial class DatabaseQueries(MailOfficeContext db) {
             ))
         .ToList();
 
+    // Получить список наименований участков
+    public List<string> GetAllSectionNames() => db
+        .Sections
+        .Select(s => s.Name)
+        .ToList();
+   
 } //DatabaseQueries

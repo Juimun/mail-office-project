@@ -11,9 +11,9 @@ namespace MailOffice.ViewModel;
 
 public class BuySubscriptionWindowViewModel : INotifyPropertyChanged {
 
-    private BuySubscriptionWindow HostWindow;
+    public BuySubscriptionWindow HostWindow;
     private DatabaseQueries _databaseQueries;
-    private MainWindowViewModel _mainWindowViewModel;
+    public MainWindowViewModel _mainWindowViewModel;
 
     public BuySubscriptionWindowViewModel(
        BuySubscriptionWindow hostWindow, DatabaseQueries databaseQueries, MainWindowViewModel mainWindowViewModel)
@@ -28,7 +28,7 @@ public class BuySubscriptionWindowViewModel : INotifyPropertyChanged {
 
     public RelayCommand ConfirmSubscriptionCommand => new(
        obj => ConfirmSubscription(),
-       obj => true
+       obj => SelectedPublications != null
     );
 
     // Список публикаций 
@@ -37,6 +37,16 @@ public class BuySubscriptionWindowViewModel : INotifyPropertyChanged {
         get => _publications;
         set => SetField(ref _publications, value);
     }
+
+    // Список выбранных публикаций
+    private List<Publication> _selectedPublications; 
+    public List<Publication> SelectedPublications 
+    {
+        get => _selectedPublications;
+        set => SetField(ref _selectedPublications, value);
+    }
+
+    public SubscriptionPeriod SelectedSubscriptionPeriod;
 
     // Оформление подписки
     private void ConfirmSubscription() {
@@ -48,24 +58,22 @@ public class BuySubscriptionWindowViewModel : INotifyPropertyChanged {
              = HostWindow.PublicationDataGrid.IsEnabled = false;
 
         // Выбранные публикации 
-        var selectedPublication = HostWindow
+        SelectedPublications = HostWindow
             .PublicationDataGrid
             .SelectedItems
             .OfType<Publication>()
             .ToList();
 
-        // Создаем квитанцию
-        _databaseQueries.GetNewReceipt(
-            _mainWindowViewModel.CurrentAccount!.Login, 
-            _mainWindowViewModel.CurrentAccount.Password,
-            selectedPublication,
-            Enum.Parse<SubscriptionPeriod>((string)HostWindow.SubscriptionPeriodComboBox.SelectedItem),
+        // Выбранный срок
+        SelectedSubscriptionPeriod = Enum
+            .Parse<SubscriptionPeriod>(
+            (string)HostWindow
+                .SubscriptionPeriodComboBox
+                .SelectedItem
+            );
 
-            // переделать
-            Random.Shared.Next(1, 50));
-
-        // Закрываем 
-        HostWindow.Close();
+        var addInformation = new AdditionalInformationWindow(this);
+        addInformation.ShowDialog();
     } //ConfirmSubscription
 
     #region INotifyPropertyChanged
