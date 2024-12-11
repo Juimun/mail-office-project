@@ -42,13 +42,14 @@ public class AdditionalInformationWindowViewModel {
 
     private void ConfirmSubscription() {
 
+
         // Создаем квитанцию
         _databaseQueries.GetNewReceipt(
              _buySubscriptionWindowViewModel._mainWindowViewModel.CurrentAccount!.Login,
              _buySubscriptionWindowViewModel._mainWindowViewModel.CurrentAccount.Password,
 
              _buySubscriptionWindowViewModel.SelectedPublications,
-             _buySubscriptionWindowViewModel.SelectedSubscriptionPeriod,
+             _buySubscriptionWindowViewModel.SelectedSubscriptionPeriod!.Value,
 
              HostWindow.FirstNameTextBox.Text,
              HostWindow.SecondNameTextBox.Text,

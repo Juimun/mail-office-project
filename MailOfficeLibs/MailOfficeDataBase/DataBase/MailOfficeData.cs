@@ -139,7 +139,7 @@ public partial class DatabaseQueries(MailOfficeContext db) {
             .ToList();
      
     // Создание квитанции
-    public void GetNewReceipt(string login, byte[] password, List<Publication> publications, SubscriptionPeriod selectedDuration, string firstName, string secondName, string patronymic, string sectionName, string street, string houseNumber) {  
+    public void GetNewReceipt(string login, byte[] password, List<Publication> publications, SubscriptionPeriod selectedDuration, string firstName, string secondName, string patronymic, string sectionName, string street, string houseNumber) {
 
         // Поиск пользователя 
         var user = db.Users.FirstOrDefault(u => u.Login == login && u.Password == password);

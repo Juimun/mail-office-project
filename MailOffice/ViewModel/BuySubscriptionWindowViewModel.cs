@@ -6,6 +6,7 @@ using MailOfficeEntities.Entities;
 using System.Collections.ObjectModel;
 using System.ComponentModel;
 using System.Runtime.CompilerServices;
+using System.Windows;
 
 namespace MailOffice.ViewModel;
 
@@ -28,7 +29,7 @@ public class BuySubscriptionWindowViewModel : INotifyPropertyChanged {
 
     public RelayCommand ConfirmSubscriptionCommand => new(
        obj => ConfirmSubscription(),
-       obj => SelectedPublications != null
+       obj => true
     );
 
     // Список публикаций 
@@ -46,34 +47,42 @@ public class BuySubscriptionWindowViewModel : INotifyPropertyChanged {
         set => SetField(ref _selectedPublications, value);
     }
 
-    public SubscriptionPeriod SelectedSubscriptionPeriod;
+    public SubscriptionPeriod? SelectedSubscriptionPeriod;
 
     // Оформление подписки
     private void ConfirmSubscription() {
 
-        // Защита от повторного нажатия
-        HostWindow.ConfirmSubscription.IsEnabled
+         // Защита от повторного нажатия
+         HostWindow.ConfirmSubscription.IsEnabled
+         
+              // Отключаем DataGrid
+              = HostWindow.PublicationDataGrid.IsEnabled = false;
 
-             // Отключаем DataGrid
-             = HostWindow.PublicationDataGrid.IsEnabled = false;
+         // Выбранная публикация 
+         SelectedPublications = HostWindow
+             .PublicationDataGrid
+             .SelectedItems
+             .OfType<Publication>()
+             .ToList();
 
-        // Выбранные публикации 
-        SelectedPublications = HostWindow
-            .PublicationDataGrid
-            .SelectedItems
-            .OfType<Publication>()
-            .ToList();
+        if (SelectedPublications.Count > 0) {
 
-        // Выбранный срок
-        SelectedSubscriptionPeriod = Enum
-            .Parse<SubscriptionPeriod>(
-            (string)HostWindow
-                .SubscriptionPeriodComboBox
-                .SelectedItem
-            );
+            // Выбранный срок
+            string selectedItem = (string)HostWindow.SubscriptionPeriodComboBox.SelectedItem;
+             
+            if (Enum.TryParse(selectedItem, out SubscriptionPeriod selectedPeriod)) {
+                SelectedSubscriptionPeriod = selectedPeriod;
 
-        var addInformation = new AdditionalInformationWindow(this);
-        addInformation.ShowDialog();
+                // Запуск дополнительного меню заказа
+                var addInformation = new AdditionalInformationWindow(this);
+                addInformation.ShowDialog();
+            } //if
+        } //if
+
+        // Возвращаем все
+        HostWindow.ConfirmSubscription.IsEnabled = 
+            HostWindow.PublicationDataGrid.IsEnabled = true;
+
     } //ConfirmSubscription
 
     #region INotifyPropertyChanged
