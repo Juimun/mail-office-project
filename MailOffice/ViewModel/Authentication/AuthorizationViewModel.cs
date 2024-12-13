@@ -55,9 +55,9 @@ public class AuthorizationViewModel(AuthorizationWindow hostWindow) : INotifyPro
         UserJson savedUser;
         try
         {
-            savedUser = data.GetUserJson(HostWindow.LoginTextBox.Text, Utils.GetBytes(HostWindow.PasswordTextBox.Text));
+            savedUser = data.GetUserJson(HostWindow.LoginTextBox.Text, HostWindow.EnteredPassword);
         }
-        catch (Exception e)
+        catch (Exception)
         {
             MessageBox.Show($"Аккаунт не найден! Попробуйте еще раз...", "Подсказка", MessageBoxButton.OK, MessageBoxImage.Warning);
             return;
@@ -72,29 +72,6 @@ public class AuthorizationViewModel(AuthorizationWindow hostWindow) : INotifyPro
         HostWindow.DialogResult = true;
         HostWindow.Close();
     } //EntryAuthorization
-
-    private void SaveUser(UserJson savedUser) {
-        //// Перезапись в JSON для добавления нескольких аккаунтов
-        //if (File.Exists(App.AccountsJsonPath))
-        //{
-        //    _savedUser = Utils.JsonDeserialize(App.AccountsJsonPath);
-        //}
-        //
-        //// Проверка на дубликаты
-        //if (_savedUser.Any(u => u.Login == savedUser.Login))
-        //{
-        //    MessageBox.Show("Данный аккаунт уже сохранен!", "Подсказка", MessageBoxButton.OK, MessageBoxImage.Warning);
-        //    return;
-        //}
-        //
-        //// Проверка на ограничение количества 
-        //if (_savedUsers.Count >= 4)
-        //{
-        //    MessageBox.Show("Вы сохранили максимальное количество аккаунтов!", "Подсказка", MessageBoxButton.OK, MessageBoxImage.Warning);
-        //    return;
-        //}
-
-    } //SaveUser
 
     #region INotifyPropertyChanged
     public event PropertyChangedEventHandler? PropertyChanged;

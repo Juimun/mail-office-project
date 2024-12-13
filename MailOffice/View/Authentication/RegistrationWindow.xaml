@@ -22,7 +22,7 @@
             CornerRadius="10">
     
             <StackPanel>
-                <TextBlock Text="Registration"
+                <TextBlock Text="Регистрация аккаунта"
                        Margin="20"
                        Padding="3 0"
                        FontSize="26"

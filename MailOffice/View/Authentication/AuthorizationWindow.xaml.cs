@@ -3,6 +3,7 @@ using System.Windows.Controls;
 using System.Windows.Input;
 using System.Windows.Media;
 using MailOffice.ViewModel.Authentication;
+using MailOfficeTool.Infrastructure;
 
 namespace MailOffice.View;
 
@@ -52,4 +53,22 @@ public partial class AuthorizationWindow : Window {
         button.Background = _originalBackgroundBrush;
         button.Foreground = _originalForegroundBrush;
     }
-} //AuthorizationWindow
+
+    public byte[] EnteredPassword;
+    private string actualPassword;
+    private void PasswordTextBox_TextChanged(object sender, TextChangedEventArgs e) {
+
+        var textBox = (TextBox)sender;
+        actualPassword = textBox.Text;  
+
+        if (actualPassword == "Введите пароль" || string.IsNullOrEmpty(actualPassword) || actualPassword == new string('*', actualPassword.Length)) 
+            return;
+            
+        EnteredPassword = Utils.GetBytes(actualPassword); 
+
+        textBox.Text = new string('*', actualPassword.Length);
+        textBox.SelectionStart = textBox.Text.Length;
+        textBox.SelectionLength = 0;
+    } //PasswordTextBox_TextChanged
+
+} //AuthorizationWindow 

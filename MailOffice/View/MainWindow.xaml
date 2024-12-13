@@ -495,7 +495,7 @@
                 </Grid>
             </TabItem>
             <TabItem BorderThickness="1" 
-                     Visibility="Hidden"
+                     Visibility="Collapsed"
                      Name="QueriesTabItem">
                 <TabItem.Header>
                     <TextBlock Name="TblQueriesHeader"
@@ -513,7 +513,7 @@
                 </ScrollViewer>
             </TabItem>
             <TabItem BorderThickness="1"
-                     Visibility="Hidden"
+                     Visibility="Collapsed"
                      Name="AccountTabItem">
                 <TabItem.Header>
                     <TextBlock Name="TblProfileHeader"  

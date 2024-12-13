@@ -367,7 +367,7 @@ public class MainWindowViewModel : INotifyPropertyChanged {
         auth.ShowDialog();
 
         if (auth.DialogResult == true && 
-            _dataQueries.IsAuthenticate(auth.LoginTextBox.Text, Utils.GetBytes(auth.PasswordTextBox.Text))) 
+            _dataQueries.IsAuthenticate(auth.LoginTextBox.Text, auth.EnteredPassword)) 
         {
 
             // Смена хедера на актуальный логин
@@ -380,8 +380,8 @@ public class MainWindowViewModel : INotifyPropertyChanged {
             IsLoggedIn = true;
             CurrentAccount = new CurrentAccount(
                 auth.LoginTextBox.Text,
-                Utils.GetBytes(auth.PasswordTextBox.Text), 
-                _dataQueries.GetRoleCurrentAccount(auth.LoginTextBox.Text, Utils.GetBytes(auth.PasswordTextBox.Text))
+                auth.EnteredPassword, 
+                _dataQueries.GetRoleCurrentAccount(auth.LoginTextBox.Text, auth.EnteredPassword)
                 );
             
             RoleValidation();
@@ -449,10 +449,10 @@ public class MainWindowViewModel : INotifyPropertyChanged {
         HostWindow.TbcMain.SelectedIndex = 0;
 
         // При выходе с аккаунта убирать элементы с правами доступа
-        HostWindow.AccountTabItem.Visibility = HostWindow.QueriesTabItem.Visibility 
-            = HostWindow.MainToolBarTray.Visibility = HostWindow.QueriesMenuItem.Visibility 
+        HostWindow.MainToolBarTray.Visibility = HostWindow.QueriesTabItem.Visibility = Visibility.Collapsed;
+        HostWindow.AccountTabItem.Visibility = HostWindow.QueriesMenuItem.Visibility 
             = HostWindow.DocumentationMenuItem.Visibility = HostWindow.SpecialMenuItem.Visibility 
-            = HostWindow.MainToolBarTray.Visibility = Visibility.Hidden;
+            = Visibility.Hidden;
 
         HostWindow.TblProfile.Text = string.Empty;
     } //CloseAccount

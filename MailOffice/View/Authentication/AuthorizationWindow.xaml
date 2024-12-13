@@ -22,7 +22,7 @@
                 CornerRadius="10">
 
             <StackPanel>
-                <TextBlock Text="Sign In"
+                <TextBlock Text="Войти как ..."
                            Margin="20"
                            Padding="3 0"
                            FontSize="26"
@@ -34,7 +34,7 @@
                            Text="ИМЯ АККАУНТА:"
                            Style="{StaticResource TextBlockStyle}"/>
                 <TextBox TabIndex="0"
-                          x:Name="LoginTextBox"
+                          Name="LoginTextBox"
                           Text="Введите логин"
                           Style="{StaticResource TextBoxStyle}"
                           
@@ -47,10 +47,10 @@
                            Text="ПАРОЛЬ:"
                            Style="{StaticResource TextBlockStyle}"/>
                 <TextBox TabIndex="1"
-                          x:Name="PasswordTextBox"
+                          Name="PasswordTextBox"
                           Text="Введите пароль"
                           Style="{StaticResource TextBoxStyle}"
-                          
+                          TextChanged="PasswordTextBox_TextChanged"
                           GotFocus="TextBox_OnGotFocus"
                           LostFocus="TextBox_OnLostFocus"/>
 
