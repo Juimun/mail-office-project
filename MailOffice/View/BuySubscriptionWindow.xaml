@@ -17,7 +17,7 @@
         Width="1230"
         Height="470"
     
-        Icon="/Assets/Menu/mail.png">
+        Icon="/Assets/Menu/buy.png">
     <StackPanel Orientation="Horizontal">
         <StackPanel>
             <Border BorderBrush="Black" 

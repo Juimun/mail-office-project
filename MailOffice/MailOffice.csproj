@@ -19,13 +19,15 @@
     <None Remove="Assets\mail.png" />
     <None Remove="Assets\Menu\arrowLeft.png" />
     <None Remove="Assets\Menu\arrowRight.png" />
+    <None Remove="Assets\Menu\buy.png" />
+    <None Remove="Assets\Menu\clean.png" />
     <None Remove="Assets\Menu\clear.png" />
+    <None Remove="Assets\Menu\close.png" />
     <None Remove="Assets\Menu\closedEye.png" />
     <None Remove="Assets\Menu\exit.png" />
     <None Remove="Assets\Menu\eye.png" />
-    <None Remove="Assets\Menu\mail.png" />
-    <None Remove="Assets\Menu\mailBlue.png" />
     <None Remove="Assets\Menu\pdf.png" />
+    <None Remove="Assets\Menu\peoples.png" />
     <None Remove="Assets\Menu\queries.png" />
     <None Remove="Assets\Menu\receipt.png" />
     <None Remove="Assets\Menu\report.png" />
@@ -40,10 +42,7 @@
     <None Remove="Assets\Queries\queries %284%29.png" />
     <None Remove="Assets\Queries\queries %285%29.png" />
     <None Remove="Assets\Queries\queries %286%29.png" />
-    <None Remove="Assets\User\addUser.png" />
-    <None Remove="Assets\User\defaultUser.png" />
-    <None Remove="Assets\User\defaultUser2.png" />
-    <None Remove="Assets\User\defaultUser3.png" />
+    <None Remove="Assets\User\user.png" />
     <None Remove="Assets\warning.png" />
   </ItemGroup>
 
@@ -81,13 +80,16 @@
     <Resource Include="Assets\Menu\arrowRight.png">
       <CopyToOutputDirectory>Never</CopyToOutputDirectory>
     </Resource>
-    <Resource Include="Assets\Menu\clear.png">
+    <Resource Include="Assets\Menu\buy.png">
+      <CopyToOutputDirectory>Never</CopyToOutputDirectory>
+    </Resource>
+    <Resource Include="Assets\Menu\clean.png">
+      <CopyToOutputDirectory>Never</CopyToOutputDirectory>
+    </Resource>
+    <Resource Include="Assets\Menu\close.png">
       <CopyToOutputDirectory>Never</CopyToOutputDirectory>
     </Resource>
     <Resource Include="Assets\Menu\closedEye.png">
-      <CopyToOutputDirectory>Never</CopyToOutputDirectory>
-    </Resource>
-    <Resource Include="Assets\Menu\exit.png">
       <CopyToOutputDirectory>Never</CopyToOutputDirectory>
     </Resource>
     <Resource Include="Assets\Menu\eye.png">
@@ -96,28 +98,16 @@
     <Resource Include="Assets\Menu\mail.png">
       <CopyToOutputDirectory>Never</CopyToOutputDirectory>
     </Resource>
-    <Resource Include="Assets\Menu\mailBlue.png">
+    <Resource Include="Assets\Menu\peoples.png">
       <CopyToOutputDirectory>Never</CopyToOutputDirectory>
     </Resource>
     <Resource Include="Assets\Menu\receipt.png">
       <CopyToOutputDirectory>Never</CopyToOutputDirectory>
     </Resource>
-    <Resource Include="Assets\Menu\report.png">
-      <CopyToOutputDirectory>Never</CopyToOutputDirectory>
-    </Resource>
     <Resource Include="Assets\Menu\reportPdf.png">
       <CopyToOutputDirectory>Never</CopyToOutputDirectory>
     </Resource>
-    <Resource Include="Assets\Menu\staffOnly.png">
-      <CopyToOutputDirectory>Never</CopyToOutputDirectory>
-    </Resource>
     <Resource Include="Assets\Menu\statementPdf.png">
-      <CopyToOutputDirectory>Never</CopyToOutputDirectory>
-    </Resource>
-    <Resource Include="Assets\Menu\test.png">
-      <CopyToOutputDirectory>Never</CopyToOutputDirectory>
-    </Resource>
-    <Resource Include="Assets\Menu\warning.png">
       <CopyToOutputDirectory>Never</CopyToOutputDirectory>
     </Resource>
     <Resource Include="Assets\Queries\queries (1).png">
@@ -138,16 +128,10 @@
     <Resource Include="Assets\Queries\queries (6).png">
       <CopyToOutputDirectory>Never</CopyToOutputDirectory>
     </Resource>
-    <Resource Include="Assets\User\addUser.png">
-      <CopyToOutputDirectory>Never</CopyToOutputDirectory>
-    </Resource>
     <Resource Include="Assets\User\defaultUser.png">
       <CopyToOutputDirectory>Never</CopyToOutputDirectory>
     </Resource>
-    <Resource Include="Assets\User\defaultUser2.png">
-      <CopyToOutputDirectory>Never</CopyToOutputDirectory>
-    </Resource>
-    <Resource Include="Assets\User\defaultUser3.png">
+    <Resource Include="Assets\User\user.png">
       <CopyToOutputDirectory>Never</CopyToOutputDirectory>
     </Resource>
   </ItemGroup>

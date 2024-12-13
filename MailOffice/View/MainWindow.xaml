@@ -21,7 +21,7 @@
               Foreground="#999999"
               FontSize="14" >
             <Image Height="32" 
-                     Source="/Assets/Menu/mailBlue.png" 
+                     Source="/Assets/Menu/mail.png" 
                      Stretch="Fill" 
                      Width="32"
                      IsEnabled="False"
@@ -65,7 +65,7 @@
                     Command="{Binding SpecialMenuCommand}">
 
                     <MenuItem.Icon>
-                        <Image Source="/Assets/Menu/staffOnly.png"/>
+                        <Image Source="/Assets/Menu/peoples.png"/>
                     </MenuItem.Icon>
                 </MenuItem>
                 <Separator />
@@ -75,7 +75,7 @@
                     Command="{Binding ExitCommand}">
 
                     <MenuItem.Icon>
-                        <Image Source="/Assets/Menu/exit.png"/>
+                        <Image Source="/Assets/Menu/close.png"/>
                     </MenuItem.Icon>
                 </MenuItem>
             </MenuItem>
@@ -145,7 +145,7 @@
                      Command="{Binding ClearQueryCommand}">
 
                     <MenuItem.Icon>
-                        <Image Source="/Assets/Menu/clear.png"/>
+                        <Image Source="/Assets/Menu/clean.png"/>
                     </MenuItem.Icon>
                 </MenuItem>
             </MenuItem>
@@ -205,7 +205,7 @@
               Style="{StaticResource MenuStyle}"
               FontSize="16"
               Name="ProfileMenu">
-            <Image Source="/Assets/User/defaultUser3.png" 
+            <Image Source="/Assets/User/defaultUser.png" 
                    Stretch="Fill"
                    Width="32"
                    Height="32"/>
@@ -221,7 +221,7 @@
                     Command="{Binding ShowProfileCommand}">
 
                     <MenuItem.Icon>
-                        <Image Source="/Assets/User/defaultUser.png"/>
+                        <Image Source="/Assets/User/user.png"/>
                     </MenuItem.Icon>
                 </MenuItem>
                 <Separator Margin="6"/>
