@@ -20,10 +20,12 @@ public static partial class Factory {
         .ToList();
 
     // Генератор типизированного логина
+    // Минимальная длина 6, максимальная - 30
     private static string GetRandomLogin(int userId) => $"Login{userId}";
 
     // Генератор случайного пароля
-    private const int MinLength = 5, MaxLength = 15;
+    // Минимальная длина 8
+    private const int MinLength = 8, MaxLength = 15;
     private const string Chars = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789";
     private static string GetRandomPassword(int minlength, int maxlength) => new(
         Enumerable.Repeat(Chars, Utils.GetRandom(minlength, maxlength))

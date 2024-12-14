@@ -3,10 +3,11 @@ using iTextSharp.text.pdf;
 using iTextSharp.text;
 using MailOfficeTool.Entities;
 using Newtonsoft.Json;
+using System.Text.RegularExpressions;
 
 namespace MailOfficeTool.Infrastructure;
 
-public static class Utils
+public static partial class Utils
 {
 
     public static int GetRandom(int valueMin, int valueMax) => Random
@@ -53,7 +54,9 @@ public static class Utils
         }
     } //SaveAsTxt
 
+    // Создание типизированного шрифта 
     private static string ArialFontPath = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.Fonts), "arial.ttf");
-    private static BaseFont BaseFont = BaseFont.CreateFont(ArialFontPath, BaseFont.IDENTITY_H, BaseFont.EMBEDDED);
+    private static readonly BaseFont BaseFont = BaseFont.CreateFont(ArialFontPath, BaseFont.IDENTITY_H, BaseFont.EMBEDDED);
     public static Font GetArialFont(float size = 15, int style = Font.NORMAL) => new(BaseFont, size, style);
+
 } //Utils

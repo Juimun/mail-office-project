@@ -15,7 +15,7 @@ public class UserConfiguration : IEntityTypeConfiguration<User>
 
         builder
             .Property(u => u.Login)
-            .HasMaxLength(16)
+            .HasMaxLength(30)
             .IsRequired()
             .IsUnicode(false);
 
