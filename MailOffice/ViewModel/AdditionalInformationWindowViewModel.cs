@@ -4,6 +4,7 @@ using MailOfficeDataBase.DataBase;
 using MailOfficeEntities.Category;
 using MailOfficeEntities.Entities;
 using System.Collections.ObjectModel;
+using System.Windows;
 
 namespace MailOffice.ViewModel;
 
@@ -31,7 +32,8 @@ public class AdditionalInformationWindowViewModel {
              !string.IsNullOrWhiteSpace(HostWindow.SecondNameTextBox.Text)  && HostWindow.SecondNameTextBox.Text != "Введите вашу фамилию" &&
              !string.IsNullOrWhiteSpace(HostWindow.PatronymicTextBox.Text)  && HostWindow.PatronymicTextBox.Text != "Введите свое отчество" &&
              !string.IsNullOrWhiteSpace(HostWindow.StreetTextBox.Text)      && HostWindow.StreetTextBox.Text != "Введите наименование улицы" &&
-             !string.IsNullOrWhiteSpace(HostWindow.HouseNumberTextBox.Text) && HostWindow.HouseNumberTextBox.Text != "Введите номер дома"
+             !string.IsNullOrWhiteSpace(HostWindow.HouseNumberTextBox.Text) && HostWindow.HouseNumberTextBox.Text != "Введите номер дома" &&
+              HostWindow.SectionNameComboBox.SelectedItem != null
     );
 
     public RelayCommand CanselCommand => new(
@@ -41,7 +43,6 @@ public class AdditionalInformationWindowViewModel {
 
 
     private void ConfirmSubscription() {
-
 
         // Создаем квитанцию
         _databaseQueries.GetNewReceipt(

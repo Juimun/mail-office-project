@@ -240,7 +240,7 @@
                     Name="BuySubscriptionItem" 
                     Command="{Binding BuySubscriptionCommand}" >
                     <MenuItem.Icon>
-                        <Image Source="/Assets/Account/subscribe.png"/>
+                        <Image Source="/Assets/Account/addSubscribe.png"/>
                     </MenuItem.Icon>
                 </MenuItem>
                 <Separator Margin="6"/>

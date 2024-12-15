@@ -47,7 +47,7 @@ public class RegistrationViewModel(RegistrationWindow hostWindow) {
 
     // Виды проверок для регистрации
     private bool ValidateRegistrationData() {
-
+       
         // Проверка на пустые строки и пробелы
         if (string.IsNullOrEmpty(HostWindow.LoginTextBox.Text) && string.IsNullOrEmpty(HostWindow.PasswordTextBox.Text)) {
             ShowErrorMessage("Введены некорректные данные!");
@@ -61,8 +61,8 @@ public class RegistrationViewModel(RegistrationWindow hostWindow) {
             return false;
         } //if
 
-        // Логин должен быть НЕ МЕНЕЕ 5 и НЕ БОЛЕЕ 30 символов
-        if (HostWindow.LoginTextBox.Text.Length < 5 || HostWindow.LoginTextBox.Text.Length > 30) {
+        // Логин должен быть НЕ МЕНЕЕ 5 и НЕ БОЛЕЕ 16 символов
+        if (!Utils.IsValidStringLength(HostWindow.LoginTextBox.Text, 5, 16)) {
             ShowErrorMessage("Некорректный размер логина!");
             return false;
         } //if
@@ -74,7 +74,7 @@ public class RegistrationViewModel(RegistrationWindow hostWindow) {
         }
 
         // Пароль должен быть НЕ МЕНЕЕ 8 символов
-        if (HostWindow.PasswordTextBox.Text.Length < 8) {
+        if (!Utils.IsValidStringLength(HostWindow.PasswordTextBox.Text, 8, 30)) {
             ShowErrorMessage("Некорректный размер пароля!");
             return false;
         } //if

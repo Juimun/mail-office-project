@@ -52,5 +52,5 @@ public partial class DatabaseQueries(MailOfficeContext db) {
     public List<Section> GetAllSections() => db
          .Sections
          .ToList();
-   
+
 } //DatabaseQueries

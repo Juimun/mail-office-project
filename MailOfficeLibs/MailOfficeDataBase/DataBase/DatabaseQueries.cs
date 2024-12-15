@@ -88,7 +88,6 @@ public partial class DatabaseQueries {
         .First();
 
     // Регистрация нового пользователя 
-    // TODO: переделать!
     public void AddRegisteredUser(string newLogin, byte[] newPassword) {
 
         // Создаем сущность User 
@@ -453,42 +452,87 @@ public partial class DatabaseQueries {
         if (user == null) return;
 
         var startTime = DateTime.Now;
-        if (user.Person.Role < PersonCategory.Subscriber)
-        {
+       
+        // Сменить роль на подписчика
+        var person = db.People.Where(p => p.User == user).FirstOrDefault()!;
 
-            // Сменить роль на подписчика
-            var person = db.People.Where(p => p.User == user).FirstOrDefault()!;
+        person.PreviousRole = person.Role;
+        person.Role = PersonCategory.Subscriber;
+        person.FirstName = firstName;
+        person.SecondName = secondName;
+        person.Patronymic = patronymic;
 
-            person.PreviousRole = person.Role;
-            person.Role = PersonCategory.Subscriber;
-            person.FirstName = firstName;
-            person.SecondName = secondName;
-            person.Patronymic = patronymic;
+        db.People.Update(person);
+        db.SaveChanges();
 
-            db.People.Update(person);
-            db.SaveChanges();
+        // Создание нового дома
+        db.Houses.Add(new House() { SectionId = db.Sections.Where(s => s.Name == sectionName).Select(s => s.Id).FirstOrDefault(), Street = street, HouseNumber = houseNumber });
+        db.SaveChanges();
 
-            // Создание нового дома
-            db.Houses.Add(new House() { SectionId = db.Sections.Where(s => s.Name == sectionName).Select(s => s.Id).FirstOrDefault(), Street = street, HouseNumber = houseNumber });
-            db.SaveChanges();
+        db.Subscribers.Add(new Subscriber() { PersonId = person.Id, HouseId = db.Houses.Max(h => h.Id) });
+        db.SaveChanges();   
 
-            db.Subscribers.Add(new Subscriber() { PersonId = person.Id, HouseId = db.Houses.Max(h => h.Id) });
-            db.SaveChanges();
+        var subscriberMaxId = db.Subscribers.Max(s => s.Id);
 
-            var subscriberMaxId = db.Subscribers.Max(s => s.Id);
-
-            // Создать подписное издание с выбранными публикациями
-            publications.ForEach(p => {
-                db.Subscriptions.Add(new Subscription()
-                {
-                    Duration = selectedDuration,
-                    StartDate = startTime,
-                    SubscriberId = subscriberMaxId,
-                    PublicationId = p.Id,
-                    SubscriptionStatus = SubscriptionStatus.Awaiting
-                });
+        // Создать подписное издание с выбранными публикациями
+        publications.ForEach(p => {
+            db.Subscriptions.Add(new Subscription()
+            {
+                Duration = selectedDuration,
+                StartDate = startTime,
+                SubscriberId = subscriberMaxId,
+                PublicationId = p.Id,
+                SubscriptionStatus = SubscriptionStatus.Awaiting
             });
-        }
+        });
+
+        var receipt = new Receipt()
+        {
+            Issuance = startTime,
+            PersonId = user.Person.Id,
+            Price = publications.Sum(p => p.Price)
+        };
+
+        db.Receipts.Add(receipt);
+        db.SaveChanges();
+
+        var receiptMaxId = db.Receipts.Max(r => r.Id);
+        publications.ForEach(p => db.ReceiptDetail.Add(
+            new ReceiptDetail()
+            {
+                ReceiptId = receiptMaxId,
+                Duration = selectedDuration,
+                Name = p.Name
+            }
+            ));
+
+        db.SaveChanges();
+    } //CreateReceipt
+
+    public void GetNewReceipt(
+        string login, byte[] password, List<Publication> publications, SubscriptionPeriod selectedDuration)
+    {
+
+        // Поиск пользователя 
+        var user = db.Users.FirstOrDefault(u => u.Login == login && u.Password == password);
+
+        // Если найден - создать новую квитанцию
+        if (user == null) return;
+
+        var startTime = DateTime.Now;
+        var subscriberMaxId = db.Subscribers.Max(s => s.Id);
+
+        // Создать подписное издание с выбранными публикациями
+        publications.ForEach(p => {
+            db.Subscriptions.Add(new Subscription()
+            {
+                Duration = selectedDuration,
+                StartDate = startTime,
+                SubscriberId = subscriberMaxId,
+                PublicationId = p.Id,
+                SubscriptionStatus = SubscriptionStatus.Awaiting
+            });
+        });
 
         var receipt = new Receipt()
         {
@@ -537,5 +581,11 @@ public partial class DatabaseQueries {
         .Sections
         .Select(s => s.Name)
         .ToList();
+
+    // Проверка на роль подписчика и выше
+    public bool IsSubscriberOrStaff(string login, byte[] password) => db 
+        .People
+        .Any(p => p.User.Login == login && p.User.Password == password 
+            && p.Role >= PersonCategory.Subscriber);
 
 } //DatabaseQueries

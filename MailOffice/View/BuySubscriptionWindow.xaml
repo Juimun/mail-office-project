@@ -9,7 +9,7 @@
         Title="Корзина"
         WindowStartupLocation="CenterScreen"
         WindowStyle="SingleBorderWindow"
-        ResizeMode="CanResize"
+        ResizeMode="NoResize"
         Foreground="White"
         Background="#171d25"
         BorderBrush="Black"

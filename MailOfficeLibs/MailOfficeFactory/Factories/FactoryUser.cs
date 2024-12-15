@@ -20,7 +20,7 @@ public static partial class Factory {
         .ToList();
 
     // Генератор типизированного логина
-    // Минимальная длина 6, максимальная - 30
+    // Минимальная длина 6, максимальная - 16
     private static string GetRandomLogin(int userId) => $"Login{userId}";
 
     // Генератор случайного пароля

@@ -6,7 +6,6 @@ using MailOfficeEntities.Entities;
 using System.Collections.ObjectModel;
 using System.ComponentModel;
 using System.Runtime.CompilerServices;
-using System.Windows;
 
 namespace MailOffice.ViewModel;
 
@@ -73,9 +72,20 @@ public class BuySubscriptionWindowViewModel : INotifyPropertyChanged {
             if (Enum.TryParse(selectedItem, out SubscriptionPeriod selectedPeriod)) {
                 SelectedSubscriptionPeriod = selectedPeriod;
 
-                // Запуск дополнительного меню заказа
-                var addInformation = new AdditionalInformationWindow(this);
-                addInformation.ShowDialog();
+                if(!_databaseQueries.IsSubscriberOrStaff(_mainWindowViewModel.CurrentAccount!.Login, _mainWindowViewModel.CurrentAccount.Password)) {
+                    // Запуск дополнительного меню заказа
+                    var addInformation = new AdditionalInformationWindow(this);
+                    addInformation.ShowDialog();
+                } //if
+                else {
+
+                    // Если уже есть роль подписчика и стафа
+                    _databaseQueries.GetNewReceipt(
+                        _mainWindowViewModel.CurrentAccount!.Login, _mainWindowViewModel.CurrentAccount.Password, SelectedPublications, SelectedSubscriptionPeriod.Value
+                        );
+
+                    HostWindow.Close();
+                }
             } //if
         } //if
 

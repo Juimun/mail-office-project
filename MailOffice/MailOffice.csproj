@@ -9,6 +9,7 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <None Remove="Assets\Account\addSubscribe.png" />
     <None Remove="Assets\Account\change.png" />
     <None Remove="Assets\Account\signIn.png" />
     <None Remove="Assets\Account\signOut.png" />
@@ -62,6 +63,9 @@
   </ItemGroup>
 
   <ItemGroup>
+    <Resource Include="Assets\Account\addSubscribe.png">
+      <CopyToOutputDirectory>Never</CopyToOutputDirectory>
+    </Resource>
     <Resource Include="Assets\Account\change.png">
       <CopyToOutputDirectory>Never</CopyToOutputDirectory>
     </Resource>
