@@ -3,7 +3,6 @@ using iTextSharp.text.pdf;
 using iTextSharp.text;
 using MailOfficeTool.Entities;
 using Newtonsoft.Json;
-using System.Text.RegularExpressions;
 
 namespace MailOfficeTool.Infrastructure;
 

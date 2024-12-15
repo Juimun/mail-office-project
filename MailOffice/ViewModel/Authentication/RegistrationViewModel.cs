@@ -41,6 +41,10 @@ public class RegistrationViewModel(RegistrationWindow hostWindow) {
             data.AddRegisteredUser(HostWindow.LoginTextBox.Text,
                     Utils.GetBytes(HostWindow.PasswordTextBox.Text));
 
+            // !!! Исключительно для тестов приложения !!!
+            Utils.SaveAsTxt(new DatabaseQueries().GetAllAccountAuthorization(), App.AccountsTxtPath,
+                "   Логин аккаунта   |   Пароль аккаунта   |   Роль персонала\n");
+
             HostWindow.Close();
         } //if
     } //EntryRegistration

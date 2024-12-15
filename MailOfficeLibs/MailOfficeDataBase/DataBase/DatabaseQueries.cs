@@ -97,6 +97,7 @@ public partial class DatabaseQueries {
         // Создаем сущность People и связываем с User
         db.Add(new Person() { UserId = db.Users.Max(u => u.Id)});   
         db.SaveChanges();
+
     } //AddNewUser
 
     //Создание сужностей для тестов
