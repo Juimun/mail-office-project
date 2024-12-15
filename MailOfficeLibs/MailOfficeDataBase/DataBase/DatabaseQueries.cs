@@ -414,16 +414,15 @@ public partial class DatabaseQueries {
         subscription.SubscriptionStatus = SubscriptionStatus.Rejected;
         database.Update(subscription);
 
-        // ТУТ удалить - если отклолить
-
-
         db.SaveChanges();
     } //UpdateSubscriptionStatus
 
     // Список пользователей, которые не являются персоналом
+    // Пользователи с незаполненными данными - тоже выпадают
     public List<Person> GetAllPersonWithoutStaff() => db
         .People
-        .Where(p => p.Role != PersonCategory.Staff)
+        .Where(p => p.FirstName != null && p.SecondName != null 
+           && p.Patronymic != null && p.Role != PersonCategory.Staff)
         .ToList();
 
     // Список активных подписных изданий пользователя
