@@ -446,7 +446,9 @@ public partial class DatabaseQueries {
     {
 
         // Поиск пользователя 
-        var user = db.Users.FirstOrDefault(u => u.Login == login && u.Password == password);
+        var user = db
+            .Users
+            .FirstOrDefault(u => u.Login == login && u.Password == password);
 
         // Если найден - создать новую квитанцию
         if (user == null) return;
@@ -454,7 +456,10 @@ public partial class DatabaseQueries {
         var startTime = DateTime.Now;
        
         // Сменить роль на подписчика
-        var person = db.People.Where(p => p.User == user).FirstOrDefault()!;
+        var person = db
+            .People
+            .Where(p => p.User == user)
+            .FirstOrDefault()!;
 
         person.PreviousRole = person.Role;
         person.Role = PersonCategory.Subscriber;
@@ -466,7 +471,15 @@ public partial class DatabaseQueries {
         db.SaveChanges();
 
         // Создание нового дома
-        db.Houses.Add(new House() { SectionId = db.Sections.Where(s => s.Name == sectionName).Select(s => s.Id).FirstOrDefault(), Street = street, HouseNumber = houseNumber });
+        db.Houses
+          .Add(new House() { 
+              SectionId = db
+                  .Sections
+                  .Where(s => s.Name == sectionName)
+                  .Select(s => s.Id)
+                  .FirstOrDefault(), 
+              Street = street, 
+              HouseNumber = houseNumber });
         db.SaveChanges();
 
         db.Subscribers.Add(new Subscriber() { PersonId = person.Id, HouseId = db.Houses.Max(h => h.Id) });
@@ -514,7 +527,9 @@ public partial class DatabaseQueries {
     {
 
         // Поиск пользователя 
-        var user = db.Users.FirstOrDefault(u => u.Login == login && u.Password == password);
+        var user = db
+            .Users
+            .FirstOrDefault(u => u.Login == login && u.Password == password);
 
         // Если найден - создать новую квитанцию
         if (user == null) return;
