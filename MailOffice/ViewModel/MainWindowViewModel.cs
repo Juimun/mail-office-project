@@ -4,6 +4,7 @@ using System.Diagnostics;
 using System.IO;
 using System.Runtime.CompilerServices;
 using System.Windows;
+using System.Windows.Media.Imaging;
 using MailOffice.Infrastructure;
 using MailOffice.View;
 using MailOffice.View.Queries;
@@ -373,6 +374,10 @@ public class MainWindowViewModel : INotifyPropertyChanged {
             // Смена хедера на актуальный логин
             HostWindow.ProfileItem.Header = $"{auth.LoginTextBox.Text} ∨";
 
+            // Тестовый вариант - смена картинки
+            HostWindow.ProfileImage.Source = HostWindow.MainProfileImage.Source =
+                new BitmapImage(new Uri(App.AvatarsImagePath, UriKind.Absolute));
+
             // Отображаем окно профиля 
             HostWindow.AccountTabItem.Visibility = Visibility.Visible;
 
@@ -420,6 +425,10 @@ public class MainWindowViewModel : INotifyPropertyChanged {
                 // Смена хедера на актуальный логин
                 HostWindow.ProfileItem.Header = $"{savedUser.Login} ∨";
 
+                // Тестовый вариант - смена картинки
+                HostWindow.ProfileImage.Source = HostWindow.MainProfileImage.Source =
+                    new BitmapImage(new Uri(App.AvatarsImagePath, UriKind.Absolute));
+
                 // Отображаем окно профиля 
                 HostWindow.AccountTabItem.Visibility = Visibility.Visible;
 
@@ -444,6 +453,10 @@ public class MainWindowViewModel : INotifyPropertyChanged {
 
         // Смена хедера на актуальный логин
         HostWindow.ProfileItem.Header = $"Guest ∨";
+
+        // Восстановление аватарки
+        HostWindow.ProfileImage.Source = HostWindow.MainProfileImage.Source =
+           new BitmapImage(new Uri(App.DeafaultAvatarImagePath, UriKind.Absolute));
 
         // Выбираем окно, которое отображается всегда
         HostWindow.TbcMain.SelectedIndex = 0;

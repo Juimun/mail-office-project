@@ -205,10 +205,11 @@
               Style="{StaticResource MenuStyle}"
               FontSize="16"
               Name="ProfileMenu">
-            <Image Source="/Assets/User/defaultUser.png" 
+            <Image Source="/Assets/User/user.png" 
                    Stretch="Fill"
                    Width="32"
-                   Height="32"/>
+                   Height="32"
+                   Name="MainProfileImage"/>
             <MenuItem Name="ProfileItem" 
                       Header="Guest ∨" 
                       MinWidth="150" 
@@ -523,10 +524,37 @@
                     </TextBlock>
                 </TabItem.Header>
                 <ScrollViewer VerticalScrollBarVisibility="Visible">
-                    <TextBlock Name="TblProfile"
-                               Margin="5" 
-                               FontFamily="Courier New"
-                               FontSize="16" />
+                    <Grid>
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="200"/>
+                            <RowDefinition Height="*"/>
+                        </Grid.RowDefinitions>
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="400"/>
+                            <ColumnDefinition Width="*"/>
+                            <ColumnDefinition Width="*"/>
+                            <ColumnDefinition Width="400"/>
+                        </Grid.ColumnDefinitions>
+                        <Image Grid.Row="0"
+                               Grid.Column="1"
+                               Grid.ColumnSpan="2"
+                               Source="/Assets/User/user.png"
+                               Stretch="Fill"
+                               Width="100"
+                               Height="100"
+                               Name="ProfileImage"/>
+                        <Separator Grid.Row="0"
+                                   Grid.Column="1"
+                                   Grid.ColumnSpan="2"
+                                   VerticalAlignment="Bottom"/>
+                        <TextBlock Grid.Row="1"
+                                   Grid.Column="1"
+                                   Grid.ColumnSpan="2"
+                                   Name="TblProfile"
+                                   Margin="5" 
+                                   FontFamily="Courier New"
+                                   FontSize="16" />
+                    </Grid>
                 </ScrollViewer>
             </TabItem>
         </TabControl>

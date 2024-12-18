@@ -20,6 +20,21 @@
     <None Remove="Assets\mail.png" />
     <None Remove="Assets\Menu\arrowLeft.png" />
     <None Remove="Assets\Menu\arrowRight.png" />
+    <None Remove="Assets\Menu\Avatars\1.png" />
+    <None Remove="Assets\Menu\Avatars\10.png" />
+    <None Remove="Assets\Menu\Avatars\11.png" />
+    <None Remove="Assets\Menu\Avatars\12.png" />
+    <None Remove="Assets\Menu\Avatars\13.png" />
+    <None Remove="Assets\Menu\Avatars\14.png" />
+    <None Remove="Assets\Menu\Avatars\15.png" />
+    <None Remove="Assets\Menu\Avatars\2.png" />
+    <None Remove="Assets\Menu\Avatars\3.png" />
+    <None Remove="Assets\Menu\Avatars\4.png" />
+    <None Remove="Assets\Menu\Avatars\5.png" />
+    <None Remove="Assets\Menu\Avatars\6.png" />
+    <None Remove="Assets\Menu\Avatars\7.png" />
+    <None Remove="Assets\Menu\Avatars\8.png" />
+    <None Remove="Assets\Menu\Avatars\9.png" />
     <None Remove="Assets\Menu\buy.png" />
     <None Remove="Assets\Menu\clean.png" />
     <None Remove="Assets\Menu\clear.png" />
@@ -82,6 +97,51 @@
       <CopyToOutputDirectory>Never</CopyToOutputDirectory>
     </Resource>
     <Resource Include="Assets\Menu\arrowRight.png">
+      <CopyToOutputDirectory>Never</CopyToOutputDirectory>
+    </Resource>
+    <Resource Include="Assets\Menu\Avatars\1.png">
+      <CopyToOutputDirectory>Never</CopyToOutputDirectory>
+    </Resource>
+    <Resource Include="Assets\Menu\Avatars\10.png">
+      <CopyToOutputDirectory>Never</CopyToOutputDirectory>
+    </Resource>
+    <Resource Include="Assets\Menu\Avatars\11.png">
+      <CopyToOutputDirectory>Never</CopyToOutputDirectory>
+    </Resource>
+    <Resource Include="Assets\Menu\Avatars\12.png">
+      <CopyToOutputDirectory>Never</CopyToOutputDirectory>
+    </Resource>
+    <Resource Include="Assets\Menu\Avatars\13.png">
+      <CopyToOutputDirectory>Never</CopyToOutputDirectory>
+    </Resource>
+    <Resource Include="Assets\Menu\Avatars\14.png">
+      <CopyToOutputDirectory>Never</CopyToOutputDirectory>
+    </Resource>
+    <Resource Include="Assets\Menu\Avatars\15.png">
+      <CopyToOutputDirectory>Never</CopyToOutputDirectory>
+    </Resource>
+    <Resource Include="Assets\Menu\Avatars\2.png">
+      <CopyToOutputDirectory>Never</CopyToOutputDirectory>
+    </Resource>
+    <Resource Include="Assets\Menu\Avatars\3.png">
+      <CopyToOutputDirectory>Never</CopyToOutputDirectory>
+    </Resource>
+    <Resource Include="Assets\Menu\Avatars\4.png">
+      <CopyToOutputDirectory>Never</CopyToOutputDirectory>
+    </Resource>
+    <Resource Include="Assets\Menu\Avatars\5.png">
+      <CopyToOutputDirectory>Never</CopyToOutputDirectory>
+    </Resource>
+    <Resource Include="Assets\Menu\Avatars\6.png">
+      <CopyToOutputDirectory>Never</CopyToOutputDirectory>
+    </Resource>
+    <Resource Include="Assets\Menu\Avatars\7.png">
+      <CopyToOutputDirectory>Never</CopyToOutputDirectory>
+    </Resource>
+    <Resource Include="Assets\Menu\Avatars\8.png">
+      <CopyToOutputDirectory>Never</CopyToOutputDirectory>
+    </Resource>
+    <Resource Include="Assets\Menu\Avatars\9.png">
       <CopyToOutputDirectory>Never</CopyToOutputDirectory>
     </Resource>
     <Resource Include="Assets\Menu\buy.png">
