@@ -389,6 +389,13 @@ public partial class DatabaseQueries {
         .Select(u => u.Person.Staff!.Role)
         .FirstOrDefault();
 
+    public string? GetAvatarCurrentAccount(string login, byte[] password) => db
+        .Users
+        .Include(u => u.Person.Staff)
+        .Where(u => u.Login == login && u.Password == password)
+        .Select(u => u.Avatar)
+        .FirstOrDefault();
+
     public bool IsSavedUser(string login, byte[] password) => db
         .Users
         .Any(u => u.Login == login && u.Password == password);

@@ -13,6 +13,8 @@ public class User {
 
     public required byte[] Password { get; set; }
 
+    public string? Avatar { get; set; }
+
     // Внешняя связь с Person  1:1 
     public virtual Person Person { get; set; }
 

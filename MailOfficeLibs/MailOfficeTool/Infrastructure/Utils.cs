@@ -3,7 +3,6 @@ using iTextSharp.text.pdf;
 using iTextSharp.text;
 using MailOfficeTool.Entities;
 using Newtonsoft.Json;
-using System.Text.RegularExpressions;
 
 namespace MailOfficeTool.Infrastructure;
 
@@ -53,6 +52,49 @@ public static partial class Utils
             text.ForEach(writer.Write);
         }
     } //SaveAsTxt
+
+    // Запись в бинарный файл массив путей Аватарок
+    public static void WriteAvatarPaths(string binaryFilePath, string avatarsFolderPath) {
+        if (string.IsNullOrWhiteSpace(binaryFilePath) || string.IsNullOrWhiteSpace(avatarsFolderPath))
+            return;
+
+        List<string> imagePaths = new(Directory.GetFiles(avatarsFolderPath));
+
+        if (imagePaths.Count == 0) 
+            return;
+
+        using (var writer = new BinaryWriter(File.Open(binaryFilePath, FileMode.Create))) {
+            writer.Write(imagePaths.Count);
+
+            imagePaths.ForEach(imagePath => {
+                var pathBytes = Encoding.UTF8.GetBytes(imagePath);
+                writer.Write(pathBytes.Length);
+                writer.Write(pathBytes);
+            });
+        }
+    } //SaveAvatarsPath
+
+    // Чтение из бинарного файла массива путей Аватарок
+    public static List<string> ReadAvatarPaths(string binaryFilePath) {
+        List<string> imagePaths = new();
+
+        //!File.Exists(BinaryFilePath))
+        //    return imagePaths;
+
+        using (var reader = new BinaryReader(File.Open(binaryFilePath, FileMode.Open))) {
+            var count = reader.ReadInt32(); 
+
+            for (var i = 0; i < count; i++) {
+                var pathLength = reader.ReadInt32(); 
+                var pathBytes = reader.ReadBytes(pathLength);  
+                var imagePath = Encoding.UTF8.GetString(pathBytes);
+
+                imagePaths.Add(imagePath);
+            } //for i
+
+            return imagePaths;
+        }
+    } //ReadAvatarPaths
 
     // Создание типизированного шрифта 
     private static string ArialFontPath = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.Fonts), "arial.ttf");

@@ -1,6 +1,7 @@
 ﻿using MailOfficeDataBase.DataBase;
 using MailOfficeTool.Infrastructure;
 using System.IO;
+using System.Text;
 using System.Windows;
 
 namespace MailOffice;
@@ -15,13 +16,16 @@ public partial class App : Application {
     // Пути к папкам
     public static string SavesFolderPath = Path.Combine(SourceFilePath, "Saves");
     public static string UserFolderPath = Path.Combine(SavesFolderPath, "User");
+    public static string DateFolderPath = Path.Combine(SavesFolderPath, "AppDate"); 
     public static string DocumentsFolderPath = Path.Combine(SavesFolderPath, "Documents");
     public static string ReportsFolderPath = Path.Combine(DocumentsFolderPath, "Reports");
     public static string StatementsFolderPath = Path.Combine(DocumentsFolderPath, "Statements");
+    public static string AvatarsFolderPath = GetSelectedImagePath($"Assets\\Menu\\Avatars"); 
 
     // Пути к файлам
-    public static string AccountsJsonPath = Path.Combine(UserFolderPath, "accounts.json");
+    public static string AccountsJsonPath = Path.Combine(UserFolderPath, "account.json");
     public static string AccountsTxtPath = Path.Combine(SavesFolderPath, "accounts.txt");
+    public static string DeafaultAvatarDatPath = Path.Combine(DateFolderPath, "avatars.dat");
 
     // Пути к MailOfficeDataSeeder.exe
     public static string DataSeederPath = GetDataSeederPath(); 
@@ -41,6 +45,10 @@ public partial class App : Application {
         if (!Directory.Exists(UserFolderPath))
             Directory.CreateDirectory(UserFolderPath);
 
+        // Создание папки для данных приложения
+        if (!Directory.Exists(DateFolderPath))
+            Directory.CreateDirectory(DateFolderPath);
+
         // Создание подпапки для документов
         if (!Directory.Exists(DocumentsFolderPath))
             Directory.CreateDirectory(DocumentsFolderPath);
@@ -56,7 +64,10 @@ public partial class App : Application {
         // !!! Исключительно для тестов приложения !!!
         Utils.SaveAsTxt(new DatabaseQueries().GetAllAccountAuthorization(), AccountsTxtPath,
             "   Логин аккаунта   |   Пароль аккаунта   |   Роль персонала\n");
-        MessageBox.Show(AvatarsImagePath);
+        MessageBox.Show(DeafaultAvatarDatPath);
+
+        // Запись списка путей к аватаркам по умолчанию
+        Utils.WriteAvatarPaths(DeafaultAvatarDatPath, AvatarsFolderPath);
     } //OnStartup
 
     // Создание пути к файлу MailOfiiceDataSeeder.exe

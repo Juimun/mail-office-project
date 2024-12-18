@@ -9,14 +9,15 @@ public static partial class Factory {
 
     // Создание сущности User
     public static User GetUser(int userId) => new() {
-        Login = GetRandomLogin(userId), 
-        Password = Utils.GetBytes(GetRandomPassword(MinLength, MaxLength))
+        Login = GetRandomLogin(userId),
+        Password = Utils.GetBytes(GetRandomPassword(MinLength, MaxLength)),
+        Avatar = GetRandomDefaultAvatar()
     };
 
     // Создание списка сущностей Users
-    public static List<User> GetUsers(int count, Func<int, User> getUser) => Enumerable   
+    public static List<User> GetUsers(int count, Func<int, User> getUser) => Enumerable
         .Range(1, count)
-        .Select(getUser) 
+        .Select(getUser)
         .ToList();
 
     // Генератор типизированного логина
@@ -32,4 +33,9 @@ public static partial class Factory {
             .Select(s => s[Utils.GetRandom(0, Chars.Length - 1)])
             .ToArray());
 
+    // Генерация случайной аватарки пользователя
+    private static string GetRandomDefaultAvatar() {
+        List<string> avatarPaths = Utils.ReadAvatarPaths(@"Z:\Work\MailOffice_Cursovaya\MailOffice\bin\Debug\net8.0-windows\Saves\AppDate\avatars.dat")!;
+        return avatarPaths[Utils.GetRandom(0, avatarPaths.Count - 1)];
+    } //GetRandomDefaultAvatar
 } //FactoryUser

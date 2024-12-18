@@ -19,6 +19,10 @@ public class UserConfiguration : IEntityTypeConfiguration<User>
             .IsRequired()
             .IsUnicode(false);
 
+        builder
+           .Property(u => u.Avatar)
+           .IsRequired(false);
+
         // настройка уникальности для поля Login
         // настроить ограничение поля Login для User: 
         // https://stackru.com/questions/47356295/ogranichenie-unikalnosti-svojstv-bez-dobavleniya-neizmennosti-s-ef7?ysclid=ln0f77vhkv579643823 

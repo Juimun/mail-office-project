@@ -386,7 +386,8 @@ public class MainWindowViewModel : INotifyPropertyChanged {
             CurrentAccount = new CurrentAccount(
                 auth.LoginTextBox.Text,
                 auth.EnteredPassword, 
-                _dataQueries.GetRoleCurrentAccount(auth.LoginTextBox.Text, auth.EnteredPassword)
+                _dataQueries.GetRoleCurrentAccount(auth.LoginTextBox.Text, auth.EnteredPassword),
+                _dataQueries.GetAvatarCurrentAccount(auth.LoginTextBox.Text, auth.EnteredPassword)
                 );
             
             RoleValidation();
@@ -435,7 +436,8 @@ public class MainWindowViewModel : INotifyPropertyChanged {
 
                 IsLoggedIn = true;
                 CurrentAccount = new CurrentAccount(savedUser.Login, savedUser.Password, 
-                    _dataQueries.GetRoleCurrentAccount(savedUser.Login, savedUser.Password));
+                    _dataQueries.GetRoleCurrentAccount(savedUser.Login, savedUser.Password), 
+                    _dataQueries.GetAvatarCurrentAccount(savedUser.Login, savedUser.Password));
                 
                 RoleValidation();
 
@@ -472,6 +474,7 @@ public class MainWindowViewModel : INotifyPropertyChanged {
 
     // Генерация случайных тестовых значений
     public void GenerateTextEntities() {
+
         // Генерация данных в MailOfficeDataSeeder (Консольное приложение в проекте)
         Process.Start(App.DataSeederPath).WaitForExit();
 
