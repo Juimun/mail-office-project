@@ -1,7 +1,10 @@
 ﻿using System.Windows;
+using System.Windows.Input;
+using System.Windows.Media.Imaging;
 using MailOffice.ViewModel;
 using MailOfficeControllers.Controllers;
 using MailOfficeDataBase.DataBase;
+using Microsoft.Win32;
 
 namespace MailOffice.View;
 
@@ -11,7 +14,8 @@ namespace MailOffice.View;
 public partial class MainWindow : Window {
 
     private DatabaseDisplayController _dataController;
-    private DatabaseQueries _dataQueries; 
+    private DatabaseQueries _dataQueries;
+    private MainWindowViewModel mainWindowViewModel;
 
     public MainWindow() {
         InitializeComponent();
@@ -19,9 +23,13 @@ public partial class MainWindow : Window {
         _dataController = new DatabaseDisplayController();
         _dataQueries = new DatabaseQueries();
 
-        DataContext = new MainWindowViewModel(this, _dataController, _dataQueries);
+        mainWindowViewModel = new MainWindowViewModel(this, _dataController, _dataQueries);
+        DataContext = mainWindowViewModel;
 
     }
 
-    
+    private void MainProfileImage_MouseLeftButtonDown(object sender, MouseButtonEventArgs e) {
+        mainWindowViewModel.ChangeImage();
+    } //MainProfileImage_MouseLeftButtonDown
+
 } //MainWindow

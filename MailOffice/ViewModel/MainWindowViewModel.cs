@@ -13,6 +13,7 @@ using MailOfficeDataBase.DataBase;
 using MailOfficeDataBase.Reports;
 using MailOfficeEntities.Entities;
 using MailOfficeTool.Infrastructure;
+using Microsoft.Win32;
 using Application = System.Windows.Application;
 using SaveFileDialog = Microsoft.Win32.SaveFileDialog;
 
@@ -545,6 +546,21 @@ public class MainWindowViewModel : INotifyPropertyChanged {
         else
             return string.Empty;
     } //GetSaveFileDialogPath
+
+    // Смена аватарки
+    public void ChangeImage() {
+        if (IsLoggedIn) {
+            OpenFileDialog openFileDialog = new OpenFileDialog();
+            openFileDialog.Filter = "Image files (*.png;*.jpeg;*.jpg;*.bmp)|*.png;*.jpeg;*.jpg;*.bmp|All files (*.*)|*.*";
+
+            if (openFileDialog.ShowDialog() == true) {
+
+                // Смена аватарок в UI
+                HostWindow.MainProfileImage.Source = HostWindow.ProfileImage.Source =
+                    new BitmapImage(new Uri(openFileDialog.FileName));
+            }//if
+        } //if
+    } //ChangeImage
 
     #region INotifyPropertyChanged
     public event PropertyChangedEventHandler? PropertyChanged;

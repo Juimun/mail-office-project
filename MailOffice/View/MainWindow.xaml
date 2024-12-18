@@ -209,7 +209,8 @@
                    Stretch="Fill"
                    Width="32"
                    Height="32"
-                   Name="MainProfileImage"/>
+                   Name="MainProfileImage"
+                   MouseLeftButtonDown="MainProfileImage_MouseLeftButtonDown"/>
             <MenuItem Name="ProfileItem" 
                       Header="Guest ∨" 
                       MinWidth="150" 
